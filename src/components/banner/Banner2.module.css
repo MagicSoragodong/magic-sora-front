@@ -1,0 +1,147 @@
+/* banner */
+/* banner2(barIcon, logo), sidebar(content), profile */
+
+/* banner */
+.banner {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px;
+}
+
+/* banner2 */
+.banner2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* barIcon */
+.barIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 32px;
+}
+
+.barIcon_inner {
+  width: 30px;
+  height: 30px;
+}
+
+.barIcon path {
+  color: lightslategray;
+}
+
+/* logo */
+.logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.logo h1 {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  border-radius: 30%;
+}
+
+/* sidebar */
+.sidebar {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  /* transition: 0.8s ease; */
+  position: fixed;
+}
+
+/* content */
+.sidebar.content {
+  background-color: white;
+  margin: 0;
+  position: relative;
+  top: -16px;
+  left: -16px;
+}
+
+.content li {
+  margin: 0;
+}
+
+/* upperContent */
+.upperContent {
+  display: flex;
+  padding: 32px;
+  justify-content: space-between;
+  /* align-items: center; //// */
+}
+
+.upperContent path {
+  color: #0066ff;
+}
+.upperContent img {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #0066ff;
+  border-radius: 50%;
+}
+
+/* lowerContent */
+.lowerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* height: 100%; */
+  padding: 0 32px;
+}
+
+.lowerContent li {
+  margin: 0;
+}
+
+.lowerContent button {
+  color: #0066ff;
+  margin: 8px 0;
+  background-color: white;
+  border: 2px solid #0066ff;
+  border-radius: 4px;
+  width: 100%;
+  padding: 6px;
+}
+
+hr {
+  margin: 8px 0;
+}
+
+/* profile */
+.profile {
+  width: 20%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.profile .login,
+.profile .signup {
+  border-radius: 4px;
+  color: lightslategray;
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
+.profile .login {
+  margin-right: 8px;
+}
+
+.profile .signup {
+  color: #e6e6e6;
+  background-color: #0066ff;
+}
