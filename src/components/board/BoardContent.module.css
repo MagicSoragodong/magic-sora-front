@@ -1,0 +1,30 @@
+/* board_content */
+/* board_name */
+
+/* board_content */
+.board_content {
+  margin: 0 60px;
+}
+
+/* board_name */
+.board_name {
+  display: flex;
+  align-items: center;
+  margin: 16px;
+}
+
+.board_name path {
+  color: lightslategray;
+}
+
+.board_name .goback_icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 16px;
+}
+
+.board_name h2 {
+  background-color: white;
+  padding: 8px 64px;
+  border-radius: 50px;
+}
