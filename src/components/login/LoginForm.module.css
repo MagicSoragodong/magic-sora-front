@@ -1,0 +1,83 @@
+.loginPage {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.loginDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid gainsboro;
+  width: 500px;
+  height: 600px;
+}
+
+.loginDiv h1 {
+  margin: 30px 0;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginForm input {
+  width: 360px;
+  height: 40px;
+  margin: 5px 0;
+  padding-left: 10px;
+}
+
+.loginBtn {
+  width: 360px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background-color: #0066ff;
+  color: #fff;
+  border-radius: 4px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.loginBtn:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}
+
+.loginHr {
+  width: 360px;
+  border-top: 4px double #0066ff;
+  margin: 20px 0;
+}
+
+.signupBtn {
+  width: 360px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background-color: #0066ff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.signupBtn:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}
+
+.loginDiv img {
+  margin-top: 100px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #0066ff;
+  border-radius: 50%;
+}

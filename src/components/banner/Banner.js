@@ -41,7 +41,7 @@ function Banner({ width, height }) {
         {/* sidebar content */}
         <div className={style.content}>
           <div className={style.upperContent}>
-            <img src="https://cdn.discordapp.com/attachments/930416104348745805/939838218248024084/unknown.png" />
+            <img src="img/soraLogo.png" />
             <FontAwesomeIcon
               icon={faBars}
               className={style.barIcon_inner}
@@ -109,7 +109,7 @@ function Banner({ width, height }) {
       <div>
         <Link className={style.logo} to={"/"}>
           <img
-            src="https://cdn.discordapp.com/attachments/930416104348745805/939838218248024084/unknown.png"
+            src="img/soraLogo.png"
             alt="soragodong_logo"
           />
           <h1 className="">마법의 소라고동</h1>

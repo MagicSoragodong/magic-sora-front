@@ -1,0 +1,78 @@
+.signupPage {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.signupDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid gainsboro;
+  width: 500px;
+  height: 600px;
+}
+
+.signupDiv h1 {
+  margin: 30px 0;
+}
+
+.signupForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signupInput {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.signupInput label {
+  width: 80px;
+  font-weight: 900;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.signupInput input {
+  width: 280px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.signupInput select {
+  width: 280px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.signupBtn {
+  width: 360px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background-color: #0066ff;
+  color: #fff;
+  border-radius: 4px;
+  margin-top: 50px;
+  cursor: pointer;
+}
+
+.signupBtn:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}
+
+.pwerror {
+  color: red;
+  font-size: 12px;
+  font-weight: bolder;
+}
