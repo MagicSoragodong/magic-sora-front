@@ -31,3 +31,18 @@
 .board:hover {
   background-color: rgb(245, 245, 245);
 }
+
+.slide {
+  background-color: var(--content-bg-color);
+  text-align: center;
+  width: 700px;
+  height: 500px;
+  border: 1px solid gainsboro;
+  /* z-index: -1 !important; */
+}
+
+.slide h2 {
+  font-size: 32px;
+  font-style: italic;
+  color: #0066ff;
+}

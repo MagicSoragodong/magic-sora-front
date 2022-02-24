@@ -3,26 +3,53 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import style from "./Board.module.css";
 
-function Board() {
-  return (
-    <div className={style.boards}>
-      <div className={style.upperBoard}>
-        <Link to={"/hot"} className={style.board}>
-          <h2>핫게</h2>
-        </Link>
-        <Link to={"/new"} className={style.board}>
-          <h2>new게</h2>
-        </Link>
-      </div>
+// swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper.min.css";
+import "swiper/components/navigation/navigation.min.css";
+import "swiper/components/pagination/pagination.min.css";
+import SwiperCore, { Navigation, Pagination } from "swiper";
 
-      <div className={style.lowerBoard}>
-        <Link to={"/favtag"} className={style.board}>
-          <h2>관심태그</h2>
-        </Link>
-        <Link to={"/deadline"} className={style.board}>
-          <h2>종료임박</h2>
-        </Link>
-      </div>
+function Board() {
+  const [swiper, setSwiper] = useState(null);
+  const [mainImageIndex, setMainImageIndex] = useState(0);
+
+  SwiperCore.use([Navigation, Pagination]);
+
+  return (
+    <div>
+      <Swiper
+        className={style.slide}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+      >
+        <SwiperSlide>
+          <Link to="/hot">
+            <h2>핫게🔥</h2>
+            <p>어쩌구저쩌구</p>
+          </Link>
+        </SwiperSlide>
+        <SwiperSlide>
+          <Link to="/new">
+            <h2>new게🔥</h2>
+            <p>어쩌구저쩌구</p>
+          </Link>
+        </SwiperSlide>
+        <SwiperSlide>
+          <Link to="/deadline">
+            <h2>마감임박🔥</h2>
+            <p>어쩌구저쩌구</p>
+          </Link>
+        </SwiperSlide>
+        <SwiperSlide>
+          <Link to="/favtag">
+            <h2>관심태그🔥</h2>
+            <p>어쩌구저쩌구</p>
+          </Link>
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 }
