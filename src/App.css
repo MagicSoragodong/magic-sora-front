@@ -1,11 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Gamja+Flower&family=IBM+Plex+Sans+KR&display=swap");
 
+:root {
+  --text-color: black;
+  --icon-color: lightslategray;
+  --background-color: #e3effd;
+  --content-bg-color: white;
+  --accent-color: #0066ff;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   text-decoration: none;
-  color: black;
+  color: var(--text-color);
   font-family: "IBM Plex Sans KR", sans-serif;
+}
+
+.hidden {
+  display: none !important;
 }
 
 ul {
@@ -15,5 +27,5 @@ ul {
 }
 
 body {
-  background-color: #e3effd;
+  background-color: var(--background-color);
 }

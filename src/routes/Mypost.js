@@ -7,7 +7,7 @@ function Mypost() {
     <div>
       <Banner2 width={270} height={"100vh"} />
       {/* BoardContent props로 전달? */}
-      <BoardContent />
+      <BoardContent board_name={"내가 쓴 글"} />
     </div>
   );
 }
