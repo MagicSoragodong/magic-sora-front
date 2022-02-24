@@ -1,0 +1,215 @@
+.profile {
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+}
+
+.profileHr {
+  opacity: 0.5;
+  margin: 20px 0;
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.sectionTitle button {
+  color: #0066ff;
+  margin: 8px 0;
+  background-color: white;
+  border: 2px solid #0066ff;
+  border-radius: 4px;
+  width: 120px;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sectionTitle button:hover {
+  color: white;
+  background-color: #0066ff;
+  transition: 0.2s;
+}
+
+.profileChangeContents {
+  display: flex;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.profileImg input {
+}
+
+.personalInfo {
+  margin-left: 30px;
+}
+
+.changeNickname {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.changeNickname label {
+  width: 80px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.changeNickname input {
+  width: 210px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.changeNickname button {
+  color: #fff;
+  background-color: #0066ff;
+  border: none;
+  border-radius: 4px;
+  width: 60px;
+  height: 40px;
+  padding: 8px;
+  font-size: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.changeNickname button:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}
+
+.changeNickname button:disabled {
+  color: rgba(255, 255, 255, 0.54);
+  background-color: #ced0da;
+  border-color: #ced0da;
+  cursor: not-allowed;
+}
+
+.changeInfo {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.changeInfo label {
+  width: 80px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.changeInfo select {
+  width: 280px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.changeBirth {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.changeBirth h4 {
+  width: 80px;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.changeBirth select {
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.changeBirth label {
+  font-weight: 900;
+  padding: 0 6px;
+}
+
+.changeYear {
+  width: 80px;
+}
+
+.changeMonth,
+.changeDay {
+  width: 60px;
+}
+
+select option[value=""][disabled] {
+  display: none;
+}
+
+.passwordChangeInputs {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.passwordChangeInputs input {
+  width: 500px;
+  height: 40px;
+  margin: 5px 0;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.passwordChangeLabel {
+  display: flex;
+  align-items: center;
+}
+
+.passwordChangeLabel label {
+  width: 100px;
+  font-size: 14px;
+  font-weight: bold;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.errorMessage {
+  color: #ff4949;
+  font-size: 12px;
+  font-weight: bolder;
+  margin-left: 100px;
+}
+
+.memberQuit {
+  padding: 10px 0;
+}
+
+.quitBtn {
+  color: #ff4949;
+  margin: 8px 0;
+  background-color: white;
+  border: 2px solid #ff4949;
+  border-radius: 4px;
+  width: 80px;
+  padding: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.quitBtn:hover {
+  color: white;
+  background-color: #ff4949;
+  transition: 0.2s;
+}
+
+.quitBtn:active,
+.sectionTitle button:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}

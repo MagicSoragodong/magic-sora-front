@@ -1,0 +1,98 @@
+.quitModal {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.quitModalContents {
+  width: 500px;
+  height: 500px;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  border-radius: 5px;
+  box-shadow: 10px 10px 20px #585858;
+}
+
+.quitModalContents hr {
+  opacity: 0.5;
+}
+
+.quitInstruction {
+  padding: 20px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quitModalTitle {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.xBtn {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}
+
+.quitModalBtns {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  margin-left: 310px;
+  margin-right: 20px;
+}
+
+.stopQuit {
+  color: #0066ff;
+  margin: 8px 0;
+  background-color: white;
+  border: 2px solid #0066ff;
+  border-radius: 4px;
+  width: 80px;
+  padding: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stopQuit:hover {
+  color: white;
+  background-color: #0066ff;
+  transition: 0.2s;
+}
+
+.continueQuit {
+  color: #ff4949;
+  margin: 8px 0;
+  background-color: white;
+  border: 2px solid #ff4949;
+  border-radius: 4px;
+  width: 80px;
+  padding: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.continueQuit:hover {
+  color: white;
+  background-color: #ff4949;
+  transition: 0.2s;
+}
+
+.stopQuit:active,
+.continueQuit:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}

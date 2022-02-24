@@ -15,7 +15,7 @@
 }
 
 .signupDiv h1 {
-  margin: 30px 0;
+  margin: 25px 0;
 }
 
 .signupForm {
@@ -52,6 +52,90 @@
   cursor: pointer;
 }
 
+.signupInputWithChecking {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.signupInputWithChecking label {
+  width: 80px;
+  font-weight: 900;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.signupInputWithChecking input {
+  width: 210px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.signupInputWithChecking button {
+  color: #fff;
+  background-color: #0066ff;
+  border: none;
+  border-radius: 4px;
+  width: 60px;
+  height: 40px;
+  padding: 8px;
+  font-size: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.signupInputWithChecking button:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}
+
+.signupInputWithChecking button:disabled {
+  color: rgba(255, 255, 255, 0.54);
+  background-color: #ced0da;
+  border-color: #ced0da;
+  cursor: not-allowed;
+}
+
+select option[value=""][disabled] {
+  display: none;
+}
+
+.birthSelect {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.birthSelect h4 {
+  width: 80px;
+  padding-right: 20px;
+  text-align: center;
+}
+
+.birthSelect select {
+  height: 40px;
+  padding-left: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.birthSelect label {
+  font-weight: 900;
+  padding: 0 6px;
+}
+
+.yearSelect {
+  width: 80px;
+}
+
+.monthSelect,
+.daySelect {
+  width: 60px;
+}
+
 .signupBtn {
   width: 360px;
   height: 40px;
@@ -60,7 +144,7 @@
   background-color: #0066ff;
   color: #fff;
   border-radius: 4px;
-  margin-top: 50px;
+  margin-top: 40px;
   cursor: pointer;
 }
 
@@ -71,8 +155,8 @@
   color: gainsboro;
 }
 
-.pwerror {
-  color: red;
+.errorDetect {
+  color: #ff4949;
   font-size: 12px;
   font-weight: bolder;
 }

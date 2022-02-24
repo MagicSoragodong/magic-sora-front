@@ -56,7 +56,7 @@ function Banner2({ width, height }) {
         {/* sidebar content */}
         <div className={style.content}>
           <div className={style.upperContent}>
-            <img src="img/soraLogo.png" />
+            <img src="img/soraLogo.png" alt="logoImage"/>
             <FontAwesomeIcon
               icon={faBars}
               className={style.barIcon_inner}
