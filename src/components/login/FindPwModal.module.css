@@ -1,0 +1,38 @@
+.findPwModal {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.findPwModalContents {
+  width: 500px;
+  height: 500px;
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  border-radius: 5px;
+  box-shadow: 10px 10px 20px #585858;
+}
+
+.findPwModalContents hr {
+  opacity: 0.5;
+}
+
+.findPwModalTitle {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.xBtn {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+}

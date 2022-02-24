@@ -14,8 +14,8 @@
   height: 600px;
 }
 
-.loginDiv h1 {
-  margin: 30px 0;
+.loginTitle {
+  margin: 25px 0;
 }
 
 .loginForm {
@@ -74,8 +74,20 @@
   color: gainsboro;
 }
 
+.findPasswordBtn {
+  font-size: 14px;
+  margin: 10px 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.findPasswordBtn:hover {
+  text-decoration: underline;
+}
+
 .loginDiv img {
-  margin-top: 100px;
+  margin-top: 60px;
   width: 100px;
   height: 100px;
   border: 1px solid #0066ff;
