@@ -1,9 +1,12 @@
 import { useState } from "react";
+import axios from 'axios';
+import  { useHistory } from 'react-router'; 
 import style from "./SearchForm.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function SearchForm() {
+  const history = useHistory();
   const [keyword, setKeyword] = useState("");
   const onChange = (event) => setKeyword(event.target.value);
   const [index, setIndex] = useState("post_title");
@@ -13,8 +16,33 @@ function SearchForm() {
   };
   const onSubmit = (event) => {
     event.preventDefault();
-    // axios로 검색어+index 넘겨주기
+    
+    axios.get( `http://localhost:8000/api/search?option=${index}&search=${keyword}`) 
+      .then((response) => {
+        console.log(response.data);
+        history.push("/search");
+      }) 
+      .catch((error) => {
+        console.log('Error!');
+      })
   };
+
+  // const onSubmit = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await axios.post( '/search',
+  //       {
+  //         index: index,
+  //         keyword: keyword
+  //       }
+  //     )
+  //     console.log(response.data);
+  //     history.push("/search");
+  //   }
+  //   catch(error) {
+  //     console.log('Error!');
+  //   }
+  // };
 
   return (
     <div>
