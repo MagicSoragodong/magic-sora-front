@@ -1,13 +1,22 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
 import style from "./SignupForm.module.css";
 
 function SignupForm () {
-  const reg = /[^\wㄱ-힣]|[\_]/g;
+  const history = useHistory();
+  const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
+  const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const [id, setId] = useState("");
+  const [idFormError, setIdFormError] = useState(false);
+  const [idDuplicated, setIdDuplicated] = useState(false);
+  const [idCheckDone, setIdCheckDone] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
-  const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [nicknameFormError, setNicknameFormError] = useState(false);
+  const [nicknameDuplicated, setNicknameDuplicated] = useState(false);
+  const [nicknameCheckDone, setNicknameCheckDone] = useState(false);
   const [gender, setGender] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
@@ -27,7 +36,6 @@ function SignupForm () {
   };
   const onNicknameChange = (event) => {
     setNickname(event.target.value);
-    setNicknameCheck(reg.test(event.target.value));
   };
   const onGenderChange = (event) => {
     setGender(event.target.value);
@@ -45,7 +53,6 @@ function SignupForm () {
     setMbti(event.target.value);
   };
   const setBirthDate = () => {
-    // month와 day가 한자리수면 앞에 0붙이기
     if((month < 10) && (day < 10)) {
       setBirth(`${year}0${month}0${day}`);
     } else if (month < 10) {
@@ -56,14 +63,85 @@ function SignupForm () {
       setBirth(`${year}${month}${day}`);
     }
   };
-  const onSubmit = (event) => {
+  const idCheck = async () => {
+    if (emailReg.test(id)) {
+      setIdFormError(false);
+    } else {
+      return setIdFormError(true);
+    }
+    try {
+      const response = await axios.get( `http://localhost:3000/api/users/email-exists`);
+      console.log(response.data);
+      /*
+      if (중복확인성공) {
+        setIdDuplicated(false);
+        setIdCheckDone(true);
+      } else {
+        setIdDuplicated(true);
+      }
+      */
+    }
+    catch(error) {
+      console.log('Error>> ', error);
+    }
+  }
+  const nicknameCheck = async () => {
+    if (nicknameReg.test(nickname)) {
+      return setNicknameFormError(true);
+    } else {
+      setNicknameFormError(false);
+    }
+
+    try {
+      const response = await axios.get( `http://localhost:3000/api/users/nickname-exists`);
+      console.log(response.data);
+      
+      /*
+      if (중복확인성공) {
+        setNicknameDuplicated(false);
+        setNicknameCheckDone(true);
+      } else {
+        setNicknameDuplicated(true);
+      }
+      */
+    }
+    catch(error) {
+      console.log('Error>> ', error);
+    }
+  }
+  const onSubmit = async (event) => {
     event.preventDefault();
-    // 비밀번호 일치 체크
     if(password !== passwordCheck) {
       return setPasswordError(true);
     }
-    console.log(birth);
-    // axios로 회원가입폼 넘겨주기 + 중복확인 버튼 누르면 실행할 함수 추가해야함
+    try {
+      const response = await axios.post( "http://localhost:3000/api/auth/register/local",
+        {
+          id: id, 
+          password: password,
+          nickname: nickname,
+          gender: gender,
+          birth: birth,
+          mbti: mbti
+        }
+      )
+      console.log(response.data);
+      history.push("/login");
+      /*
+      if(!idCheckDone) {
+        alert("아이디 중복 확인을 해주세요.");
+      } else if (!nicknameCheckDone) {
+        alert("닉네임 중복 확인을 해주세요.");
+      } else if (회원가입 성공 코드) {
+        history.push("/login");
+      } else { // 로그인 실패
+        alert("회원가입을 실패했습니다.");
+      }
+      */
+    }
+    catch(error) {
+      console.log('Error>>', error);
+    }
   };
 
   return (
@@ -82,8 +160,10 @@ function SignupForm () {
               onChange={onIdChange}
               placeholder="아이디"
             />
-            <button type="button" disabled={!id}>중복 확인</button>
+            <button type="button" disabled={!id} onClick={idCheck}>중복 확인</button>
           </div>
+          {idFormError ? <div className={style.errorDetect}>이메일 형식에 맞지 않습니다.</div> : null}
+          {idDuplicated ? <div className={style.errorDetect}>이미 사용 중인 아이디입니다.</div> : null}
           {/* 비밀번호 입력 */}
           <div className={style.signupInput}>
             <label htmlFor="user-pw">비밀번호</label>
@@ -122,9 +202,10 @@ function SignupForm () {
               placeholder="닉네임"
               minLength="2"
             />
-            <button type="button" disabled={!nickname}>중복 확인</button>
+            <button type="button" disabled={!nickname} onClick={nicknameCheck}>중복 확인</button>
           </div>
-          {nicknameCheck ? <div className={style.errorDetect}>닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)</div> : null}
+          {nicknameFormError ? <div className={style.errorDetect}>닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)</div> : null}
+          {nicknameDuplicated ? <div className={style.errorDetect}>이미 사용 중인 닉네임입니다.</div> : null}
           {/* 성별 select */}
           <div className={style.signupInput}>
             <label htmlFor="user-gender">성별</label>
