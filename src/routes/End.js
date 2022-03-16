@@ -5,17 +5,17 @@ import BoardContent from "../components/board/BoardContent";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function Deadline() {
+function End() {
   const [posts, setPosts] = useState([]);
 
   const getPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/posts`, {
         // (?type="")
-        params: { type: "deadline" },
+        params: { type: "end" },
       });
       console.log(response.data);
-      setPosts(response.data);
+      await setPosts(response.data);
     } catch (error) {
       console.log("error: ", error);
     }
@@ -28,7 +28,7 @@ function Deadline() {
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
-      <BoardBanner board_name={"마감 임박"} />
+      <BoardBanner board_name={"종료된 고민"} />
 
       {posts.map((post) => (
         <BoardContent
@@ -46,4 +46,4 @@ function Deadline() {
   );
 }
 
-export default Deadline;
+export default End;

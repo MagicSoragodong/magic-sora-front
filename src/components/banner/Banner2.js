@@ -6,12 +6,18 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function Banner2({ width, height }) {
   const [xPosition, setX] = useState(-width);
+  const [dropdown, setDropdown] = useState(false);
+
   const toggleMenu = () => {
     if (xPosition < 0) {
       setX(0);
     } else {
       setX(-width);
     }
+  };
+
+  const toggleProfile = () => {
+    setDropdown((dropdown) => !dropdown);
   };
 
   useEffect(() => {
@@ -35,10 +41,7 @@ function Banner2({ width, height }) {
         {/* logo */}
         <div>
           <Link className={style.logo} to={"/"}>
-            <img
-              src="img/soraLogo.png"
-              alt="soragodong_logo"
-            />
+            <img src="img/soraLogo.png" alt="soragodong_logo" />
             <h1 className="">마법의 소라고동</h1>
           </Link>
         </div>
@@ -56,7 +59,7 @@ function Banner2({ width, height }) {
         {/* sidebar content */}
         <div className={style.content}>
           <div className={style.upperContent}>
-            <img src="img/soraLogo.png" alt="logoImage"/>
+            <img src="img/soraLogo.png" alt="soragodong_logo" />
             <FontAwesomeIcon
               icon={faBars}
               className={style.barIcon_inner}
@@ -96,7 +99,7 @@ function Banner2({ width, height }) {
               </Link>
             </li>
             <li>
-              <Link to="/???">
+              <Link to="/end">
                 <button>종료된 고민</button>
               </Link>
             </li>
@@ -121,13 +124,35 @@ function Banner2({ width, height }) {
       </div>
 
       {/* profile */}
-      <div className={style.profile}>
+      {/* <div className={"hidden " + style.profile1} id="notLoggedIn">
         <Link to={"/login"} className={style.login}>
           로그인
         </Link>
         <Link to={"/signup"} className={style.signup}>
           회원가입
         </Link>
+      </div> */}
+
+      {/* logined */}
+      <div className={style.profile2} id="loggedIn">
+        <button onClick={toggleProfile}>
+          <img
+            className={style.profilePic}
+            src="img/soraLogo.png"
+            alt="user profile"
+          />
+        </button>
+
+        <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">
+          <ul>
+            <li>
+              <Link to="/mypage">마이페이지</Link>
+            </li>
+            <li>
+              <button>sign out</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
