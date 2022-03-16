@@ -1,0 +1,50 @@
+form {
+  position: relative;
+  margin: 0 10%;
+}
+
+.favtags {
+  background-color: white;
+  border: 1px solid gainsboro;
+  padding: 8px;
+  margin-bottom: 4px;
+}
+
+.favtag {
+  background-color: white;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin: 4px 4px;
+  border: 1px solid gainsboro;
+}
+
+.favtag:hover {
+  background-color: #ffd993;
+}
+
+.favtag input {
+  display: none;
+}
+
+.checked {
+  background-color: #ffd993;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin: 4px 4px;
+}
+
+.setTag {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* margin-left: auto; */
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}

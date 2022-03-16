@@ -1,46 +1,31 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import { Link } from "react-router-dom";
 import style from "./BoardContent.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { getMouseEventOptions } from "@testing-library/user-event/dist/utils";
 
-function BoardContent({ board_name }) {
-  // const { id } = useParams();
-  // const getBoardContent = async () => {
-  //   const json = await (
-  //     await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
-  //   ).json();
-  // };
-
-  // useEffect(() => {
-  //   getBoardContent();
-  // }, []);
-  // const [posts, setPosts] = useState([]);
-
-  // const getPosts = async () => {
-  //   const json = await (await fetch(`https://anj`)).json();
-  //   setPosts(json.data.posts);
-  // };
-
-  // useEffect(() => {
-  //   getPosts();
-  // }, []);
-
+// props
+function BoardContent({
+  id,
+  profilePic,
+  nickname,
+  date,
+  title,
+  thumbnail,
+  tags,
+}) {
   return (
-    <div className={style.board_content}>
-      <div className={style.board_name}>
-        <Link to="/">
-          <FontAwesomeIcon icon={faArrowLeft} className={style.goback_icon} />
-        </Link>
-        {/* 게시판 이름은 파라미터 사용? */}
-        <h2>{board_name}</h2>
+    <Link to={`/posts/${id}`} className={style.post}>
+      <div className={style.upper}>
+        <img src={profilePic} alt="profilePic" />
+        <span>{nickname}</span>
+        <strong>date{date}</strong>
       </div>
-      <div className={style.container}>
-        <div className={style.posts}></div>
+      <div className={style.detail}>
+        <h2>{title.length > 40 ? `${title.slice(0, 40)}...` : title}</h2>
+        {thumbnail ? `<img src=${thumbnail} />` : null}
+        (임시)tag: {id}
+        {tags && tags.map((tag) => <span key={tag}>{tag}</span>)}
       </div>
-    </div>
+    </Link>
   );
 }
 
