@@ -11,6 +11,7 @@ import Mypage from "./routes/Mypage";
 import Mypost from "./routes/Mypost";
 import Myvote from "./routes/Myvote";
 import Writing from "./routes/Writing";
+import ChangePassword from "./routes/ChangePassword";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -54,6 +55,9 @@ function App() {
         </Route>
         <Route path="/writing">
           <Writing />
+        </Route>
+        <Route path="/changepassword">
+          <ChangePassword />
         </Route>
       </Switch>
     </Router>

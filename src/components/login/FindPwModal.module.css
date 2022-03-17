@@ -10,19 +10,15 @@
 
 .findPwModalContents {
   width: 500px;
-  height: 500px;
+  height: 400px;
   background-color: #fff;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 100;
+  z-index: 2;
   border-radius: 5px;
   box-shadow: 10px 10px 20px #585858;
-}
-
-.findPwModalContents hr {
-  opacity: 0.5;
 }
 
 .findPwModalTitle {
@@ -35,4 +31,54 @@
   cursor: pointer;
   width: 25px;
   height: 25px;
+}
+
+.findPwModalContents hr {
+  opacity: 0.5;
+}
+
+.findPwInstruction p {
+  text-align: center;
+  font-size: 18px;
+  padding: 30px 0;
+}
+
+.findPwInstruction form {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.findPwInstruction input {
+  width: 360px;
+  height: 40px;
+  font-size: 14px;
+  padding-left: 10px;
+  border: 1px solid #585858;
+}
+
+.findPwInstruction button {
+  width: 360px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background-color: #0066ff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.findPwInstruction button:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
+}
+
+.errorDetect {
+  color: #ff4949;
+  font-size: 12px;
+  font-weight: bolder;
 }
