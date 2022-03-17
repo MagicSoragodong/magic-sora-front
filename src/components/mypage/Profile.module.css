@@ -36,11 +36,45 @@
 
 .profileChangeContents {
   display: flex;
+  align-items: center;
   font-size: 14px;
   padding: 10px;
 }
 
+.profileImg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileImg img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .profileImg input {
+  display: none;
+}
+
+.profileImg button {
+  margin-top: 10px;
+  width: 150px;
+  height: 30px;
+  font-size: 14px;
+  border: none;
+  background-color: #0066ff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profileImg button:active {
+  box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+  position: relative;
+  top: 1px;
+  color: gainsboro;
 }
 
 .personalInfo {

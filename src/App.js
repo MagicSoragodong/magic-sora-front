@@ -11,6 +11,7 @@ import Mypage from "./routes/Mypage";
 import Mypost from "./routes/Mypost";
 import Myvote from "./routes/Myvote";
 import Writing from "./routes/Writing";
+import ChangePassword from "./routes/ChangePassword";
 import End from "./routes/End";
 import Post from "./routes/Post";
 
@@ -57,6 +58,8 @@ function App() {
         <Route path="/writing">
           <Writing />
         </Route>
+        <Route path="/changepassword">
+          <ChangePassword />
         <Route path="/writing">
           <End />
         </Route>
