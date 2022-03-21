@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import axios from 'axios';
+import queryString from "query-string";
 import style from "./ChangePasswordForm.module.css";
 
 function ChangePasswordForm() {
   const history = useHistory();
+  const searchParams = useLocation().search;
+  const query = queryString.parse(searchParams);
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordCheck, setNewPasswordCheck] = useState("");
   const [newPasswordError, setNewPasswordError] = useState(false);
@@ -24,6 +27,8 @@ function ChangePasswordForm() {
     try {
       await axios.patch( "http://localhost:3000/api/users/reset-password",
         {
+          code: query.code,
+          id: query.id,
           password: newPassword
         }
       )

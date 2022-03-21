@@ -6,24 +6,29 @@ import SideNav from "../components/mypage/SideNav"
 import Profile from "../components/mypage/Profile"
 import style from "./Mypage.module.css";
 
-function Mypage() { // useEffect 써서(header에 토큰) SideNav랑 Profile에 props로 정보 전달
-  const [userProfileImg, setUserProfileImg] = useState("");
-  const [userNickname, setUserNickname] = useState("");
+function Mypage() {
+  const [userProfileImg, setUserProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const [userNickname, setUserNickname] = useState("사용자");
   const [userGender, setUserGender] = useState("");
-  const [userBirth, setUserBirth] = useState("");
+  const [userYear, setUserYear] = useState("");
+  const [userMonth, setUserMonth] = useState("");
+  const [userDay, setUserDay] = useState("");
   const [userMbti, setUserMbti] = useState("");
   const getUsersData = async() => {
     try {
       const response = await axios.get("http://localhost:3000/api/users/", {
       headers: {
           Authorization: `Bearer ${getCookie('access_token')}`
-        } // access token 만료 시 refresh token까지 껴서 다시 보내기
-      })
+        }
+      });
       setUserProfileImg(response.data.profile_pic_url);
       setUserNickname(response.data.nickname);
       setUserGender(response.data.gender);
-      setUserBirth(response.data.birth_date);
       setUserMbti(response.data.mbti);
+      let birthdate = await response.data.birth_date;
+      setUserYear(birthdate.substring(0, 4));
+      setUserMonth(birthdate.substring(5, 7));
+      setUserDay(birthdate.substring(8, 10));
     }
     catch(error) {
       console.log('Error>> ', error);
@@ -36,8 +41,16 @@ function Mypage() { // useEffect 써서(header에 토큰) SideNav랑 Profile에 
     <div>
       <Banner2 width={270} height={"100vh"} />
       <div className={style.mypage}>
-        <SideNav />
-        <Profile />
+        <SideNav userProfileImg={userProfileImg} userNickname={userNickname}/>
+        <Profile 
+          userProfileImg={userProfileImg}
+          userNickname={userNickname}
+          userGender={userGender}
+          userYear={userYear}
+          userMonth={userMonth}
+          userDay={userDay}
+          userMbti={userMbti}
+        />
       </div>
     </div>
   );

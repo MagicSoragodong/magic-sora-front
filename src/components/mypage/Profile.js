@@ -1,9 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import QuitModal from "./QuitModal";
 import style from "./Profile.module.css";
 
-function Profile() {
+function Profile({userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti}) {
   const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
   const [modalOpen, setModalOpen] = useState(false);
   const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
@@ -16,12 +16,20 @@ function Profile() {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  const [birth, setBirth] = useState("");
   const [mbti, setMbti] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordCheck, setNewPasswordCheck] = useState("");
   const [newPasswordError, setNewPasswordError] = useState(false);
+  useEffect(() => {
+    setProfileImg(userProfileImg);
+    setNickname(userNickname);
+    setGender(userGender);
+    setYear(userYear);
+    setMonth(userMonth);
+    setDay(userDay);
+    setMbti(userMbti);
+  }, [userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti]);
   const modalClose = () => {
     setModalOpen(!modalOpen);
   };
@@ -72,17 +80,6 @@ function Profile() {
     setNewPasswordError(event.target.value !== newPassword);
     setNewPasswordCheck(event.target.value);
   };
-  const setBirthDate = () => {
-    if((month < 10) && (day < 10)) {
-      setBirth(`${year}0${month}0${day}`);
-    } else if (month < 10) {
-      setBirth(`${year}0${month}${day}`);
-    } else if (day < 10) {
-      setBirth(`${year}${month}0${day}`);
-    } else {
-      setBirth(`${year}${month}${day}`);
-    }
-  };
   const nicknameCheck = async () => {
     if (nicknameReg.test(nickname)) {
       setNicknameFormError(true);
@@ -116,7 +113,7 @@ function Profile() {
             profile_pic_url: profileImg,
             nickname: nickname,
             gender: gender,
-            birth_date: birth,
+            birth_date: `${year}${month}${day}`,
             mbti: mbti
           }
         )
@@ -157,7 +154,7 @@ function Profile() {
       <form className={style.profileChange} onSubmit={onProfileSubmit}>
         <div className={style.sectionTitle}>
           <h2>프로필 수정</h2>
-          <button type="submit" onClick={setBirthDate}>변경 사항 저장</button>
+          <button type="submit">변경 사항 저장</button>
         </div>
         <div className={style.profileChangeContents}>
           <div className={style.profileImg}>
@@ -196,8 +193,8 @@ function Profile() {
               <label htmlFor="user-gender">성별</label>
               <select id="user-gender" value={gender} name="gender" onChange={onGenderChange}>
                 <option value="" disabled>------------성별을 고르세요------------</option>
-                <option value="male">남자</option>
-                <option value="female">여자</option>
+                <option value="m">남자</option>
+                <option value="f">여자</option>
               </select>
             </div>
             {/* 생년월일 select */}
@@ -262,15 +259,15 @@ function Profile() {
               <label htmlFor="user-year">년</label>
               <select className={style.changeMonth} id="user-month" value={month} name="month" onChange={onMonthChange}>
                 <option value="" disabled>월</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
+                <option value="01">1</option>
+                <option value="02">2</option>
+                <option value="03">3</option>
+                <option value="04">4</option>
+                <option value="05">5</option>
+                <option value="06">6</option>
+                <option value="07">7</option>
+                <option value="08">8</option>
+                <option value="09">9</option>
                 <option value="10">10</option>
                 <option value="11">11</option>
                 <option value="12">12</option>
@@ -278,15 +275,15 @@ function Profile() {
               <label htmlFor="user-month">월</label>
               <select className={style.changeDay} id="user-day" value={day} name="day" onChange={onDayChange}>
                 <option value="" disabled>일</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
+                <option value="01">1</option>
+                <option value="02">2</option>
+                <option value="03">3</option>
+                <option value="04">4</option>
+                <option value="05">5</option>
+                <option value="06">6</option>
+                <option value="07">7</option>
+                <option value="08">8</option>
+                <option value="09">9</option>
                 <option value="10">10</option>
                 <option value="11">11</option>
                 <option value="12">12</option>
