@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import axios from 'axios';
 import FindPwModal from "./FindPwModal";
 import style from "./LoginForm.module.css";
+import { setCookie } from "../utils/Cookie";
 
 function LoginForm() {
   const history = useHistory();
@@ -21,12 +22,16 @@ function LoginForm() {
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post( "http://localhost:3000/api/auth/login/local",
+      const response = await axios.post( "http://localhost:3000/api/auth/login/local",
         {
-          id: id, 
+          user_email: id, 
           password: password
         }
       )
+      console.log(response.data);
+      // axios.defaults.headers.common['Autorization'] = `Bearer ${'access_token'}`;
+      localStorage.setItem('refresh_token', response.data['access_token']);
+      setCookie('access_token', response.data['access_token']);
       alert("로그인 성공!");
       history.push("/");
     }

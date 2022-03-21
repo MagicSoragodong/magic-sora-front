@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getCookie } from '../utils/Cookie';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import QnaModal from "./QnaModal";
 import style from "./SideNav.module.css";
+import { removeCookie } from "../utils/Cookie";
 import axios from "axios";
 
-function SideNav() {
+function SideNav({userProfileImg, userNickname}) {
   const history = useHistory();
   const [qnaOpen, setQnaOpen] = useState(false);
   const qnaClose = () => {
@@ -19,6 +17,8 @@ function SideNav() {
   const logout = async() => {
     try {
       await axios.post("http://localhost:3000/api/auth/logout");
+      removeCookie('access_token');
+      localStorage.removeItem('refresh_token');
       alert("로그아웃 되었습니다.");
       history.push("/");
     }
@@ -29,10 +29,8 @@ function SideNav() {
   };
   return (
     <div className={style.sideNav}>
-      {/* 원래는 DB에서 사용자 사진 불러오는 곳 axios */}
-      <FontAwesomeIcon className={style.userProfilePic} icon={faCircleUser} />
-      {/* 원래는 DB에서 사용자 닉네임 불러오는 곳 axios */}
-      <h1>푸키설의</h1>
+      <img src={userProfileImg} alt="user-profile-img" />
+      <h1>{userNickname}</h1>
       <ul className={style.mypageBtns}>
         <li>
           <button onClick={pageRefresh}> 개인 정보 수정</button>
