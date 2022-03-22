@@ -3,10 +3,12 @@ import { Link, useHistory } from "react-router-dom";
 import axios from 'axios';
 import FindPwModal from "./FindPwModal";
 import style from "./LoginForm.module.css";
-import { setCookie } from "../utils/Cookie";
+import { useDispatch } from 'react-redux';
+import { saveAccessToken } from "../../actions/token_action";
 
 function LoginForm() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [findPwOpen, setFindPwOpen] = useState(false);
@@ -22,17 +24,11 @@ function LoginForm() {
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post( "http://localhost:3000/api/auth/login/local",
-        {
-          user_email: id, 
-          password: password
-        }
-      )
-      localStorage.setItem('refresh_token', response.data.data['refresh_token']);
-      setCookie('access_token', response.data.data['accesss_token'], {
-        secure: true,
-        httpOnly: true
-      });
+      const response = await axios.post( "http://localhost:3000/api/auth/login/local", {
+        user_email: id, 
+        password: password
+      })
+      dispatch(saveAccessToken(response.data.data['access_token']));
       alert("로그인 성공!");
       history.push("/");
     }
