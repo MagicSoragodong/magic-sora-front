@@ -193,8 +193,8 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
               <label htmlFor="user-gender">성별</label>
               <select id="user-gender" value={gender} name="gender" onChange={onGenderChange}>
                 <option value="" disabled>------------성별을 고르세요------------</option>
-                <option value="m">남자</option>
-                <option value="f">여자</option>
+                <option value="M">남자</option>
+                <option value="F">여자</option>
               </select>
             </div>
             {/* 생년월일 select */}

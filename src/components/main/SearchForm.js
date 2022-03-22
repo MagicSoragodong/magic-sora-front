@@ -17,6 +17,9 @@ function SearchForm() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (keyword === "") {
+      return alert("검색어를 입력하세요.");
+    }
     try {
       await axios.get( `http://localhost:3000/api/posts/search?option=${index}&search=${keyword}`)
       history.push(`/search?option=${index}&search=${keyword}`);

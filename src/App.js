@@ -58,8 +58,9 @@ function App() {
         <Route path="/writing">
           <Writing />
         </Route>
-        <Route path="/changepassword">
+        <Route path="/reset-password">
           <ChangePassword />
+        </Route>
         <Route path="/writing">
           <End />
         </Route>

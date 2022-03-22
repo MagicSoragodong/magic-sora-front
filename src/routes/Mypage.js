@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { getCookie } from "../components/utils/Cookie";
+import { useHistory } from "react-router-dom";
+import { setCookie, getCookie } from "../components/utils/Cookie";
 import Banner2 from "../components/banner/Banner2";
 import SideNav from "../components/mypage/SideNav"
 import Profile from "../components/mypage/Profile"
 import style from "./Mypage.module.css";
 
 function Mypage() {
+  const history = useHistory();
   const [userProfileImg, setUserProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const [userNickname, setUserNickname] = useState("사용자");
   const [userGender, setUserGender] = useState("");
@@ -17,9 +19,9 @@ function Mypage() {
   const getUsersData = async() => {
     try {
       const response = await axios.get("http://localhost:3000/api/users/", {
-      headers: {
-          Authorization: `Bearer ${getCookie('access_token')}`
-        }
+        headers: {
+            Authorization: `Bearer ${getCookie('access_token')}`
+          }
       });
       setUserProfileImg(response.data.profile_pic_url);
       setUserNickname(response.data.nickname);
@@ -31,7 +33,20 @@ function Mypage() {
       setUserDay(birthdate.substring(8, 10));
     }
     catch(error) {
-      console.log('Error>> ', error);
+      try {
+        const response = await axios.get("http://localhost:3000/api/auth/refresh", {
+          headers: {
+              Authorization: `Bearer ${getCookie('access_token')}`,
+              refresh: localStorage.getItem('refresh_token')
+          }
+        });
+        setCookie('access_token', response.data.data['accesss_token']);
+        getUsersData();
+      }
+      catch(error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
     }
   };
   useEffect(() => {
