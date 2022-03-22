@@ -21,7 +21,6 @@ function SignupForm () {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  const [birth, setBirth] = useState("");
   const [mbti, setMbti] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const onIdChange = (event) => {
@@ -51,17 +50,6 @@ function SignupForm () {
   };
   const onMbtiChange = (event) => {
     setMbti(event.target.value);
-  };
-  const setBirthDate = () => {
-    if((month < 10) && (day < 10)) {
-      setBirth(`${year}0${month}0${day}`);
-    } else if (month < 10) {
-      setBirth(`${year}0${month}${day}`);
-    } else if (day < 10) {
-      setBirth(`${year}${month}0${day}`);
-    } else {
-      setBirth(`${year}${month}${day}`);
-    }
   };
   const idCheck = async () => {
     if (emailReg.test(email)) {
@@ -119,7 +107,7 @@ function SignupForm () {
             password: password,
             nickname: nickname,
             gender: gender,
-            birth_date: birth,
+            birth_date: `${year}${month}${day}`,
             mbti: mbti
           }
         )
@@ -199,8 +187,8 @@ function SignupForm () {
             <label htmlFor="user-gender">성별</label>
             <select id="user-gender" value={gender} name="gender" required onChange={onGenderChange}>
               <option value="" disabled>------------성별을 고르세요------------</option>
-              <option value="m">남자</option>
-              <option value="f">여자</option>
+              <option value="M">남자</option>
+              <option value="F">여자</option>
             </select>
           </div>
           {/* 생년월일 select */}
@@ -265,15 +253,15 @@ function SignupForm () {
             <label htmlFor="user-year">년</label>
             <select className={style.monthSelect} id="user-month" value={month} name="month" required onChange={onMonthChange}>
               <option value="" disabled>월</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
+              <option value="01">1</option>
+              <option value="02">2</option>
+              <option value="03">3</option>
+              <option value="04">4</option>
+              <option value="05">5</option>
+              <option value="06">6</option>
+              <option value="07">7</option>
+              <option value="08">8</option>
+              <option value="09">9</option>
               <option value="10">10</option>
               <option value="11">11</option>
               <option value="12">12</option>
@@ -281,15 +269,15 @@ function SignupForm () {
             <label htmlFor="user-month">월</label>
             <select className={style.daySelect} id="user-day" value={day} name="day" required onChange={onDayChange}>
               <option value="" disabled>일</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
+              <option value="01">1</option>
+              <option value="02">2</option>
+              <option value="03">3</option>
+              <option value="04">4</option>
+              <option value="05">5</option>
+              <option value="06">6</option>
+              <option value="07">7</option>
+              <option value="08">8</option>
+              <option value="09">9</option>
               <option value="10">10</option>
               <option value="11">11</option>
               <option value="12">12</option>
@@ -338,7 +326,7 @@ function SignupForm () {
               <option value="intj">INTJ</option>
             </select>
           </div>
-          <button className={style.signupBtn} type="submit" onClick={setBirthDate}>
+          <button className={style.signupBtn} type="submit">
             회원가입
           </button>
         </form>

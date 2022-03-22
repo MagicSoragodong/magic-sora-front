@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import QnaModal from "./QnaModal";
 import style from "./SideNav.module.css";
-import { removeCookie } from "../utils/Cookie";
+import { getCookie, removeCookie } from "../utils/Cookie";
 import axios from "axios";
 
 function SideNav({userProfileImg, userNickname}) {
@@ -16,14 +16,17 @@ function SideNav({userProfileImg, userNickname}) {
   };
   const logout = async() => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout");
+      await axios.post("http://localhost:3000/api/auth/logout", null, {
+      headers: {
+          Authorization: `Bearer ${getCookie('access_token')}`
+        }
+      });
       removeCookie('access_token');
       localStorage.removeItem('refresh_token');
       alert("로그아웃 되었습니다.");
       history.push("/");
     }
     catch(error) {
-      console.log('Error>> ', error)
       alert("로그아웃에 실패했습니다.");
     }
   };

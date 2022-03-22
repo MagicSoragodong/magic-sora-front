@@ -28,16 +28,16 @@ function LoginForm() {
           password: password
         }
       )
-      console.log(response.data);
-      // axios.defaults.headers.common['Autorization'] = `Bearer ${'access_token'}`;
-      localStorage.setItem('refresh_token', response.data['access_token']);
-      setCookie('access_token', response.data['access_token']);
+      localStorage.setItem('refresh_token', response.data.data['refresh_token']);
+      setCookie('access_token', response.data.data['accesss_token'], {
+        secure: true,
+        httpOnly: true
+      });
       alert("로그인 성공!");
       history.push("/");
     }
-    catch(error) {
+    catch {
       alert("아이디 또는 비밀번호를 다시 한 번 확인해주세요.");
-      console.log('Error! >>', error);
     }
   };
 
