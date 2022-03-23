@@ -17,12 +17,11 @@ function SideNav({userProfileImg, userNickname}) {
   };
   const logout = async() => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout", null, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        },
-        withCredential: true
-      });
+      await axios.post("http://localhost:3000/api/auth/logout", null,
+        {
+          withCredentials: true
+        }
+      );
       alert("로그아웃 되었습니다.");
       history.push("/");
     }

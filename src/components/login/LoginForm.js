@@ -3,12 +3,9 @@ import { Link, useHistory } from "react-router-dom";
 import axios from 'axios';
 import FindPwModal from "./FindPwModal";
 import style from "./LoginForm.module.css";
-import { useDispatch } from 'react-redux';
-import { saveAccessToken } from "../../actions/token_action";
 
 function LoginForm() {
   const history = useHistory();
-  const dispatch = useDispatch();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [findPwOpen, setFindPwOpen] = useState(false);
@@ -28,7 +25,8 @@ function LoginForm() {
         user_email: id, 
         password: password
       })
-      dispatch(saveAccessToken(response.data.data['access_token']));
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data['access_token']}`;
+      localStorage.setItem(response.data.data['access_token']);
       alert("로그인 성공!");
       history.push("/");
     }
