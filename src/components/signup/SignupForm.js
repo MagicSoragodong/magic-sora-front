@@ -7,7 +7,7 @@ function SignupForm () {
   const history = useHistory();
   const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
   const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [idFormError, setIdFormError] = useState(false);
   const [idDuplicated, setIdDuplicated] = useState(false);
   const [idCheckDone, setIdCheckDone] = useState(false);
@@ -21,11 +21,10 @@ function SignupForm () {
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  const [birth, setBirth] = useState("");
   const [mbti, setMbti] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const onIdChange = (event) => {
-    setId(event.target.value);
+    setEmail(event.target.value);
   };
   const onPasswordChange = (event) => {
     setPassword(event.target.value);
@@ -52,37 +51,23 @@ function SignupForm () {
   const onMbtiChange = (event) => {
     setMbti(event.target.value);
   };
-  const setBirthDate = () => {
-    if((month < 10) && (day < 10)) {
-      setBirth(`${year}0${month}0${day}`);
-    } else if (month < 10) {
-      setBirth(`${year}0${month}${day}`);
-    } else if (day < 10) {
-      setBirth(`${year}${month}0${day}`);
-    } else {
-      setBirth(`${year}${month}${day}`);
-    }
-  };
   const idCheck = async () => {
-    if (emailReg.test(id)) {
+    if (emailReg.test(email)) {
       setIdFormError(false);
     } else {
       return setIdFormError(true);
     }
     try {
-      const response = await axios.get( `http://localhost:3000/api/users/email-exists`);
-      console.log(response.data);
-      /*
-      if (중복확인성공) {
-        setIdDuplicated(false);
-        setIdCheckDone(true);
-      } else {
-        setIdDuplicated(true);
-      }
-      */
+      await axios.get( `http://localhost:3000/api/users/email-exists`, 
+        {
+          params: {email: email}
+        }
+      );
+      setIdDuplicated(false);
+      setIdCheckDone(true);
     }
     catch(error) {
-      console.log('Error>> ', error);
+      setIdDuplicated(true);
     }
   }
   const nicknameCheck = async () => {
@@ -91,56 +76,47 @@ function SignupForm () {
     } else {
       setNicknameFormError(false);
     }
-
     try {
-      const response = await axios.get( `http://localhost:3000/api/users/nickname-exists`);
-      console.log(response.data);
-      
-      /*
-      if (중복확인성공) {
-        setNicknameDuplicated(false);
-        setNicknameCheckDone(true);
-      } else {
-        setNicknameDuplicated(true);
-      }
-      */
+      await axios.get( `http://localhost:3000/api/users/nickname-exists`,
+        {
+          params: {nickname: nickname}
+        }
+      );
+      setNicknameDuplicated(false);
+      setNicknameCheckDone(true);
     }
     catch(error) {
-      console.log('Error>> ', error);
+      setNicknameDuplicated(true);
     }
-  }
+  };
   const onSubmit = async (event) => {
     event.preventDefault();
     if(password !== passwordCheck) {
+      alert("비밀번호 일치 여부를 확인해주세요.");
       return setPasswordError(true);
     }
     try {
-      const response = await axios.post( "http://localhost:3000/api/auth/register/local",
-        {
-          id: id, 
-          password: password,
-          nickname: nickname,
-          gender: gender,
-          birth: birth,
-          mbti: mbti
-        }
-      )
-      console.log(response.data);
-      history.push("/login");
-      /*
       if(!idCheckDone) {
-        alert("아이디 중복 확인을 해주세요.");
+        alert("아이디 중복 확인을 완료해주세요.");
       } else if (!nicknameCheckDone) {
-        alert("닉네임 중복 확인을 해주세요.");
-      } else if (회원가입 성공 코드) {
+        alert("닉네임 중복 확인을 완료해주세요.");
+      } else {
+        await axios.post( "http://localhost:3000/api/auth/register/local",
+          {
+            user_email: email, 
+            password: password,
+            nickname: nickname,
+            gender: gender,
+            birth_date: `${year}${month}${day}`,
+            mbti: mbti
+          }
+        )
+        alert("회원가입 성공!");
         history.push("/login");
-      } else { // 로그인 실패
-        alert("회원가입을 실패했습니다.");
       }
-      */
     }
     catch(error) {
-      console.log('Error>>', error);
+      alert("회원가입을 실패했습니다.");
     }
   };
 
@@ -155,14 +131,14 @@ function SignupForm () {
             <input
               id="user-id"
               type="email"
-              value={id}
+              value={email}
               required
               onChange={onIdChange}
               placeholder="아이디"
             />
-            <button type="button" disabled={!id} onClick={idCheck}>중복 확인</button>
+            <button type="button" disabled={!email} onClick={idCheck}>중복 확인</button>
           </div>
-          {idFormError ? <div className={style.errorDetect}>이메일 형식에 맞지 않습니다.</div> : null}
+          {idFormError ? <div className={style.errorDetect}>이메일 형식이 맞지 않습니다.</div> : null}
           {idDuplicated ? <div className={style.errorDetect}>이미 사용 중인 아이디입니다.</div> : null}
           {/* 비밀번호 입력 */}
           <div className={style.signupInput}>
@@ -211,8 +187,8 @@ function SignupForm () {
             <label htmlFor="user-gender">성별</label>
             <select id="user-gender" value={gender} name="gender" required onChange={onGenderChange}>
               <option value="" disabled>------------성별을 고르세요------------</option>
-              <option value="male">남자</option>
-              <option value="female">여자</option>
+              <option value="M">남자</option>
+              <option value="F">여자</option>
             </select>
           </div>
           {/* 생년월일 select */}
@@ -277,15 +253,15 @@ function SignupForm () {
             <label htmlFor="user-year">년</label>
             <select className={style.monthSelect} id="user-month" value={month} name="month" required onChange={onMonthChange}>
               <option value="" disabled>월</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
+              <option value="01">1</option>
+              <option value="02">2</option>
+              <option value="03">3</option>
+              <option value="04">4</option>
+              <option value="05">5</option>
+              <option value="06">6</option>
+              <option value="07">7</option>
+              <option value="08">8</option>
+              <option value="09">9</option>
               <option value="10">10</option>
               <option value="11">11</option>
               <option value="12">12</option>
@@ -293,15 +269,15 @@ function SignupForm () {
             <label htmlFor="user-month">월</label>
             <select className={style.daySelect} id="user-day" value={day} name="day" required onChange={onDayChange}>
               <option value="" disabled>일</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
+              <option value="01">1</option>
+              <option value="02">2</option>
+              <option value="03">3</option>
+              <option value="04">4</option>
+              <option value="05">5</option>
+              <option value="06">6</option>
+              <option value="07">7</option>
+              <option value="08">8</option>
+              <option value="09">9</option>
               <option value="10">10</option>
               <option value="11">11</option>
               <option value="12">12</option>
@@ -350,7 +326,7 @@ function SignupForm () {
               <option value="intj">INTJ</option>
             </select>
           </div>
-          <button className={style.signupBtn} type="submit" onClick={setBirthDate}>
+          <button className={style.signupBtn} type="submit">
             회원가입
           </button>
         </form>

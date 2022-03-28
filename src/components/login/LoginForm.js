@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import axios from 'axios';
 import FindPwModal from "./FindPwModal";
 import style from "./LoginForm.module.css";
 
 function LoginForm() {
+  const history = useHistory();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [findPwOpen, setFindPwOpen] = useState(false);
@@ -16,10 +18,22 @@ function LoginForm() {
   const onPasswordChange = (event) => {
     setPassword(event.target.value);
   };
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    // axios로 Id, Password 넘겨주기
-  }
+    try {
+      const response = await axios.post( "http://localhost:3000/api/auth/login/local", {
+        user_email: id, 
+        password: password
+      })
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data['access_token']}`;
+      localStorage.setItem(response.data.data['access_token']);
+      alert("로그인 성공!");
+      history.push("/");
+    }
+    catch {
+      alert("아이디 또는 비밀번호를 다시 한 번 확인해주세요.");
+    }
+  };
 
   return (
     <div className={style.loginPage}>

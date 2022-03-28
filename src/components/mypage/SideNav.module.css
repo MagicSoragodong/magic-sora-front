@@ -7,6 +7,12 @@
   padding: 0 50px;
 }
 
+.sideNav img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
 .sideNav h1 {
   margin-top: 10px;
   margin-bottom: 30px;

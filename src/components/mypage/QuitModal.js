@@ -1,15 +1,28 @@
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import style from "./QuitModal.module.css";
 
 function QuitModal({modalClose}) {
+  const history = useHistory();
   const onCloseModal = (event) => {
     if(event.target === event.currentTarget) {
       modalClose();
     }
   }
-  const memberQuit = () => {
-    // 탈퇴하기 버튼 누르면 실행되는 함수
+  const memberQuit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.delete('http://localhost:3000/api/users/');
+      alert("회원 탈퇴를 완료했습니다. 그동안 이용해 주셔서 감사합니다.");
+      modalClose();
+      history.push("/");
+    }
+    catch(error) {
+      console.log('Error>>', error);
+      alert("회원 탈퇴에 실패했습니다.");
+    }
   }
   return (
     <div className={style.quitModal} onClick={onCloseModal}>
@@ -39,7 +52,7 @@ function QuitModal({modalClose}) {
         <hr/>
         <div className={style.quitModalBtns}>
           <button onClick={modalClose} className={style.stopQuit}>취소</button>
-          <button className={style.continueQuit}>탈퇴하기</button>
+          <button onClick={memberQuit} className={style.continueQuit}>탈퇴하기</button>
         </div>
       </div>
     </div>

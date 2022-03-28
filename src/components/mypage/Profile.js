@@ -1,33 +1,59 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import axios from 'axios';
 import QuitModal from "./QuitModal";
 import style from "./Profile.module.css";
 
-function Profile() {
-  const reg = /[^\wㄱ-힣]|[\_]/g;
+function Profile({userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti}) {
+  const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
   const [modalOpen, setModalOpen] = useState(false);
-  const [profileImg, setProfileImg] = useState(null);
-  const [imgPreview, setImgPreview] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const profileImgInput = useRef(null);
+  const [nickname, setNickname] = useState();
+  const [nicknameFormError, setNicknameFormError] = useState(false);
+  const [nicknameDuplicated, setNicknameDuplicated] = useState(false);
+  const [nicknameCheckDone, setNicknameCheckDone] = useState(true);
   const [gender, setGender] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  const [birth, setBirth] = useState("");
   const [mbti, setMbti] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordCheck, setNewPasswordCheck] = useState("");
   const [newPasswordError, setNewPasswordError] = useState(false);
+  useEffect(() => {
+    setProfileImg(userProfileImg);
+    setNickname(userNickname);
+    setGender(userGender);
+    setYear(userYear);
+    setMonth(userMonth);
+    setDay(userDay);
+    setMbti(userMbti);
+  }, [userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti]);
+  const modalClose = () => {
+    setModalOpen(!modalOpen);
+  };
   const uploadProfileImg = (event) => {
-
-  }
-  const deleteProfileImg = () => {
-
+    if (event.target.files[0]) {
+      setProfileImg(event.target.files[0]);
+    } else {
+      setProfileImg(profileImg);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setProfileImg(reader.result);
+      }
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  };
+  const noProfileImage = () => {
+    setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   }
   const onNicknameChange = (event) => {
     setNickname(event.target.value);
-    setNicknameCheck(reg.test(event.target.value));
+    setNicknameCheckDone(false);
   };
   const onGenderChange = (event) => {
     setGender(event.target.value);
@@ -44,18 +70,6 @@ function Profile() {
   const onMbtiChange = (event) => {
     setMbti(event.target.value);
   };
-  const setBirthDate = () => {
-    // month와 day가 한자리수면 앞에 0붙이기
-    if((month < 10) && (day < 10)) {
-      setBirth(`${year}0${month}0${day}`);
-    } else if (month < 10) {
-      setBirth(`${year}0${month}${day}`);
-    } else if (day < 10) {
-      setBirth(`${year}${month}0${day}`);
-    } else {
-      setBirth(`${year}${month}${day}`);
-    }
-  };
   const onCurrentPasswordChange = (event) => {
     setCurrentPassword(event.target.value);
   };
@@ -66,21 +80,74 @@ function Profile() {
     setNewPasswordError(event.target.value !== newPassword);
     setNewPasswordCheck(event.target.value);
   };
-  const modalClose = () => {
-    setModalOpen(!modalOpen);
+  const nicknameCheck = async () => {
+    if (nicknameReg.test(nickname)) {
+      setNicknameFormError(true);
+      setNicknameCheckDone(false);
+      return;
+    } else {
+      setNicknameFormError(false);
+    }
+    try {
+      await axios.get( `http://localhost:3000/api/users/nickname-exists`,
+        {
+          params: {nickname: nickname}
+        }
+      );
+      setNicknameDuplicated(false);
+      setNicknameCheckDone(true);
+    }
+    catch(error) {
+      setNicknameDuplicated(true);
+      setNicknameCheckDone(false);
+    }
   };
-  const onPasswordSubmit = (event) => {
+  const onProfileSubmit = async (event) => {
     event.preventDefault();
-    // 새 비밀번호 일치 체크
+    try {
+      if(!nicknameCheckDone) {
+        alert("닉네임 중복 확인을 완료해주세요.");
+      } else {
+        await axios.patch( "http://localhost:3000/api/users/",
+          {
+            profile_pic_url: profileImg,
+            nickname: nickname,
+            gender: gender,
+            birth_date: `${year}${month}${day}`,
+            mbti: mbti
+          }
+        )
+        alert("프로필이 성공적으로 변경되었습니다.");
+        window.location.reload();
+      }
+    }
+    catch(error) {
+      alert("프로필 변경에 실패했습니다.");
+      console.log('Error! >>', error);
+    }
+  };
+  const onPasswordSubmit = async (event) => {
+    event.preventDefault();
     if(newPassword !== newPasswordCheck) {
+      alert("비밀번호 일치 여부를 확인해주세요.");
       return setNewPasswordError(true);
     }
-    // axios
+    try {
+      await axios.patch( "http://localhost:3000/api/users/",
+        {
+          currentPassword: currentPassword,
+          newPassword: newPassword
+        }
+      )
+      alert("비밀번호가 성공적으로 변경되었습니다.");
+      window.location.reload();
+    }
+    catch(error) {
+      alert("비밀번호 변경에 실패했습니다.");
+      console.log('Error! >>', error);
+    }
   };
-  const onProfileSubmit = (event) => {
-    event.preventDefault();
-    // axios
-  }
+  
   return (
     <div className={style.profile}>
       {/* 프로필 변경 코드 */}
@@ -92,7 +159,18 @@ function Profile() {
         <div className={style.profileChangeContents}>
           <div className={style.profileImg}>
             {/* 프로필 사진 변경 */}
-            <input type="file" accept="image/*" onChange={uploadProfileImg}/>
+            <img
+              src={profileImg}
+              alt="profile-img"
+              onClick={()=>{profileImgInput.current.click()}}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={uploadProfileImg}
+              ref={profileImgInput}
+            />
+            <button type="button" onClick={noProfileImage}>기본 이미지로 변경</button>
           </div>
           <div className={style.personalInfo}>
             {/* 닉네임 입력 */}
@@ -106,16 +184,17 @@ function Profile() {
                 placeholder="닉네임"
                 minLength="2"
               />
-              <button type="button" disabled={!nickname}>중복 확인</button>
+              <button type="button" disabled={!nickname} onClick={nicknameCheck}>중복 확인</button>
             </div>
-            {nicknameCheck ? <div className={style.errorMessage}>닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)</div> : null}
+            {nicknameFormError ? <div className={style.errorMessage}>닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)</div> : null}
+            {nicknameDuplicated ? <div className={style.errorMessage}>이미 사용 중인 닉네임입니다.</div> : null}
             {/* 성별 select */}
             <div className={style.changeInfo}>
               <label htmlFor="user-gender">성별</label>
               <select id="user-gender" value={gender} name="gender" onChange={onGenderChange}>
                 <option value="" disabled>------------성별을 고르세요------------</option>
-                <option value="male">남자</option>
-                <option value="female">여자</option>
+                <option value="M">남자</option>
+                <option value="F">여자</option>
               </select>
             </div>
             {/* 생년월일 select */}
@@ -180,15 +259,15 @@ function Profile() {
               <label htmlFor="user-year">년</label>
               <select className={style.changeMonth} id="user-month" value={month} name="month" onChange={onMonthChange}>
                 <option value="" disabled>월</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
+                <option value="01">1</option>
+                <option value="02">2</option>
+                <option value="03">3</option>
+                <option value="04">4</option>
+                <option value="05">5</option>
+                <option value="06">6</option>
+                <option value="07">7</option>
+                <option value="08">8</option>
+                <option value="09">9</option>
                 <option value="10">10</option>
                 <option value="11">11</option>
                 <option value="12">12</option>
@@ -196,15 +275,15 @@ function Profile() {
               <label htmlFor="user-month">월</label>
               <select className={style.changeDay} id="user-day" value={day} name="day" onChange={onDayChange}>
                 <option value="" disabled>일</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
+                <option value="01">1</option>
+                <option value="02">2</option>
+                <option value="03">3</option>
+                <option value="04">4</option>
+                <option value="05">5</option>
+                <option value="06">6</option>
+                <option value="07">7</option>
+                <option value="08">8</option>
+                <option value="09">9</option>
                 <option value="10">10</option>
                 <option value="11">11</option>
                 <option value="12">12</option>

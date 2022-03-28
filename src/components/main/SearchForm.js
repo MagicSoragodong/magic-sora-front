@@ -14,42 +14,27 @@ function SearchForm() {
   const onSelect = (event) => {
     setIndex(event.target.value);
   };
-  const onSubmit = (event) => {
-    event.preventDefault();
-    
-    axios.get( `http://localhost:8000/api/search?option=${index}&search=${keyword}`) 
-      .then((response) => {
-        console.log(response.data);
-        history.push("/search");
-      }) 
-      .catch((error) => {
-        console.log('Error!');
-      })
-  };
 
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await axios.post( '/search',
-  //       {
-  //         index: index,
-  //         keyword: keyword
-  //       }
-  //     )
-  //     console.log(response.data);
-  //     history.push("/search");
-  //   }
-  //   catch(error) {
-  //     console.log('Error!');
-  //   }
-  // };
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (keyword === "") {
+      return alert("검색어를 입력하세요.");
+    }
+    try {
+      await axios.get( `http://localhost:3000/api/posts/search?option=${index}&search=${keyword}`)
+      history.push(`/search?option=${index}&search=${keyword}`);
+    }
+    catch(error) {
+      alert("검색을 실패했습니다.");
+    }
+  };
 
   return (
     <div>
       <form className={style.searchForm} onSubmit={onSubmit}>
         <select className={style.searchSelect} value={index} onChange={onSelect}>
           <option value="post_title">글제목</option>
-          <option value="post_user">닉네임</option>
+          <option value="nickname">닉네임</option>
           <option value="post_content">글내용</option>
         </select>
         <input

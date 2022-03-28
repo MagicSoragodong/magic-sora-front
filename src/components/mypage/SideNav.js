@@ -1,33 +1,48 @@
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import QnaModal from "./QnaModal";
 import style from "./SideNav.module.css";
+import axios from "axios";
+import { useSelector } from 'react-redux';
 
-function SideNav() {
+function SideNav({userProfileImg, userNickname}) {
+  const history = useHistory();
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
   const [qnaOpen, setQnaOpen] = useState(false);
   const qnaClose = () => {
     setQnaOpen(!qnaOpen);
   };
+  const pageRefresh = () => {
+    window.location.reload();
+  };
+  const logout = async() => {
+    try {
+      await axios.post("http://localhost:3000/api/auth/logout", null,
+        {
+          withCredentials: true
+        }
+      );
+      alert("로그아웃 되었습니다.");
+      history.push("/");
+    }
+    catch(error) {
+      alert("로그아웃에 실패했습니다.");
+    }
+  };
   return (
     <div className={style.sideNav}>
-      {/* 원래는 DB에서 사용자 사진 불러오는 곳 */}
-      <FontAwesomeIcon className={style.userProfilePic} icon={faCircleUser} />
-      {/* 원래는 DB에서 사용자 닉네임 불러오는 곳 */}
-      <h1>푸키설의</h1>
+      <img src={userProfileImg} alt="user-profile-img" />
+      <h1>{userNickname}</h1>
       <ul className={style.mypageBtns}>
         <li>
-          <Link to="/mypage">
-            <button>개인 정보 수정</button>
-          </Link>
+          <button onClick={pageRefresh}> 개인 정보 수정</button>
         </li>
         <li>
           <button onClick={qnaClose}>문의하기</button>
           {qnaOpen ? <QnaModal qnaClose={qnaClose}/> : null}
         </li>
         <li>
-          <button>로그아웃</button>
+          <button onClick={logout}>로그아웃</button>
         </li>
       </ul>
     </div>
