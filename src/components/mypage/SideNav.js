@@ -3,11 +3,9 @@ import { useHistory } from "react-router-dom";
 import QnaModal from "./QnaModal";
 import style from "./SideNav.module.css";
 import axios from "axios";
-import { useSelector } from 'react-redux';
 
 function SideNav({userProfileImg, userNickname}) {
   const history = useHistory();
-  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
   const [qnaOpen, setQnaOpen] = useState(false);
   const qnaClose = () => {
     setQnaOpen(!qnaOpen);
@@ -22,6 +20,8 @@ function SideNav({userProfileImg, userNickname}) {
           withCredentials: true
         }
       );
+      localStorage.removeItem("access_token");
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("access_token")}`;
       alert("로그아웃 되었습니다.");
       history.push("/");
     }

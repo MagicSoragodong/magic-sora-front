@@ -110,11 +110,13 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       } else {
         await axios.patch( "http://localhost:3000/api/users/",
           {
-            profile_pic_url: profileImg,
-            nickname: nickname,
-            gender: gender,
-            birth_date: `${year}${month}${day}`,
-            mbti: mbti
+            newUser: {
+              profile_pic_url: profileImg,
+              nickname: nickname,
+              gender: gender,
+              birth_date: `${year}${month}${day}`,
+              mbti: mbti
+            }
           }
         )
         alert("프로필이 성공적으로 변경되었습니다.");
@@ -135,8 +137,10 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
     try {
       await axios.patch( "http://localhost:3000/api/users/",
         {
-          currentPassword: currentPassword,
-          newPassword: newPassword
+          currentPass: currentPassword,
+          newUser: {
+            password: newPassword
+          }
         }
       )
       alert("비밀번호가 성공적으로 변경되었습니다.");
@@ -314,22 +318,22 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
               <label htmlFor="user-mbti">MBTI</label>
               <select id="user-mbti" value={mbti} name="mbti" onChange={onMbtiChange}>
                 <option value="" disabled>-----------MBTI를 고르세요-----------</option>
-                <option value="estp">ESTP</option>
-                <option value="esfp">ESFP</option>
-                <option value="enfp">ENFP</option>
-                <option value="entp">ENTP</option>
-                <option value="estj">ESTJ</option>
-                <option value="esfj">ESFJ</option>
-                <option value="enfj">ENFJ</option>
-                <option value="entj">ENTJ</option>
-                <option value="istp">ISTP</option>
-                <option value="isfp">ISFP</option>
-                <option value="infp">INFP</option>
-                <option value="intp">INTP</option>
-                <option value="istj">ISTJ</option>
-                <option value="isfj">ISFJ</option>
-                <option value="infj">INFJ</option>
-                <option value="intj">INTJ</option>
+                <option value="ESTP">ESTP</option>
+                <option value="ESFP">ESFP</option>
+                <option value="ENFP">ENFP</option>
+                <option value="ENTP">ENTP</option>
+                <option value="ESTJ">ESTJ</option>
+                <option value="ESFJ">ESFJ</option>
+                <option value="ENFJ">ENFJ</option>
+                <option value="ENTJ">ENTJ</option>
+                <option value="ISTP">ISTP</option>
+                <option value="ISFP">ISFP</option>
+                <option value="INFP">INFP</option>
+                <option value="INTP">INTP</option>
+                <option value="ISTJ">ISTJ</option>
+                <option value="ISFJ">ISFJ</option>
+                <option value="INFJ">INFJ</option>
+                <option value="INTJ">INTJ</option>
               </select>
             </div>
           </div>
