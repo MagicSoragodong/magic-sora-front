@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import style from "./QuitModal.module.css";
+import { SilentTokenRequest } from "../components/utils/RefreshToken";
 
 function QuitModal({modalClose}) {
   const history = useHistory();
@@ -14,14 +15,15 @@ function QuitModal({modalClose}) {
   const memberQuit = async (event) => {
     event.preventDefault();
     try {
-      await axios.delete('http://localhost:3000/api/users/');
+      await axios.delete('http://localhost:3000/api/users/', {
+        withCredentials: true
+      });
       alert("회원 탈퇴를 완료했습니다. 그동안 이용해 주셔서 감사합니다.");
       modalClose();
       history.push("/");
     }
     catch(error) {
-      console.log('Error>>', error);
-      alert("회원 탈퇴에 실패했습니다.");
+      SilentTokenRequest();
     }
   }
   return (

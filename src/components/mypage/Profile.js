@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import QuitModal from "./QuitModal";
 import style from "./Profile.module.css";
+import { SilentTokenRequest } from "../utils/RefreshToken";
 
 function Profile({userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti}) {
   const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
@@ -96,6 +97,7 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       );
       setNicknameDuplicated(false);
       setNicknameCheckDone(true);
+      alert("사용 가능한 아이디입니다.");
     }
     catch(error) {
       setNicknameDuplicated(true);
@@ -117,6 +119,9 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
               birth_date: `${year}${month}${day}`,
               mbti: mbti
             }
+          },
+          {
+            withCredentials: true
           }
         )
         alert("프로필이 성공적으로 변경되었습니다.");
@@ -124,8 +129,7 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       }
     }
     catch(error) {
-      alert("프로필 변경에 실패했습니다.");
-      console.log('Error! >>', error);
+      SilentTokenRequest();
     }
   };
   const onPasswordSubmit = async (event) => {
@@ -141,14 +145,16 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
           newUser: {
             password: newPassword
           }
+        },
+        {
+          withCredentials: true
         }
       )
       alert("비밀번호가 성공적으로 변경되었습니다.");
       window.location.reload();
     }
     catch(error) {
-      alert("비밀번호 변경에 실패했습니다.");
-      console.log('Error! >>', error);
+      SilentTokenRequest();
     }
   };
   

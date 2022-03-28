@@ -53,7 +53,6 @@ function SignupForm () {
   };
   const idCheck = async () => {
     if (emailReg.test(email)) {
-      alert("사용 가능한 아이디입니다.");
       setIdFormError(false);
     } else {
       return setIdFormError(true);
@@ -66,6 +65,7 @@ function SignupForm () {
       );
       setIdDuplicated(false);
       setIdCheckDone(true);
+      alert("사용 가능한 아이디입니다.");
     }
     catch(error) {
       setIdDuplicated(true);
@@ -75,7 +75,6 @@ function SignupForm () {
     if (nicknameReg.test(nickname)) {
       return setNicknameFormError(true);
     } else {
-      alert("사용 가능한 닉네임입니다.");
       setNicknameFormError(false);
     }
     try {
@@ -86,6 +85,7 @@ function SignupForm () {
       );
       setNicknameDuplicated(false);
       setNicknameCheckDone(true);
+      alert("사용 가능한 닉네임입니다.");
     }
     catch(error) {
       setNicknameDuplicated(true);
