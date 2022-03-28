@@ -61,7 +61,7 @@ function App() {
         <Route path="/reset-password">
           <ChangePassword />
         </Route>
-        <Route path="/writing">
+        <Route path="/end">
           <End />
         </Route>
         <Route path="/posts/:id">

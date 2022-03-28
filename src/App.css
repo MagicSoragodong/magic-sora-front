@@ -29,12 +29,3 @@ ul {
 body {
   background-color: var(--background-color);
 }
-
-button {
-  border: 1px solid gainsboro;
-  border-radius: 4px;
-  padding: 4px 8px;
-  color: white;
-  margin: 4px;
-  background-color: #0066ff;
-}

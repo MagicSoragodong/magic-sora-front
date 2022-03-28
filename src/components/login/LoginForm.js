@@ -24,9 +24,9 @@ function LoginForm() {
       const response = await axios.post( "http://localhost:3000/api/auth/login/local", {
         user_email: id, 
         password: password
-      })
-      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data['access_token']}`;
-      localStorage.setItem(response.data.data['access_token']);
+      }, { withCredentials: true})
+      localStorage.setItem("access_token", response.data.data['access_token']);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage["access_token"]}`;
       alert("로그인 성공!");
       history.push("/");
     }

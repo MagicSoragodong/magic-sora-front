@@ -8,6 +8,7 @@ import style from "./Mypage.module.css";
 
 function Mypage() {
   const history = useHistory();
+  const [loading, setLoading] = useState(true);
   const [userProfileImg, setUserProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const [userNickname, setUserNickname] = useState("사용자");
   const [userGender, setUserGender] = useState("");
@@ -30,6 +31,7 @@ function Mypage() {
       setUserYear(birthdate.substring(0, 4));
       setUserMonth(birthdate.substring(5, 7));
       setUserDay(birthdate.substring(8, 10));
+      setLoading(false);
     }
     catch(error) {
       try {
@@ -38,9 +40,9 @@ function Mypage() {
             withCredentials: true
           }
         );
-        localStorage.setItem(response.data.data['access_token']);
+        localStorage.setItem("access_token", response.data.data['access_token']);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data['access_token']}`;
-        window.location.reload();
+        getUsersData();
       }
       catch(error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
@@ -53,19 +55,25 @@ function Mypage() {
   }, []);
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} />
-      <div className={style.mypage}>
-        <SideNav userProfileImg={userProfileImg} userNickname={userNickname}/>
-        <Profile 
-          userProfileImg={userProfileImg}
-          userNickname={userNickname}
-          userGender={userGender}
-          userYear={userYear}
-          userMonth={userMonth}
-          userDay={userDay}
-          userMbti={userMbti}
-        />
-      </div>
+      {loading ? 
+        <div></div>
+      :
+        <div>
+          <Banner2 width={270} height={"100vh"} />
+          <div className={style.mypage}>
+            <SideNav userProfileImg={userProfileImg} userNickname={userNickname}/>
+            <Profile 
+              userProfileImg={userProfileImg}
+              userNickname={userNickname}
+              userGender={userGender}
+              userYear={userYear}
+              userMonth={userMonth}
+              userDay={userDay}
+              userMbti={userMbti}
+            />
+          </div>
+        </div>
+      }
     </div>
   );
 }

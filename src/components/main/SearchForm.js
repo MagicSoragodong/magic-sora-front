@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from 'axios';
 import  { useHistory } from 'react-router'; 
 import style from "./SearchForm.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,13 +19,7 @@ function SearchForm() {
     if (keyword === "") {
       return alert("검색어를 입력하세요.");
     }
-    try {
-      await axios.get( `http://localhost:3000/api/posts/search?option=${index}&search=${keyword}`)
-      history.push(`/search?option=${index}&search=${keyword}`);
-    }
-    catch(error) {
-      alert("검색을 실패했습니다.");
-    }
+    history.push(`/search?option=${index}&search=${keyword}`);
   };
 
   return (
