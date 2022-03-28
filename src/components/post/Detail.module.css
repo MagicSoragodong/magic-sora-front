@@ -1,0 +1,167 @@
+/* container */
+/* header, main */
+
+/* upperContent(title, profile(profilePic, nickname))
+/* date
+/* tags(tag)
+
+/* content
+/* options(checked, choice_pic) */
+/* voteBtn */
+
+/* container */
+.container {
+  margin: 0 10%;
+  margin-bottom: 40px;
+  padding: 40px;
+  border: 1px solid gainsboro;
+}
+
+/* header */
+/* upperContent */
+.upperContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.upperContent .title {
+  font-size: 24px;
+}
+
+.upperContent .profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile .profilePic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.profile .nickname {
+}
+
+/* date */
+.date {
+  display: block;
+  font-weight: 400;
+  color: lightslategray;
+  margin-bottom: 8px;
+}
+
+/* tags */
+.tags {
+  /* display: block; */
+  margin-bottom: 24px;
+}
+
+.tags .tag {
+  background-color: #ffd993;
+  padding: 1px 8px;
+  margin-right: 4px;
+  border-radius: 4px;
+}
+
+/* article */
+.article {
+  border: 1px solid gainsboro;
+  padding: 8px;
+}
+
+/* content */
+.article .content {
+  margin-bottom: 40px;
+}
+
+/* options_container */
+.article .options_container {
+  width: 100%;
+  display: inline-block;
+}
+
+.options_container .options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-content: center;
+  border-collapse: collapse;
+}
+
+.option {
+  height: 250px;
+  padding: 16px;
+  border: 1px solid gainsboro;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.option .choice_pic {
+  height: 90%;
+  width: auto;
+  margin-right: 8px;
+  border: 2px solid gainsboro;
+}
+
+.option .checked {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  display: none;
+  /* box-shadow: 3px 3px 3px white; */
+}
+
+.checked path {
+  color: #404040;
+}
+
+/* hover시 */
+.option:hover {
+  background-color: #c8dbfd;
+}
+
+.option:hover .choice_pic {
+  /* filter: blur(1px); */
+  opacity: 0.7;
+}
+
+.option:hover .checked {
+  display: block;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+/* .radioBtn:checked + .option {
+  background-color: #c8dbfd;
+} */
+
+/* 체크되었을때 */
+.radioBtn:checked + .choice_pic {
+  opacity: 0.7;
+  background-color: #c8dbfd;
+}
+
+.radioBtn:checked + .checked {
+  display: block;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.radioBtn:checked + .checked path {
+  color: black;
+}
+
+.radioBtn {
+  display: none;
+}
+
+.voteBtn {
+  display: flex;
+  justify-content: end;
+}
