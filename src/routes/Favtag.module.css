@@ -1,7 +1,11 @@
-/* form {
-  position: relative;
+/* tagForm */
+/* favtags, setTag */
+
+.tagForm {
+  display: flex;
+  flex-direction: column;
   margin: 0 10%;
-} */
+}
 
 .favtags {
   background-color: white;
@@ -19,6 +23,9 @@
   border: 1px solid gainsboro;
 }
 
+.favtag input:checked + .favtag {
+  background-color: #ffd993;
+}
 .favtag:hover {
   background-color: #ffd993;
 }
@@ -27,24 +34,22 @@
   display: none;
 }
 
-.checked {
-  background-color: #ffd993;
-  display: inline-block;
-  border-radius: 4px;
-  padding: 2px 8px;
-  margin: 4px 4px;
+.setTag {
+  height: 60px;
+  position: relative;
 }
 
-.setTag {
+.setTagBtn {
   position: absolute;
-  bottom: 0;
   right: 0;
-  /* margin-left: auto; */
+
+  margin-right: auto;
 }
 
 .container {
-  width: 80%;
-  margin: 0 auto;
+  /* width: 80%; */
+  margin: 0 10%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  place-content: center;
 }

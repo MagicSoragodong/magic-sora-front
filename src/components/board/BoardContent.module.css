@@ -1,13 +1,13 @@
 /* .post */
-/* .upper, .detail */
+/* .upper, .detail, lower */
 
 /* post */
 .post {
-  display: inline-block;
+  margin: 8px auto;
   width: 200px;
   height: 200px;
   background-color: #ffffff;
-  margin: 8px;
+  /* margin: 8px; */
   border-radius: 4px;
 }
 
@@ -18,10 +18,9 @@
 
 /* upper */
 .upper {
-  height: 50px;
+  padding: 8px;
   display: flex;
   align-items: center;
-  padding: 8px;
 }
 
 .upper img {
@@ -32,26 +31,52 @@
   margin-right: 8px;
 }
 
-.upper strong {
+.upper .date {
   margin-left: auto;
+  font-size: 8px;
+  font-weight: 400;
+  color: gray;
 }
 
 /* detail */
 .detail {
-  height: 150px;
-  padding: 4px;
+  padding: 0 8px 8px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 120px;
 }
-.detail h2 {
+.detail .title {
   font-size: 16px;
 }
-.detail img {
-  width: 80px;
-  height: 80px;
+
+.thumbnailBox {
+  height: 70%;
 }
 
-.detail span {
-  margin-top: auto;
+.thumbnail {
+  height: 100%;
+  width: auto;
+}
+
+/* lower */
+.lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px 8px 8px;
+}
+
+.tag {
+  display: inline;
+  margin-right: 4px;
+  color: gray;
+}
+
+.commentIcon {
+  margin-right: 4px;
+}
+
+.commentIcon path {
+  color: lightslategray;
 }
