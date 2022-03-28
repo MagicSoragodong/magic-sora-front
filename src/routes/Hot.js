@@ -28,18 +28,19 @@ function Hot() {
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
-      <BoardBanner board_name={"핫한 고민"} />
+      <BoardBanner board_name={"핫한 고민"} newPost={true} />
 
       {posts.map((post) => (
         <BoardContent
-          key={post.post_id}
-          id={post.post_id}
-          profilePic={post.profilePic}
-          nickname={post.nickname}
-          date={post.register_date}
-          title={post.post_title}
-          thumbnail={post.thumbnail}
+          key={post.id}
+          author={post.nickname}
+          commentNum={post.commentNum}
+          id={post.id}
+          registerDate={post.registerDate}
           tags={post.tags}
+          thumbnail={post.thumbnail}
+          title={post.title}
+          profilePic={post.profile}
         />
       ))}
     </div>

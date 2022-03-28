@@ -1,0 +1,41 @@
+/* container */
+/* comments */
+
+.container {
+  margin: 0 10%;
+  padding: 40px;
+  border: 1px solid gainsboro;
+}
+
+.comments {
+  background-color: white;
+  border: 1px solid gainsboro;
+  padding: 4px;
+  padding-top: 8px;
+}
+
+.commentForm {
+  border-bottom: 1px solid gainsboro;
+  text-align: right;
+
+  /* padding-bottom: 6px; */
+  /* display: flex;
+  flex-direction: column;
+  justify-content: flex-end; */
+}
+
+.textarea {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+  resize: none;
+  margin-bottom: 0;
+}
+
+.submitBtn {
+  /* margin-right: 0; */
+  margin-top: 0;
+  margin-bottom: 6px;
+  display: inline;
+}

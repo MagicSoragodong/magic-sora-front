@@ -145,7 +145,7 @@ function Banner({ width, height }) {
               <Link to="/mypage">마이페이지</Link>
             </li>
             <li>
-              <button>sign out</button>
+              <button className={style.logoutBtn}>로그아웃</button>
             </li>
           </ul>
         </div>

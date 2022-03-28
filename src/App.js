@@ -57,7 +57,7 @@ function App() {
         <Route path="/writing">
           <Writing />
         </Route>
-        <Route path="/writing">
+        <Route path="/end">
           <End />
         </Route>
         <Route path="/posts/:id">

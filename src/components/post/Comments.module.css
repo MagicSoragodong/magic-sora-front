@@ -1,0 +1,91 @@
+/* container */
+/* upper(left,right), lower */
+/* profilePic, nickname, choiceNum, date, likeBtn, likedNum */
+/* comment */
+
+/* container */
+.container {
+  border-bottom: 1px solid gainsboro;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  padding: 8px 4px;
+}
+
+/* upper */
+.upper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* display: grid; */
+  /* grid-template-columns: 20px fr 1fr 1fr 1fr 1fr 1fr; */
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* left */
+.left {
+  display: flex;
+  align-items: center;
+}
+
+/* profilePic */
+.profilePic {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+/* nickname */
+.nickname {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* choiceNum */
+.choiceNum {
+  background-color: #ffd993;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+/* date */
+.date {
+  color: gray;
+  font-size: 12px;
+}
+
+/* right */
+.right {
+  display: flex;
+  align-items: center;
+}
+/* likeBtn */
+.likeBtn {
+  margin-right: 2px;
+}
+/* likedNum */
+.likedNum {
+  margin-right: 2px;
+}
+/* lower */
+.lower {
+  display: flex;
+}
+
+/* comment */
+.comment {
+  text-align: left;
+  padding: 0 28px;
+}
+
+/* likeBtn */
+.likeBtn path {
+  color: gray;
+}
