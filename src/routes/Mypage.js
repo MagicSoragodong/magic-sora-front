@@ -42,7 +42,7 @@ function Mypage() {
         );
         localStorage.setItem("access_token", response.data.data['access_token']);
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data['access_token']}`;
-        getUsersData();
+        window.location.reload();
       }
       catch(error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
