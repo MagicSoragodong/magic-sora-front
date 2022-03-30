@@ -17,14 +17,13 @@
   margin: 16px 16px 16px 0;
 }
 
-.board_name path {
-  color: lightslategray;
-}
-
 .board_name .goback_icon {
   width: 30px;
   height: 30px;
   margin-right: 16px;
+}
+.goback_icon path {
+  color: lightslategray;
 }
 
 .board_name h2 {
