@@ -74,9 +74,119 @@
 }
 
 .commentIcon {
+  width: 16px;
+  height: auto;
   margin-right: 4px;
 }
 
 .commentIcon path {
   color: lightslategray;
 }
+
+/* media query */
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .post {
+    width: 160px;
+    height: 160px;
+  }
+  .upper {
+    padding: 6px;
+  }
+  .upper img {
+    width: 30px;
+    height: 30px;
+  }
+  .detail {
+    height: 90px;
+    padding: 0 6px;
+  }
+  .lower {
+    padding: 0 6px 6px 6px;
+  }
+  .detail .title {
+    font-size: 14px;
+  }
+  .tag {
+    font-size: 12px;
+  }
+  .commentIcon {
+    width: 14px;
+    margin-right: 4px;
+  }
+  .commentNum {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 992px) {
+  .post {
+    width: 120px;
+    height: 120px;
+  }
+  .upper {
+    padding: 4px;
+  }
+  .upper img {
+    width: 20px;
+    height: 20px;
+  }
+  .detail {
+    height: 66px;
+    padding: 0 4px;
+  }
+  .detail .title {
+    font-size: 10px;
+  }
+  .lower {
+    padding: 0 4px 4px 4px;
+  }
+  .tag {
+    font-size: 8px;
+  }
+  .upper .date {
+    font-size: 8px;
+  }
+  .commentIcon {
+    width: 12px;
+    margin-right: 2px;
+  }
+  .commentNum {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: 993px) and (max-width: 1200px) {
+  .post {
+    width: 160px;
+    height: 160px;
+  }
+  .upper {
+    padding: 6px;
+  }
+  .upper img {
+    width: 30px;
+    height: 30px;
+  }
+  .detail {
+    height: 90px;
+    padding: 0 6px;
+  }
+  .lower {
+    padding: 0 6px 6px 6px;
+  }
+  .detail .title {
+    font-size: 14px;
+  }
+  .tag {
+    font-size: 12px;
+  }
+  .commentIcon {
+    width: 14px;
+    margin-right: 4px;
+  }
+  .commentNum {
+    font-size: 14px;
+  }
+}
+
+/* 1366 */

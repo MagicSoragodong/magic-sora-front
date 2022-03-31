@@ -1,0 +1,55 @@
+.searchBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10%;
+  height: 84px;
+}
+
+.goback_icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 16px;
+}
+
+.goback_icon path {
+  color: lightslategray;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+}
+
+.searchSelect {
+  width: 80px;
+  height: 30px;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid gainsboro;
+  cursor: pointer;
+}
+
+.searchForm input {
+  width: 300px;
+  height: 30px;
+  padding-left: 10px;
+  font-size: 14px;
+  border: 1px solid gainsboro;
+}
+
+.searchButton {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+.searchButton path {
+  color: #005de9;
+}
+
+.searchIcon {
+  width: 30px;
+  height: 30px;
+}
