@@ -26,22 +26,41 @@ function Post() {
   // 처음. 글, 결과, 댓글 불러옴
   const getPost = async () => {
     try {
-      // 찐 글
-      // const response1 = await axios.get(
-      //   `http://localhost:3000/api/posts?id=${id}`,{ widthCredentials: true }
-      // );
-      // setPostData(response1.data);
-      const response1 = await axios.get(`http://localhost:3000/ppost?id=${id}`);
-      setPostData(response1.data);
-      setChoices(response1.data[0].choice);
-      setComments(response1.data[0].ccomments);
-      console.log("res1.data:: ", response1.data);
-      console.log("choice:: ", response1.data[0].choice);
-      console.log("comments:: ", response1.data[0].ccoments);
+      const response = await axios.get(
+        `http://localhost:3000/api/posts/${id}`,
+        { widthCredentials: true }
+      );
+      setPostData(response.data);
+      setChoices(response.data[0].choice);
+    } catch (error) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
+    }
+  };
 
-      // 찐 댓글
+  // 댓글 불러오기
+  const getComments = async () => {
+    try {
+      // 찐
       const response2 = await axios.get(
-        `http://localhost:3000/api/posts?id=${id}/comments`,
+        `http://localhost:3000/api/posts/${id}/comments`,
         { widthCredentials: true }
       );
       setComments(response2.data);
@@ -60,7 +79,7 @@ function Post() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.data["access_token"]}`;
-        getPost();
+        window.location.reload();
       } catch (error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
         history.push("/login");
@@ -69,6 +88,7 @@ function Post() {
   };
   useEffect(() => {
     getPost();
+    getComments();
   }, []);
 
   // 새 댓글 작성
@@ -80,7 +100,7 @@ function Post() {
         content: event.target.firstChild.value,
       };
       await axios.post(
-        `http://localhost:3000/posts?id=${id}/comments`,
+        `http://localhost:3000/posts/${id}/comments`,
         newComment,
         { widthCredentials: true }
       );
@@ -100,58 +120,19 @@ function Post() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.data["access_token"]}`;
-        getPost();
+        window.location.reload();
       } catch (error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
         history.push("/login");
       }
     }
   };
-
-  // getComments
-  const getComments = async () => {
-    try {
-      // 찐
-      const response2 = await axios.get(
-        `http://localhost:3000/api/posts?id=${id}/comments`,
-        { widthCredentials: true }
-      );
-      setComments(response2.data);
-
-      // 짭
-      // const response = await axios.get(`http://localhost:3000/ppost?id=${id}`);
-      // setComments(response.data[0].ccomments);
-    } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        getPost();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
-    }
-  };
-  useEffect(() => {
-    getComments();
-  }, []);
 
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
       <BoardBanner board_name={false} newPost={false} />
-      {/* 찐 */}
+
       {postData.map((data) => (
         <Detail
           id={id}
@@ -167,23 +148,6 @@ function Post() {
         />
       ))}
 
-      {/* 짭 */}
-      {/* {postData.map((data) => (
-        <Detail
-          key={id}
-          id={data.id}
-          title={data.title}
-          content={data.content}
-          registerDate={data.registerDate}
-          finishDate={data.finishDate}
-          author={data.author}
-          tags={data.tags}
-          choice={data.choice}
-          isFinished={true}
-          profilePic={data.profilePic}
-        />
-      ))} */}
-
       {/* 댓글 */}
       <div className={style.container}>
         <form onSubmit={submitHandler} className={style.commentForm}>
@@ -197,7 +161,6 @@ function Post() {
           </button>
         </form>
 
-        {/* 찐 */}
         <ul className={style.comments}>
           {comments.map((comment) => (
             <Comments
@@ -210,28 +173,10 @@ function Post() {
               likedNum={comment.likedNum}
               comment={comment.content}
               profilePic={comment.profilePic}
-              isVisible={true}
+              isVisible={comment.isVisible}
             />
           ))}
         </ul>
-
-        {/* 짭 */}
-        {/* <ul className={style.comments}>
-          {comments.map((comment) => (
-            <Comments
-              key={comment.id}
-              nickname={comment.nickname}
-              id={comment.id}
-              comment={comment.body}
-              profilePic={comment.profilePic}
-              choiceNum={comment.choiceNum}
-              date={comment.date}
-              likedNum={comment.likedNum}
-              status={true}
-              isVisible={true}
-            />
-          ))}
-        </ul> */}
       </div>
     </div>
   );
