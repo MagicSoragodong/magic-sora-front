@@ -10,7 +10,7 @@ function BoardContainer({ type }) {
   const getPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/posts`, {
-        params: { type: { type } },
+        params: { type: type },
       });
       console.log(response.data);
       setPosts(response.data);
@@ -28,7 +28,7 @@ function BoardContainer({ type }) {
       {posts.map((post) => (
         <BoardContent
           key={post.id}
-          author={post.nickname}
+          author={post.author}
           commentNum={post.commentNum}
           id={post.id}
           registerDate={post.registerDate}
@@ -36,6 +36,7 @@ function BoardContainer({ type }) {
           thumbnail={post.thumbnail}
           title={post.title}
           profilePic={post.profile}
+          deletePost={false}
         />
       ))}
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import Banner2 from "../components/banner/Banner2";
 import BoardBanner from "../components/board/BoardBanner";
-import style from "./Search.module.css";
+import style from "../components/board/BoardContainer.module.css";
 import BoardContent from "../components/board/BoardContent";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -16,6 +16,7 @@ function Search() {
   console.log(
     "lo.getOption:: ",
     selectedOption,
+    "\n",
     ", lo.getSearch:: ",
     searchKeyword
   );
@@ -47,7 +48,7 @@ function Search() {
         {posts.map((post) => (
           <BoardContent
             key={post.id}
-            author={post.nickname}
+            author={post.author}
             commentNum={post.commentNum}
             id={post.id}
             registerDate={post.registerDate}

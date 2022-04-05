@@ -12,9 +12,11 @@
   box-sizing: border-box;
   margin: 0;
   text-decoration: none;
-  color: var(--text-color);
   font-family: "IBM Plex Sans KR", sans-serif;
-  border-collapse: collapse;
+}
+
+a {
+  color: black;
 }
 
 .hidden {
