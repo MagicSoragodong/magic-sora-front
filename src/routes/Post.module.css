@@ -34,8 +34,12 @@
 }
 
 .submitBtn {
-  /* margin-right: 0; */
   margin-top: 0;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
   display: inline;
+  color: white;
+  background-color: #0066ff;
+  border-radius: 4px;
+  border: none;
+  padding: 4px 8px;
 }

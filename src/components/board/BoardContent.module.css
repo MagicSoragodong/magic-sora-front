@@ -23,7 +23,7 @@
   align-items: center;
 }
 
-.upper img {
+.upper .profilePic {
   width: 30px;
   height: 30px;
   border: 1px solid gainsboro;
@@ -81,6 +81,12 @@
 
 .commentIcon path {
   color: lightslategray;
+}
+
+.deletePost {
+  margin-left: 4px;
+  font-size: 8px;
+  color: gray;
 }
 
 /* media query */

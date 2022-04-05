@@ -36,6 +36,14 @@ Link {
   margin-left: auto;
 }
 
+.newPost {
+  padding: 4px 8px;
+  background-color: #0066ff;
+  color: white;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+}
+
 /* ///////////////////////////// 나중에 ///////////////////////////////// */
 
 @media screen and (max-width: 768px) {
