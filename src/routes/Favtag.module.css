@@ -44,12 +44,33 @@
   right: 0;
 
   margin-right: auto;
+  padding: 4px 8px;
+  background-color: #0066ff;
+  color: white;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
 }
 
 .container {
   /* width: 80%; */
-  margin: 0 10%;
+  margin: 0 15%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   place-content: center;
+}
+
+/* media query */
+@media screen and (max-width: 576px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-content: center;
+  }
 }

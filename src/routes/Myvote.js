@@ -4,6 +4,7 @@ import BoardBanner from "../components/board/BoardBanner";
 import BoardContent from "../components/board/BoardContent";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import style from "../components/board/BoardContainer.module.css";
 
 import axios from "axios";
 
@@ -15,7 +16,7 @@ function Myvote() {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/users/myvotes`,
-        { widthCredentials: true }
+        { withCredentials: true }
       );
       console.log(response.data);
       setPosts(response.data);
@@ -34,7 +35,7 @@ function Myvote() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.data["access_token"]}`;
-        getPosts();
+        window.location.reload();
       } catch (error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
         history.push("/login");
@@ -50,19 +51,21 @@ function Myvote() {
       <Banner2 width={270} height={"100vh"} />
       <BoardBanner board_name={"내가 투표한 글"} newPost={true} />
 
-      {posts.map((post) => (
-        <BoardContent
-          key={post.id}
-          author={post.nickname}
-          commentNum={post.commentNum}
-          id={post.id}
-          registerDate={post.registerDate}
-          tags={post.tags}
-          thumbnail={post.thumbnail}
-          title={post.title}
-          profilePic={post.profile}
-        />
-      ))}
+      <div className={style.container}>
+        {posts.map((post) => (
+          <BoardContent
+            key={post.id}
+            author={post.author}
+            commentNum={post.commentNum}
+            id={post.id}
+            registerDate={post.registerDate}
+            tags={post.tags}
+            thumbnail={post.thumbnail}
+            title={post.title}
+            profilePic={post.profile}
+          />
+        ))}
+      </div>
     </div>
   );
 }

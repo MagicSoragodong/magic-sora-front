@@ -23,7 +23,7 @@ function BoardBanner({ board_name, newPost }) {
       </div>
       {newPost ? (
         <Link to="/writing">
-          <button>내 고민 작성하기</button>
+          <button className={style.newPost}>내 고민 작성하기</button>
         </Link>
       ) : null}
     </div>

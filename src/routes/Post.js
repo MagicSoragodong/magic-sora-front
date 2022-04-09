@@ -13,38 +13,27 @@ import style from "./Post.module.css";
 function Post() {
   // useParams: url에 있는 값 반환
   const { id } = useParams();
-
   const history = useHistory();
 
-  const [postData, setPostData] = useState([]);
-  const [choices, setChoices] = useState([]);
-  const [results, setResults] = useState([]);
+  const [loadingPost, setLoadingPost] = useState(true);
+  const [loadingComments, setLoadingComments] = useState(true);
+
+  const [postData, setPostData] = useState({});
   const [comments, setComments] = useState([]);
-  const [bestComments, setBestComments] = useState([]);
-  const [lastCommentId, setLastCommentId] = useState(0);
+  const [visible, setVisible] = useState(true); // 댓글 visible
+  const [newComment, setNewComment] = useState("");
+
+  const [results, setResults] = useState([]);
 
   // 처음. 글, 결과, 댓글 불러옴
   const getPost = async () => {
     try {
-      // 찐 글
-      // const response1 = await axios.get(
-      //   `http://localhost:3000/api/posts?id=${id}`,{ widthCredentials: true }
-      // );
-      // setPostData(response1.data);
-      const response1 = await axios.get(`http://localhost:3000/ppost?id=${id}`);
-      setPostData(response1.data);
-      setChoices(response1.data[0].choice);
-      setComments(response1.data[0].ccomments);
-      console.log("res1.data:: ", response1.data);
-      console.log("choice:: ", response1.data[0].choice);
-      console.log("comments:: ", response1.data[0].ccoments);
-
-      // 찐 댓글
-      const response2 = await axios.get(
-        `http://localhost:3000/api/posts?id=${id}/comments`,
-        { widthCredentials: true }
+      const response = await axios.get(
+        `http://localhost:3000/api/posts/${id}`,
+        { withCredentials: true }
       );
-      setComments(response2.data);
+      setPostData(response.data);
+      setLoadingPost(false);
     } catch (error) {
       try {
         const response = await axios.get(
@@ -60,7 +49,41 @@ function Post() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.data["access_token"]}`;
-        getPost();
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
+    }
+  };
+
+  // 댓글 불러오기
+  const getComments = async () => {
+    try {
+      // 찐
+      const response = await axios.get(
+        `http://localhost:3000/api/posts/${id}/comments`,
+        { withCredentials: true }
+      );
+      setComments(response.data.comments);
+      setVisible(response.data.isVisible);
+      setLoadingComments(false);
+    } catch (error) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
       } catch (error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
         history.push("/login");
@@ -69,20 +92,20 @@ function Post() {
   };
   useEffect(() => {
     getPost();
+    getComments();
   }, []);
 
   // 새 댓글 작성
+  const onChange = (event) => {
+    setNewComment(event.target.value);
+  };
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
-      // 찐
-      const newComment = {
-        content: event.target.firstChild.value,
-      };
       await axios.post(
-        `http://localhost:3000/posts?id=${id}/comments`,
-        newComment,
-        { widthCredentials: true }
+        `http://localhost:3000/posts/${id}/comments`,
+        { content: newComment },
+        { withCredentials: true }
       );
       getComments();
     } catch (error) {
@@ -100,139 +123,68 @@ function Post() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.data["access_token"]}`;
-        getPost();
+        window.location.reload();
       } catch (error) {
         alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
         history.push("/login");
       }
     }
   };
-
-  // getComments
-  const getComments = async () => {
-    try {
-      // 찐
-      const response2 = await axios.get(
-        `http://localhost:3000/api/posts?id=${id}/comments`,
-        { widthCredentials: true }
-      );
-      setComments(response2.data);
-
-      // 짭
-      // const response = await axios.get(`http://localhost:3000/ppost?id=${id}`);
-      // setComments(response.data[0].ccomments);
-    } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        getPost();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
-    }
-  };
-  useEffect(() => {
-    getComments();
-  }, []);
 
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
       <BoardBanner board_name={false} newPost={false} />
-      {/* 찐 */}
-      {postData.map((data) => (
+
+      {/* 게시글 상세 조회 */}
+      {loadingPost ? null : (
         <Detail
           id={id}
-          title={data.title}
-          content={data.content}
-          registerDate={data.registerDate}
-          finishDate={data.finishDate}
-          author={data.author}
-          tags={data.tags}
-          choice={data.choice}
-          isFinished={data.isFinished}
-          profilePic={data.profilePic}
+          title={postData.title}
+          profilePic={postData.profile}
+          content={postData.content}
+          registerDate={postData.registerDate}
+          finishDate={postData.finishDate}
+          author={postData.author}
+          tags={postData.tags} // 배열
+          choice={postData.choice} // 배열
+          isFinished={postData.isFinished}
         />
-      ))}
-
-      {/* 짭 */}
-      {/* {postData.map((data) => (
-        <Detail
-          key={id}
-          id={data.id}
-          title={data.title}
-          content={data.content}
-          registerDate={data.registerDate}
-          finishDate={data.finishDate}
-          author={data.author}
-          tags={data.tags}
-          choice={data.choice}
-          isFinished={true}
-          profilePic={data.profilePic}
-        />
-      ))} */}
+      )}
 
       {/* 댓글 */}
-      <div className={style.container}>
-        <form onSubmit={submitHandler} className={style.commentForm}>
-          <textarea
-            className={style.textarea}
-            placeholder="댓글을 작성해보세요."
-            rows="3"
-          ></textarea>
-          <button className={style.submitBtn} type="submit">
-            등록
-          </button>
-        </form>
+      {visible === false ? null : loadingComments ? null : (
+        <div className={style.container}>
+          <form onSubmit={submitHandler} className={style.commentForm}>
+            <textarea
+              className={style.textarea}
+              placeholder="댓글을 작성해보세요."
+              rows="3"
+              onChange={onChange}
+            ></textarea>
+            <button className={style.submitBtn} type="submit">
+              등록
+            </button>
+          </form>
 
-        {/* 찐 */}
-        <ul className={style.comments}>
-          {comments.map((comment) => (
-            <Comments
-              key={comment.id}
-              id={comment.id}
-              choiceNum={comment.choiceId}
-              status={comment.status}
-              nickname={comment.author}
-              date={comment.registerDate}
-              likedNum={comment.likedNum}
-              comment={comment.content}
-              profilePic={comment.profilePic}
-              isVisible={true}
-            />
-          ))}
-        </ul>
-
-        {/* 짭 */}
-        {/* <ul className={style.comments}>
-          {comments.map((comment) => (
-            <Comments
-              key={comment.id}
-              nickname={comment.nickname}
-              id={comment.id}
-              comment={comment.body}
-              profilePic={comment.profilePic}
-              choiceNum={comment.choiceNum}
-              date={comment.date}
-              likedNum={comment.likedNum}
-              status={true}
-              isVisible={true}
-            />
-          ))}
-        </ul> */}
-      </div>
+          <ul className={style.comments}>
+            {comments.map((comment) => (
+              <Comments
+                postId={id}
+                key={comment.id}
+                id={comment.id}
+                choiceNum={comment.choiceId}
+                status={comment.status}
+                nickname={comment.author}
+                profilePic={comment.profilePic}
+                date={comment.registerDate}
+                likedNum={comment.likes}
+                comment={comment.content}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

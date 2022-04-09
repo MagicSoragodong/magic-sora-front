@@ -3,16 +3,35 @@ import { Link } from "react-router-dom";
 import style from "./Banner.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function Banner({ width, height }) {
   const [xPosition, setX] = useState(-width);
   const [dropdown, setDropdown] = useState(false);
+  const history = useHistory();
 
   const toggleMenu = () => {
     if (xPosition < 0) {
       setX(0);
     } else {
       setX(-width);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await axios.post("http://localhost:3000/api/auth/logout", null, {
+        withCredentials: true,
+      });
+      localStorage.removeItem("access_token");
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("access_token")}`;
+      alert("로그아웃 되었습니다.");
+      history.push("/");
+    } catch (error) {
+      alert("로그아웃에 실패했습니다.");
     }
   };
 

@@ -1,8 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Result from "./Result";
 import style from "./Detail.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function Detail({
   id,
@@ -11,17 +13,28 @@ function Detail({
   registerDate,
   finishDate,
   author,
-  tags,
-  choice,
+  tags, // 배열
+  choice, // 배열
   isFinished,
   profilePic,
 }) {
   const [isVoted, setIsVoted] = useState(false);
-  const submitHandler = (event) => {
-    event.preventDefault();
-    console.log(event);
-    setIsVoted(true);
+  const [choiceNum, setChoiceNum] = useState(0);
+
+  const getIsChecked = (e) => {
+    setChoiceNum(e.target.value);
+    console.log("들", e.target.value);
+    console.log("초", choiceNum);
   };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    setIsVoted(true);
+    await axios.post(`http://localhost:3000/api/posts/${id}/options`, {
+      choice_id: choiceNum,
+    });
+  };
+  console.log("isvoted:", isVoted);
 
   return (
     <div>
@@ -56,11 +69,13 @@ function Detail({
             <div className={style.options}>
               {choice.map((item) => {
                 return (
-                  <label key={item.id} className={style.option}>
+                  <label key={item.choice_id} className={style.option}>
                     <input
                       className={style.radioBtn}
                       type="radio"
                       name="options"
+                      onChange={(e) => getIsChecked(e)}
+                      value={item.choice_id}
                     />
                     <FontAwesomeIcon
                       className={style.checked}
@@ -75,28 +90,27 @@ function Detail({
                   </label>
                 );
               })}
-              {/* {choice.photo_url &&
-                choice.photo_url.map((url) => (
-                  <label key={url} className={style.option}>
-                    <input
-                      className={style.radioBtn}
-                      type="radio"
-                      name="options"
-                    />
-                    <FontAwesomeIcon
-                      className={style.checked}
-                      icon={faCheckCircle}
-                    />
-                    <img className={style.choice_pic} src={url} />
-                    <p>동글</p>
-                  </label>
-                ))} */}
             </div>
-            <div className={style.voteBtn}>
-              <button type="submit">투표하기</button>
+
+            <div className={style.voteBtnContainer}>
+              {isFinished || isVoted ? (
+                <button type="submit" disabled className={style.voteBtn}>
+                  투표 완료!
+                </button>
+              ) : (
+                <button type="submit" className={style.voteBtn}>
+                  투표하기
+                </button>
+              )}
             </div>
           </form>
         </article>
+        {/* 결과 */}
+        {isFinished ? (
+          <div className={style.result}>
+            <Result postId={id} />
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -27,7 +27,8 @@
 }
 
 .upperContent .title {
-  font-size: 24px;
+  width: 80%;
+  font-size: 20px;
 }
 
 .upperContent .profile {
@@ -100,6 +101,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .option .choice_pic {
@@ -137,6 +139,14 @@
   border-radius: 50%;
 }
 
+.voteBtn {
+  color: white;
+  background-color: #0066ff;
+  border-radius: 4px;
+  border: none;
+  padding: 4px 8px;
+}
+
 /* .radioBtn:checked + .option {
   background-color: #c8dbfd;
 } */
@@ -158,10 +168,10 @@
 }
 
 .radioBtn {
-  display: none;
+  /* display: none; */
 }
 
-.voteBtn {
+.voteBtnContainer {
   display: flex;
   justify-content: end;
 }
