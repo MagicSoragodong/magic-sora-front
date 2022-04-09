@@ -108,50 +108,61 @@ input {
 
 .writingChoices {
   display: flex;
+  width: 900px;
   flex-direction: column;
 }
 
-.addSubChoices {
+.refMessage {
+  font-size: 14px;
+  font-weight: 400;
+  color: #0066ff;
+}
+
+.createChoices {
   display: flex;
-  align-items: center;
+  margin: 10px 0;
+  justify-content: space-between;
 }
 
-.addSubChoices h4 {
-  margin-right: 10px;
-}
-
-.addBtn {
-  color: #fff;
-  background-color: #0066ff;
-  border: none;
-  border-radius: 4px;
+.createChoices button {
   width: 100px;
   height: 40px;
+  color: #0066ff;
+  background-color: white;
+  border: 2px solid #0066ff;
+  border-radius: 4px;
   padding: 8px;
   font-size: 14px;
-  margin-left: 10px;
   cursor: pointer;
 }
 
-.subBtn {
-  color: #fff;
-  background-color: #ff4949;
-  border: none;
-  border-radius: 4px;
-  width: 100px;
-  height: 40px;
-  padding: 8px;
-  font-size: 14px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-.addBtn:active,
-.subBtn:active {
+.createChoices button:active {
   box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
   position: relative;
   top: 1px;
-  color: gainsboro;
+  color: #0058db;
+}
+
+.createChoicesInput {
+  display: flex;
+}
+
+.choiceInputText {
+  width: 600px;
+  height: 40px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+.addChoiceImage {
+  padding: 0 10px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.fileBtn {
+  display: none;
 }
 
 .choices {
@@ -160,19 +171,4 @@ input {
   width: 900px;
   height: 100%;
   justify-content: space-between;
-}
-
-.choiceDiv {
-  width: 430px;
-  height: 250px;
-  border: 1px solid #000;
-  margin: 10px 0;
-}
-
-.choiceText {
-  text-align: center;
-  width: 100%;
-  height: 40px;
-  font-size: 15px;
-  border: none;
 }

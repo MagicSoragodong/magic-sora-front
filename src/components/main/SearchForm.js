@@ -19,7 +19,10 @@ function SearchForm() {
     if (keyword === "") {
       return alert("검색어를 입력하세요.");
     }
-    history.push(`/search?option=${index}&search=${keyword}`);
+    history.push({
+      pathname: "/search",
+      search: `?option=${index}&search=${keyword}`,
+    })
   };
 
   return (
