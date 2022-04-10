@@ -33,6 +33,7 @@ function WritingForm() {
     { id: 16, name: "쇼핑" },
     { id: 17, name: "기타" },
   ];
+  let tempCheckedArr = new Array();
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [choiceInputs, setChoiceInputs] = useState({
@@ -113,10 +114,6 @@ function WritingForm() {
   const onRemoveChoices = (id) => {
     setChoices(choices.filter((choice) => choice.id !== id));
   };
-  // useEffect(() => {
-  //   console.log(choices);
-  //   console.log(nextId);
-  // }, [choices]);
   const onSubmit = async (event) => {
     event.preventDefault();
     if (title === "") {
@@ -130,23 +127,23 @@ function WritingForm() {
     } else if (choices.length > 10) {
       return alert("선택지 최대 개수를 맞춰주세요.");
     }
+    tempCheckedArr = Array.from(checkedItems);
     try {
       await axios.post(
         "http://localhost:3000/api/posts",
         {
-          title: title,
-          endDate: endDate,
-          checkedItems: checkedItems,
-          detail: detail,
-          choices: choices,
+          post_title: title,
+          finish_date: endDate,
+          tag: tempCheckedArr,
+          post_content: detail,
+          choice: choices,
         },
         { withCredentials: true }
       );
       alert("글 올리기 성공!");
       history.push("/");
     } catch (error) {
-      console.log("Error >> ", error);
-      // SilentTokenRequest();
+      SilentTokenRequest();
     }
   };
   return (
