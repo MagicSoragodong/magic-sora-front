@@ -83,13 +83,17 @@
 }
 /* likeBtn */
 .likeBtn {
-  margin-right: 2px;
   color: gray;
   font-size: 12px;
+  margin-right: 8px;
+}
+.likeBtn_liked {
+  color: #ff4d67;
+  font-size: 12px;
+  margin-right: 8px;
 }
 
 /* likedNum */
-.likedNum,
 .justDot {
   color: gray;
   margin-right: 8px;

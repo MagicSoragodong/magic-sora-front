@@ -4,6 +4,7 @@ import style from "./BoardContent.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 // props
 function BoardContent({
@@ -17,14 +18,60 @@ function BoardContent({
   profilePic,
   deletePost,
 }) {
-  const clickDeleteBtn = (event) => {
-    event.preventDefault();
-    if (window.confirm("정말 이 글을 삭제하시겠습니까?")) {
-      confirmDelete(event);
+  const history = useHistory();
+  const clickDeleteBtn = async (event) => {
+    try {
+      if (window.confirm("정말 이 글을 삭제하시겠습니까?")) {
+        confirmDelete(event);
+      }
+    } catch (e) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
     }
   };
   const confirmDelete = async (event) => {
-    await axios.delete(`http://localhost:3000/api/posts/${id}`);
+    try {
+      await axios.delete(`http://localhost:3000/api/posts/${id}`, {
+        withCredentials: true,
+      });
+    } catch (error) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
+    }
   };
   return (
     <Link to={`/posts/${id}`}>
