@@ -48,21 +48,70 @@ function Favtag() {
       setTempArr(tempCheckedArr);
       console.log("temparr1", tempCheckedArr);
 
+      setLoading(false);
+    } catch (error) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
+    }
+  };
+
+  const getPost = async () => {
+    try {
       // 게시글 불러오기
-      const response = await axios.get(`http://localhost:3000/api/posts`, {
-        params: {
-          type: "favtag",
+      const response = await axios.get(
+        `http://localhost:3000/api/posts`,
+        {
+          params: {
+            type: "favtag",
+          },
         },
-      });
+        { withCredentials: true }
+      );
       // const response = await axios.get(`http://localhost:3000/posts`);
       setPosts(response.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
     }
   };
   useEffect(() => {
     getDatas();
+    // getPost();
   }, []);
 
   // 비교
@@ -122,7 +171,7 @@ function Favtag() {
       await axios.patch(
         `http://localhost:3000/api/users/mytags
       `,
-        { tempCheckedArr },
+        { newTags: tempCheckedArr },
         {
           withCredentials: true,
         }
