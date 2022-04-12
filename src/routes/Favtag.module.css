@@ -37,7 +37,7 @@
 
 .favtag input,
 .favtag_checked input {
-  /* display: none; */
+  display: none;
 }
 
 .setTag {
