@@ -77,12 +77,7 @@ function Favtag() {
     try {
       // 게시글 불러오기
       const response = await axios.get(
-        `http://localhost:3000/api/posts`,
-        {
-          params: {
-            type: "favtag",
-          },
-        },
+        `http://localhost:3000/api/posts?type=favtag`,
         { withCredentials: true }
       );
       // const response = await axios.get(`http://localhost:3000/posts`);
@@ -242,6 +237,7 @@ function Favtag() {
           </form>
         </div>
       )}
+
       {loadingPosts ? null : (
         <div className={style.container}>
           {posts.map((post) => (
