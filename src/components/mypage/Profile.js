@@ -3,9 +3,11 @@ import axios from 'axios';
 import QuitModal from "./QuitModal";
 import style from "./Profile.module.css";
 import { SilentTokenRequest } from "../utils/RefreshToken";
+import { useHistory } from "react-router-dom";
 
 function Profile({userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti}) {
   const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
+  const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
   const profileImgInput = useRef(null);
@@ -129,7 +131,7 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       }
     }
     catch(error) {
-      SilentTokenRequest();
+      SilentTokenRequest(history);
     }
   };
   const onPasswordSubmit = async (event) => {
@@ -154,7 +156,7 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       window.location.reload();
     }
     catch(error) {
-      SilentTokenRequest();
+      SilentTokenRequest(history);
     }
   };
   

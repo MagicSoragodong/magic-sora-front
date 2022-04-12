@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import style from "./QuitModal.module.css";
-import { SilentTokenRequest } from "../components/utils/RefreshToken";
+import { SilentTokenRequest } from "../utils/RefreshToken";
 
 function QuitModal({modalClose}) {
   const history = useHistory();
@@ -23,7 +23,7 @@ function QuitModal({modalClose}) {
       history.push("/");
     }
     catch(error) {
-      SilentTokenRequest();
+      SilentTokenRequest(history);
     }
   }
   return (

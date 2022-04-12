@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
 
-export const SilentTokenRequest = async () => {
-  const history = useHistory();
+export const SilentTokenRequest = async (history) => {
   try {
     const response = await axios.get("http://localhost:3000/api/auth/refresh",
       {

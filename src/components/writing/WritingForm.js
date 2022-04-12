@@ -1,16 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import style from "./WritingForm.module.css";
-import ChoiceDiv from "./ChoiceDiv";
+import ChoiceList from "./ChoiceList";
+import { SilentTokenRequest } from "../utils/RefreshToken";
 
-function WritingForm () {
+function WritingForm() {
   const history = useHistory();
   const [title, setTitle] = useState("");
-  const [endDate, setEndDate] = useState(""); 
+  const [endDate, setEndDate] = useState("");
   const [detail, setDetail] = useState("");
   const formData = [
     { id: 1, name: "먹을거" },
@@ -31,11 +33,18 @@ function WritingForm () {
     { id: 16, name: "쇼핑" },
     { id: 17, name: "기타" },
   ];
+  let tempCheckedArr = new Array();
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
-  const [choiceList, setChoiceList] = useState([0, 1]);
-  const [counter, setCounter] = useState(2);
+  const [choiceInputs, setChoiceInputs] = useState({
+    choiceText: "",
+    choiceImgURL: "",
+  });
+  const { choiceText, choiceImgURL } = choiceInputs;
+  const [imgPreview, setImgPreview] = useState("");
+  const nextId = useRef(1);
   const [choices, setChoices] = useState([]);
+  const choiceImgAddBtn = useRef(null);
   const onTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -65,47 +74,78 @@ function WritingForm () {
     }
     return checkedItems;
   };
-  const onAddChoiceList = () => {
-    if(counter === 10) {
-      return alert("선택지 개수 최대");
+  const showImgPreview = (event) => {
+    if (event.target.files[0]) {
+      setImgPreview(event.target.files[0]);
     } else {
-      let tempArr = [...choiceList];
-      setCounter(counter => counter += 1);
-      tempArr.push(counter);
-      setChoiceList(tempArr);
+      setImgPreview("");
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImgPreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(event.target.files[0]);
   };
-  const onDeleteChoiceList = () => {
-    if(counter === 2) {
-      return alert("선택지 개수 최소");
-    } else {
-      let countArr = [...choiceList];
-      setCounter(counter => counter -= 1);
-      countArr.pop();
-      setChoiceList(countArr);
-    }
+  const onChoiceInputsChange = (event) => {
+    const { name, value } = event.target;
+    setChoiceInputs({
+      ...choiceInputs,
+      [name]: value,
+    });
   };
-  const onCreateChoices = (choice) => {
-    setChoices([...choices, choice])
+  const onCreateChoices = () => {
+    const choice = {
+      id: nextId.current,
+      imgPreview: imgPreview,
+      choiceText,
+      choiceImgURL,
+    };
+    setChoices([...choices, choice]);
+    setChoiceInputs({
+      choiceText: "",
+      choiceImgURL: "",
+    });
+    setImgPreview("");
+    nextId.current += 1;
+  };
+  const onRemoveChoices = (id) => {
+    setChoices(choices.filter((choice) => choice.id !== id));
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(choices);
-    // try {
-    //   await axios.post( "http://localhost:3000/api/posts",
-    //     {
-    //       title: title,
-    //       endDate: endDate,
-    //       detail: detail
-    //     }
-    //   )
-    //   alert("성공");
-    //   history.push("/");
-    // }
-    // catch(error) {
-    //   console.log('Error >> ', error);
-    // }
-  }
+    if (title === "") {
+      return alert("고민 제목을 입력해주세요.");
+    } else if (endDate === "") {
+      return alert("글 마감 날짜를 입력해주세요.");
+    } else if (detail === "") {
+      return alert("고민 내용을 입력해주세요.");
+    } else if (choices.length < 2) {
+      return alert("선택지 최소 개수를 맞춰주세요.");
+    } else if (choices.length > 10) {
+      return alert("선택지 최대 개수를 맞춰주세요.");
+    }
+    tempCheckedArr = Array.from(checkedItems);
+    try {
+      await axios.post(
+        "http://localhost:3000/api/posts",
+        {
+          post_title: title,
+          finish_date: endDate,
+          tag: tempCheckedArr,
+          post_content: detail,
+          choice: choices,
+        },
+        { withCredentials: true }
+      );
+      alert("글 올리기 성공!");
+      history.push("/");
+    } catch (error) {
+      SilentTokenRequest();
+    }
+  };
   return (
     <div>
       <div className={style.writingForm}>
@@ -122,7 +162,6 @@ function WritingForm () {
             <input
               type="text"
               value={title}
-              required
               onChange={onTitleChange}
               className={style.writingTitle}
               placeholder="제목을 입력하세요."
@@ -133,7 +172,6 @@ function WritingForm () {
             <input
               type="date"
               value={endDate}
-              required
               onChange={onEndDateChange}
               className={style.writingTitle}
               placeholder="제목을 입력하세요."
@@ -157,29 +195,68 @@ function WritingForm () {
             <h4>고민 내용 (최대 400자) :</h4>
             <textarea
               value={detail}
-              required
               onChange={onDetailChange}
               className={style.writingDetail}
               placeholder="고민을 입력하세요."
+              maxLength="400"
             />
           </div>
           <div className={style.writingChoices}>
-            <div className={style.addSubChoices}>
-              <h4>선택지 (최소 2개, 최대 10개) :</h4> 
-              <button type="button" onClick={onAddChoiceList} className={style.addBtn}>선택지 추가</button>
-              <button type="button" onClick={onDeleteChoiceList} className={style.subBtn}>선택지 삭제</button>
-            </div>
-            <div className={style.choices}>
-              {choiceList && choiceList.map((item, i) => (
-                <ChoiceDiv
-                  key={i}
-                  onCreateChoices={onCreateChoices}
+            <h4>
+              선택지 입력 (최소 2개, 최대 10개):{" "}
+              <span className={style.refMessage}>
+                ※ 선택지 설명을 입력하고 사진을 첨부한 후, 선택지 등록 버튼을
+                눌러주세요.(첨부사진 필수 X){" "}
+              </span>
+            </h4>
+            <div className={style.createChoices}>
+              <div className={style.createChoicesInput}>
+                <input
+                  type="text"
+                  name="choiceText"
+                  value={choiceText}
+                  onChange={onChoiceInputsChange}
+                  placeholder="선택지 설명을 입력하세요."
+                  className={style.choiceInputText}
                 />
-              ))}
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="choiceImgURL"
+                  value={choiceImgURL}
+                  onChange={(e) => {
+                    onChoiceInputsChange(e);
+                    showImgPreview(e);
+                  }}
+                  className={style.fileBtn}
+                  ref={choiceImgAddBtn}
+                />
+                <FontAwesomeIcon
+                  onClick={() => {
+                    choiceImgAddBtn.current.click();
+                  }}
+                  title="사진 추가하기"
+                  icon={faImage}
+                  className={style.addChoiceImage}
+                />
+              </div>
+              <button type="button" onClick={onCreateChoices}>
+                선택지 등록
+              </button>
             </div>
+            <ChoiceList
+              choices={choices}
+              onRemoveChoices={onRemoveChoices}
+              imgPreview={imgPreview}
+            />
           </div>
           <button type="submit" className={style.transparentBtn}>
-            <FontAwesomeIcon onClick={onSubmit} title="글 올리기" className={style.SubmitBtn} icon={faPaperPlane} />
+            <FontAwesomeIcon
+              onClick={onSubmit}
+              title="글 올리기"
+              className={style.SubmitBtn}
+              icon={faPaperPlane}
+            />
           </button>
         </form>
       </div>
@@ -187,4 +264,4 @@ function WritingForm () {
   );
 }
 
-export default WritingForm; 
+export default WritingForm;
