@@ -92,16 +92,24 @@
   border-collapse: collapse;
 }
 
-.option {
+.option,
+.option_selected,
+.option_finished {
   height: 250px;
   padding: 16px;
   border: 1px solid gainsboro;
   text-align: center;
+  font-weight: 700;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
+  margin: 0 4px 8px 4px;
+  background-color: #c8dbfd;
+}
+.option,
+.option_finished {
+  background-color: white;
 }
 
 .option .choice_pic {
@@ -111,15 +119,16 @@
   border: 2px solid gainsboro;
 }
 
-.option .checked {
+.checked_icon {
   position: absolute;
   width: 40px;
   height: 40px;
   display: none;
+  opacity: 0.7;
   /* box-shadow: 3px 3px 3px white; */
 }
 
-.checked path {
+.checked_icon {
   color: #404040;
 }
 
@@ -133,7 +142,7 @@
   opacity: 0.7;
 }
 
-.option:hover .checked {
+.option:hover .checked_icon {
   display: block;
   z-index: 1;
   border-radius: 50%;
@@ -146,10 +155,17 @@
   border: none;
   padding: 4px 8px;
 }
+.voteBtn_disabled {
+  color: whitesmoke;
+  background-color: #69afff;
+  border-radius: 4px;
+  border: none;
+  padding: 4px 8px;
+}
 
-/* .radioBtn:checked + .option {
+.radioBtn:checked + .option {
   background-color: #c8dbfd;
-} */
+}
 
 /* 체크되었을때 */
 .radioBtn:checked + .choice_pic {
@@ -157,21 +173,18 @@
   background-color: #c8dbfd;
 }
 
-.radioBtn:checked + .checked {
+.radioBtn:checked + .checked_icon {
   display: block;
   z-index: 1;
   border-radius: 50%;
-}
-
-.radioBtn:checked + .checked path {
   color: black;
 }
 
 .radioBtn {
-  /* display: none; */
+  display: none;
 }
 
 .voteBtnContainer {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }

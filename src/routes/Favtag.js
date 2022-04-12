@@ -11,16 +11,18 @@ function Favtag() {
   const [loading, setLoading] = useState(true);
   const [tags, setTags] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [isChecked, setIsChecked] = useState(false); // 체크 여부
+  // const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set()); // (임시)체크된 요소들
   const history = useHistory();
+  const [tempArr, setTempArr] = useState([]);
   let tempCheckedArr = new Array();
 
   // 처음: 모든 태그, 모든 게시글 불러옴
-  const getTags = async () => {
+  const getDatas = async () => {
     try {
       // 모든 태그 목록
       const everyTags = await axios.get(`http://localhost:3000/api/tags`);
+      // const everyTags = await axios.get(`http://localhost:3000/fformData`);
       setTags(everyTags.data);
       console.log("every.data:", everyTags.data);
 
@@ -28,18 +30,23 @@ function Favtag() {
       const mytags = await axios.get(`http://localhost:3000/api/users/mytags`, {
         withCredentials: true,
       });
-      tempCheckedArr = mytags.data;
-      console.log("my.data:", mytags.data);
-
+      // const mytags = await axios.get(`http://localhost:3000/mytags`);
+      for (let i in mytags.data) {
+        checkedItems.add(String(mytags.data[i].tag_id));
+        setCheckedItems(checkedItems);
+      }
       // 내 관심태그 없으면 모든 글 보여줌.
-      if (!mytags.data) {
+      if (mytags.data.length === 0) {
         for (let i in everyTags.data) {
           tempCheckedArr[i] = everyTags.data[i].tag_id;
         }
       }
       // 내 관심태그 있으면 해당 글들만 보여줌.
-
-      console.log("temparr:", tempCheckedArr);
+      else {
+        tempCheckedArr = mytags.data.map((tag) => tag.tag_id);
+      }
+      setTempArr(tempCheckedArr);
+      console.log("temparr1", tempCheckedArr);
 
       // 게시글 불러오기
       const response = await axios.get(`http://localhost:3000/api/posts`, {
@@ -47,37 +54,32 @@ function Favtag() {
           type: "favtag",
         },
       });
+      // const response = await axios.get(`http://localhost:3000/posts`);
       setPosts(response.data);
       setLoading(false);
     } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        getTags();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      console.log(error);
     }
   };
   useEffect(() => {
-    getTags();
+    getDatas();
   }, []);
+
+  // 비교
+  const compare = (tagId) => {
+    // if (tempArr.includes(tagId)) {
+    //   console.log("temparr2", tempArr);
+    //   console.log("tag아디", tagId);
+    // } else {
+    //   console.log("temparr2", tempArr);
+    //   console.log("외안돼", tagId);
+    // }
+    return tempArr.includes(tagId);
+  };
 
   // 관심태그 바꿀 때
   const checkHandler = ({ target }) => {
-    setIsChecked(!isChecked);
+    // setIsChecked(!target.checked);
     console.log(
       "타겟.부",
       target.parentNode,
@@ -106,24 +108,46 @@ function Favtag() {
   };
 
   // 태그 설정 버튼 누름
-  const submitHandler = async (event) => {
-    event.preventDefault();
-    console.log("체크드 ", checkedItems, typeof checkedItems);
-    console.log("사이즈", checkedItems.size);
-    if (checkedItems.size !== 0) {
-      tempCheckedArr = Array.from(checkedItems);
-      for (let i in tempCheckedArr) {
-        tempCheckedArr[i] = Number(tempCheckedArr[i]);
+  const submitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      if (checkedItems.size !== 0) {
+        tempCheckedArr = Array.from(checkedItems);
+        for (let i in tempCheckedArr) {
+          tempCheckedArr[i] = { tag_id: tempCheckedArr[i] };
+        }
+        console.log("마지막:: ", tempCheckedArr);
       }
-      console.log("tempCheckedArr:: ", tempCheckedArr);
+      // mytags 수정(patch)
+      await axios.patch(
+        `http://localhost:3000/api/users/mytags
+      `,
+        { tempCheckedArr },
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (e) {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/refresh",
+          {
+            withCredentials: true,
+          }
+        );
+        localStorage.setItem(
+          "access_token",
+          response.data.data["access_token"]
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.data["access_token"]}`;
+        window.location.reload();
+      } catch (error) {
+        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+        history.push("/login");
+      }
     }
-    console.log("checked:: ", checkedItems);
-    // mytags 수정(patch)
-    await axios.patch(
-      `http://localhost:3000/users/mytags`,
-      // 변수명?
-      { tag_id: tempCheckedArr }
-    );
   };
 
   return (
@@ -135,17 +159,30 @@ function Favtag() {
         <div>
           <form className={style.tagForm} onSubmit={(e) => submitHandler(e)}>
             <div className={style.favtags}>
-              {tags.map((tag) => (
-                <label key={tag.tag_id} className={style.favtag}>
-                  <input
-                    type="checkbox"
-                    value={tag.name}
-                    id={tag.tag_id}
-                    onChange={(e) => checkHandler(e)}
-                  />
-                  <div className="tagName">{tag.name}</div>
-                </label>
-              ))}
+              {tags.map((tag) =>
+                compare(tag.tag_id) ? (
+                  <label key={tag.tag_id} className={style.favtag_checked}>
+                    <input
+                      type="checkbox"
+                      value={tag.name}
+                      id={tag.tag_id}
+                      defaultChecked={true}
+                      onChange={(e) => checkHandler(e)}
+                    />
+                    <div className="tagName">{tag.name}</div>
+                  </label>
+                ) : (
+                  <label key={tag.tag_id} className={style.favtag}>
+                    <input
+                      type="checkbox"
+                      value={tag.name}
+                      id={tag.tag_id}
+                      onChange={(e) => checkHandler(e)}
+                    />
+                    <div className="tagName">{tag.name}</div>
+                  </label>
+                )
+              )}
             </div>
             <div className={style.setTag}>
               <button className={style.setTagBtn} type="submit">

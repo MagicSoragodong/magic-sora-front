@@ -1,7 +1,5 @@
 .chartContainer {
-  text-align: center;
-  margin: 0 auto;
-  width: 300px;
+  display: flex;
   height: 300px;
 }
 
