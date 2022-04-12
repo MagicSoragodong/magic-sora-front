@@ -2,7 +2,7 @@
 /* comments */
 
 .container {
-  margin: 0 10%;
+  margin: 0 10% 40px 10%;
   padding: 40px;
   border: 1px solid gainsboro;
 }

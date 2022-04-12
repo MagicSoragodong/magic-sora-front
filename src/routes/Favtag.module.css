@@ -14,7 +14,8 @@
   margin-bottom: 4px;
 }
 
-.favtag {
+.favtag,
+.favtag_checked {
   background-color: white;
   display: inline-block;
   border-radius: 4px;
@@ -22,16 +23,21 @@
   margin: 4px 4px;
   border: 1px solid gainsboro;
 }
-
-.favtag input:checked + .favtag {
+.favtag_checked {
   background-color: #ffd993;
 }
+
+.input:checked + .favtag {
+  background-color: red;
+}
+
 .favtag:hover {
   background-color: #ffd993;
 }
 
-.favtag input {
-  display: none;
+.favtag input,
+.favtag_checked input {
+  /* display: none; */
 }
 
 .setTag {
