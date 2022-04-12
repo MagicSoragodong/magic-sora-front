@@ -8,7 +8,8 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 function Favtag() {
-  const [loading, setLoading] = useState(true);
+  const [loadingTags, setLoadingTags] = useEffect(true);
+  const [loadingPosts, setLoadingPosts] = useState(true);
   const [tags, setTags] = useState([]);
   const [posts, setPosts] = useState([]);
   // const [isChecked, setIsChecked] = useState(false);
@@ -48,7 +49,7 @@ function Favtag() {
       setTempArr(tempCheckedArr);
       console.log("temparr1", tempCheckedArr);
 
-      setLoading(false);
+      setLoadingTags(false);
     } catch (error) {
       try {
         const response = await axios.get(
@@ -86,7 +87,7 @@ function Favtag() {
       );
       // const response = await axios.get(`http://localhost:3000/posts`);
       setPosts(response.data);
-      setLoading(false);
+      setLoadingPosts(false);
     } catch (error) {
       try {
         const response = await axios.get(
@@ -111,7 +112,7 @@ function Favtag() {
   };
   useEffect(() => {
     getDatas();
-    // getPost();
+    getPost();
   }, []);
 
   // 비교
@@ -204,7 +205,7 @@ function Favtag() {
       <Banner2 width={270} height={"100vh"} />
       <BoardBanner board_name={"관심 태그"} newPost={true} />
 
-      {loading ? null : (
+      {loadingTags ? null : (
         <div>
           <form className={style.tagForm} onSubmit={(e) => submitHandler(e)}>
             <div className={style.favtags}>
@@ -213,22 +214,22 @@ function Favtag() {
                   <label key={tag.tag_id} className={style.favtag_checked}>
                     <input
                       type="checkbox"
-                      value={tag.name}
+                      value={tag.tag_name}
                       id={tag.tag_id}
                       defaultChecked={true}
                       onChange={(e) => checkHandler(e)}
                     />
-                    <div className="tagName">{tag.name}</div>
+                    <div className="tagName">{tag.tag_name}</div>
                   </label>
                 ) : (
                   <label key={tag.tag_id} className={style.favtag}>
                     <input
                       type="checkbox"
-                      value={tag.name}
+                      value={tag.tag_name}
                       id={tag.tag_id}
                       onChange={(e) => checkHandler(e)}
                     />
-                    <div className="tagName">{tag.name}</div>
+                    <div className="tagName">{tag.tag_name}</div>
                   </label>
                 )
               )}
@@ -239,22 +240,24 @@ function Favtag() {
               </button>
             </div>
           </form>
-
-          <div className={style.container}>
-            {posts.map((post) => (
-              <BoardContent
-                key={post.id}
-                author={post.author}
-                commentNum={post.commentNum}
-                id={post.id}
-                registerDate={post.registerDate}
-                tags={post.tags}
-                thumbnail={post.thumbnail}
-                title={post.title}
-                profilePic={post.profile}
-              />
-            ))}
-          </div>
+        </div>
+      )}
+      {loadingPosts ? null : (
+        <div className={style.container}>
+          {posts.map((post) => (
+            <BoardContent
+              key={post.id}
+              author={post.author}
+              commentNum={post.commentNum}
+              id={post.id}
+              registerDate={post.registerDate}
+              tags={post.tags}
+              thumbnail={post.thumbnail}
+              title={post.title}
+              profilePic={post.profile}
+              deletePost={false}
+            />
+          ))}
         </div>
       )}
     </div>
