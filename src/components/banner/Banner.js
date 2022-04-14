@@ -122,8 +122,8 @@ function Banner({ width, height, hideProfile }) {
               </Link>
             </li>
             <li>
-              <Link to="/???">
-                <button>로그아웃</button>
+              <Link to="/">
+                <button onClick={logout}>로그아웃</button>
               </Link>
             </li>
           </ul>
@@ -131,7 +131,7 @@ function Banner({ width, height, hideProfile }) {
       </div>
 
       {/* logo */}
-      <div>
+      <div className={style.logoContainer}>
         <Link className={style.logo} to={"/"}>
           <img src="img/soraLogo.png" alt="soragodong_logo" />
           <h1 className="">마법의 소라고동</h1>
@@ -160,6 +160,7 @@ function Banner({ width, height, hideProfile }) {
             alt="user profile"
           />
         </button>
+
         <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">
           <ul>
             <li>

@@ -1,10 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import style from "./Comments.module.css";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { SilentTokenRequest } from "../../components/utils/RefreshToken";
 
 function Comments({
   postId,
@@ -21,10 +20,9 @@ function Comments({
   const history = useHistory();
 
   // 댓글 삭제
-  const clickDeleteBtn = (event) => {
-    event.preventDefault();
+  const clickDeleteBtn = () => {
     if (window.confirm("정말 이 댓글을 삭제하시겠습니까?")) {
-      confirmDelete(event);
+      confirmDelete();
     }
   };
   const confirmDelete = async () => {
@@ -33,57 +31,27 @@ function Comments({
         `http://localhost:3000/api/posts/${postId}/comments/${id}`,
         { withCredentials: true }
       );
-    } catch (e) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      window.location.reload();
+    } catch (error) {
+      SilentTokenRequest(history);
     }
   };
 
   // 댓글 좋아요 추가
   const addLike = async () => {
     try {
-      axios.post(
-        `http://localhost:8000/api/posts/${postId}/comments/likes
+      await axios.post(
+        `http://localhost:3000/api/posts/${postId}/comments/likes
       `,
         { comment_id: id },
         { withCredentials: true }
       );
-    } catch (e) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
+      window.location.reload();
+    } catch (error) {
+      if (error.response.status === 403) {
+        alert("본인의 댓글은 '좋아요'를 누를 수 없습니다.");
+      } else if (error.response.status === 401) {
+        SilentTokenRequest(history);
       }
     }
   };
@@ -91,32 +59,13 @@ function Comments({
   // 댓글 좋아요 삭제
   const deleteLike = async () => {
     try {
-      axios.delete(
-        `http://localhost:8000/api/posts/${postId}/comments/likes/${id}
-
-      `,
+      await axios.delete(
+        `http://localhost:3000/api/posts/${postId}/comments/likes/${id}`,
         { withCredentials: true }
       );
-    } catch (e) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      window.location.reload();
+    } catch (error) {
+      SilentTokenRequest(history);
     }
   };
 

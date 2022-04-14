@@ -6,7 +6,9 @@
   padding: 40px;
   border: 1px solid gainsboro;
 }
-
+.comment_invisible {
+  font-weight: 700;
+}
 .comments {
   background-color: white;
   border: 1px solid gainsboro;

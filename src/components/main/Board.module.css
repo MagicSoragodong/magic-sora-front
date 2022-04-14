@@ -35,7 +35,7 @@
 .slide {
   background-color: var(--content-bg-color);
   text-align: center;
-  width: 700px;
+  width: 60%;
   height: 500px;
   border: 1px solid gainsboro;
   /* z-index: -1 !important; */
