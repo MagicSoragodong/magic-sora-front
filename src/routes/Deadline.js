@@ -6,7 +6,7 @@ import BoardContainer from "../components/board/BoardContainer";
 function Deadline() {
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} />
+      <Banner2 width={270} height={"100vh"} hideProfile={false} />
       <BoardBanner board_name={"마감 임박"} newPost={true} />
       <BoardContainer type="deadline" />
     </div>

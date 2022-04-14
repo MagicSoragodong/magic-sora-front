@@ -5,7 +5,7 @@ import LoginForm from "../components/login/LoginForm";
 function Login() {
   return (
     <div>
-      <Banner width={270} height={"100vh"} />
+      <Banner width={270} height={"100vh"} hideProfile={true} />
       <LoginForm />
     </div>
   );

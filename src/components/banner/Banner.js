@@ -6,7 +6,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-function Banner({ width, height }) {
+function Banner({ width, height, hideProfile }) {
   const [xPosition, setX] = useState(-width);
   const [dropdown, setDropdown] = useState(false);
   const history = useHistory();
@@ -149,7 +149,10 @@ function Banner({ width, height }) {
       </div>
 
       {/* logined */}
-      <div className={style.profile2} id="loggedIn">
+      <div
+        className={hideProfile ? style.hideProfileBtn : style.profile2}
+        id="loggedIn"
+      >
         <button onClick={toggleProfile}>
           <img
             className={style.profilePic}
@@ -157,14 +160,15 @@ function Banner({ width, height }) {
             alt="user profile"
           />
         </button>
-
         <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">
           <ul>
             <li>
               <Link to="/mypage">마이페이지</Link>
             </li>
             <li>
-              <button className={style.logoutBtn}>로그아웃</button>
+              <button className={style.logoutBtn} onClick={logout}>
+                로그아웃
+              </button>
             </li>
           </ul>
         </div>

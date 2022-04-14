@@ -9,7 +9,7 @@ import axios from "axios";
 function New() {
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} />
+      <Banner2 width={270} height={"100vh"} hideProfile={false} />
       <BoardBanner board_name={"new 게"} newPost={true} />
       <BoardContainer type="new" />
     </div>

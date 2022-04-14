@@ -54,6 +54,13 @@ function WritingForm() {
   const onDetailChange = (event) => {
     setDetail(event.target.value);
   };
+  const getToday = () => {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = ("0" + (1 + date.getMonth())).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+    return year + "-" + month + "-" + day;
+  };
   const checkHandler = ({ target }) => {
     setIsChecked(!isChecked);
     checkedItemHandler(target.parentNode, target.id, target.checked);
@@ -129,21 +136,22 @@ function WritingForm() {
     }
     tempCheckedArr = Array.from(checkedItems);
     try {
-      await axios.post(
-        "http://localhost:3000/api/posts",
-        {
-          post_title: title,
-          finish_date: endDate,
-          tag: tempCheckedArr,
-          post_content: detail,
-          choice: choices,
-        },
-        { withCredentials: true }
-      );
-      alert("글 올리기 성공!");
-      history.push("/");
+      // await axios.post(
+      //   "http://localhost:3000/api/posts",
+      //   {
+      //     post_title: title,
+      //     finish_date: endDate,
+      //     tag: tempCheckedArr,
+      //     post_content: detail,
+      //     choice: choices,
+      //   },
+      //   { withCredentials: true }
+      // );
+      // alert("글 올리기 성공!");
+      // history.push("/");
     } catch (error) {
-      SilentTokenRequest();
+      console.log(error);
+      // SilentTokenRequest();
     }
   };
   return (
@@ -172,6 +180,7 @@ function WritingForm() {
             <input
               type="date"
               value={endDate}
+              min={getToday()}
               onChange={onEndDateChange}
               className={style.writingTitle}
               placeholder="제목을 입력하세요."

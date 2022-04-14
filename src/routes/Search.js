@@ -39,7 +39,7 @@ function Search() {
 
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} />
+      <Banner2 width={270} height={"100vh"} hideProfile={false} />
       <SearchForm2
         selectedOption={selectedOption}
         searchKeyword={searchKeyword}
