@@ -6,17 +6,17 @@ import style from "./Favtag.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { SilentTokenRequest } from "../components/utils/RefreshToken";
 
 function Favtag() {
-  const [loadingTags, setLoadingTags] = useEffect(true);
+  const [loadingTags, setLoadingTags] = useState(true);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [tags, setTags] = useState([]);
   const [posts, setPosts] = useState([]);
-  // const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set()); // (임시)체크된 요소들
-  const history = useHistory();
   const [tempArr, setTempArr] = useState([]);
   let tempCheckedArr = new Array();
+  const history = useHistory();
 
   // 처음: 모든 태그, 모든 게시글 불러옴
   const getDatas = async () => {
@@ -36,40 +36,13 @@ function Favtag() {
         checkedItems.add(String(mytags.data[i].tag_id));
         setCheckedItems(checkedItems);
       }
-      // 내 관심태그 없으면 모든 글 보여줌.
-      if (mytags.data.length === 0) {
-        for (let i in everyTags.data) {
-          tempCheckedArr[i] = everyTags.data[i].tag_id;
-        }
-      }
-      // 내 관심태그 있으면 해당 글들만 보여줌.
-      else {
-        tempCheckedArr = mytags.data.map((tag) => tag.tag_id);
-      }
+      tempCheckedArr = mytags.data.map((tag) => tag.tag_id);
       setTempArr(tempCheckedArr);
       console.log("temparr1", tempCheckedArr);
 
       setLoadingTags(false);
     } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      SilentTokenRequest(history);
     }
   };
 
@@ -84,25 +57,7 @@ function Favtag() {
       setPosts(response.data);
       setLoadingPosts(false);
     } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      SilentTokenRequest(history);
     }
   };
   useEffect(() => {
@@ -112,27 +67,11 @@ function Favtag() {
 
   // 비교
   const compare = (tagId) => {
-    // if (tempArr.includes(tagId)) {
-    //   console.log("temparr2", tempArr);
-    //   console.log("tag아디", tagId);
-    // } else {
-    //   console.log("temparr2", tempArr);
-    //   console.log("외안돼", tagId);
-    // }
     return tempArr.includes(tagId);
   };
 
   // 관심태그 바꿀 때
   const checkHandler = ({ target }) => {
-    // setIsChecked(!target.checked);
-    console.log(
-      "타겟.부",
-      target.parentNode,
-      " id",
-      target.id,
-      "checked::: ",
-      target.checked
-    );
     checkedItemHandler(target.parentNode, target.id, target.checked);
   };
   const checkedItemHandler = (box, id, isChecked) => {
@@ -153,9 +92,8 @@ function Favtag() {
   };
 
   // 태그 설정 버튼 누름
-  const submitHandler = async (e) => {
+  const submitHandler = async () => {
     try {
-      e.preventDefault();
       if (checkedItems.size !== 0) {
         tempCheckedArr = Array.from(checkedItems);
         for (let i in tempCheckedArr) {
@@ -168,30 +106,10 @@ function Favtag() {
         `http://localhost:3000/api/users/mytags
       `,
         { newTags: tempCheckedArr },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
     } catch (e) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      SilentTokenRequest(history);
     }
   };
 
@@ -214,7 +132,7 @@ function Favtag() {
                       defaultChecked={true}
                       onChange={(e) => checkHandler(e)}
                     />
-                    <div className="tagName">{tag.tag_name}</div>
+                    <div className={style.tagName}>{tag.tag_name}</div>
                   </label>
                 ) : (
                   <label key={tag.tag_id} className={style.favtag}>
@@ -224,7 +142,7 @@ function Favtag() {
                       id={tag.tag_id}
                       onChange={(e) => checkHandler(e)}
                     />
-                    <div className="tagName">{tag.tag_name}</div>
+                    <div className={style.tagName}>{tag.tag_name}</div>
                   </label>
                 )
               )}

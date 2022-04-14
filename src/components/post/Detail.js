@@ -4,6 +4,7 @@ import style from "./Detail.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { SilentTokenRequest } from "../utils/RefreshToken";
 
 function Detail({
   id,
@@ -23,15 +24,11 @@ function Detail({
   const [choiceNum, setChoiceNum] = useState(null);
 
   const compare = (id) => {
-    console.log("myvote", myVote);
-    console.log("id", id);
     if (myVote === id) return true;
   };
 
   const getIsChecked = (e) => {
     setChoiceNum(e.target.value);
-    console.log("들", e.target.value);
-    console.log("초", choiceNum);
   };
 
   // 투표하기
@@ -40,31 +37,11 @@ function Detail({
       await axios.post(
         `http://localhost:3000/api/posts/${id}/options
         `,
-        {
-          choice_id: choiceNum,
-        },
+        { choice_id: choiceNum },
         { withCredentials: true }
       );
     } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      SilentTokenRequest(history);
     }
   };
 
