@@ -133,7 +133,7 @@ function Post() {
 
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} />
+      <Banner2 width={270} height={"100vh"} hideProfile={false} />
       <BoardBanner board_name={false} newPost={false} />
 
       {/* 게시글 상세 조회 */}

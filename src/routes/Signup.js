@@ -5,7 +5,7 @@ import SignupForm from "../components/signup/SignupForm";
 function Signup() {
   return (
     <div>
-      <Banner width={270} height={"100vh"} />
+      <Banner width={270} height={"100vh"} hideProfile={true} />
       <SignupForm />
     </div>
   );

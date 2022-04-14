@@ -47,7 +47,7 @@ function Mypost() {
 
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} />
+      <Banner2 width={270} height={"100vh"} hideProfile={false} />
       <BoardBanner board_name={"내가 쓴 글"} newPost={true} />
 
       <div className={style.container}>
