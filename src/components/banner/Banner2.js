@@ -4,7 +4,7 @@ import style from "./Banner2.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-function Banner2({ width, height }) {
+function Banner2({ width, height, hideProfile }) {
   const [xPosition, setX] = useState(-width);
   const [dropdown, setDropdown] = useState(false);
 
@@ -134,7 +134,10 @@ function Banner2({ width, height }) {
       </div> */}
 
       {/* logined */}
-      <div className={style.profile2} id="loggedIn">
+      <div
+        className={hideProfile ? style.hideProfileBtn : style.profile2}
+        id="loggedIn"
+      >
         <button onClick={toggleProfile}>
           <img
             className={style.profilePic}

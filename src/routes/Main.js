@@ -5,7 +5,7 @@ import Board from "../components/main/Board";
 function Main() {
   return (
     <div>
-      <Banner width={270} height={"100vh"} />
+      <Banner width={270} height={"100vh"} hideProfile={false} />
       <SearchForm />
       <Board />
     </div>
