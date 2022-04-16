@@ -5,8 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginState } from "../../actions/login_action";
 
 function Banner({ width, height, hideProfile }) {
+  const dispatch = useDispatch();
+  const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
   const [xPosition, setX] = useState(-width);
   const [dropdown, setDropdown] = useState(false);
   const history = useHistory();
@@ -29,6 +33,7 @@ function Banner({ width, height, hideProfile }) {
         "Authorization"
       ] = `Bearer ${localStorage.getItem("access_token")}`;
       alert("로그아웃 되었습니다.");
+      dispatch(loginState(false));
       history.push("/");
     } catch (error) {
       alert("로그아웃에 실패했습니다.");
@@ -41,6 +46,7 @@ function Banner({ width, height, hideProfile }) {
 
   useEffect(() => {
     setX(-width);
+    console.log(isLogin);
   }, []);
 
   return (
@@ -138,42 +144,42 @@ function Banner({ width, height, hideProfile }) {
         </Link>
       </div>
 
-      {/* profile */}
-      <div className={"hidden " + style.profile1} id="notLoggedIn">
-        <Link to={"/login"} className={style.login}>
-          로그인
-        </Link>
-        <Link to={"/signup"} className={style.signup}>
-          회원가입
-        </Link>
-      </div>
+      {isLogin ? (
+        <div
+          className={hideProfile ? style.hideProfileBtn : style.profile2}
+          id="loggedIn"
+        >
+          <button onClick={toggleProfile}>
+            <img
+              className={style.profilePic}
+              src="img/soraLogo.png"
+              alt="user profile"
+            />
+          </button>
 
-      {/* logined */}
-      <div
-        className={hideProfile ? style.hideProfileBtn : style.profile2}
-        id="loggedIn"
-      >
-        <button onClick={toggleProfile}>
-          <img
-            className={style.profilePic}
-            src="img/soraLogo.png"
-            alt="user profile"
-          />
-        </button>
-
-        <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">
-          <ul>
-            <li>
-              <Link to="/mypage">마이페이지</Link>
-            </li>
-            <li>
-              <button className={style.logoutBtn} onClick={logout}>
-                로그아웃
-              </button>
-            </li>
-          </ul>
+          <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">
+            <ul>
+              <li>
+                <Link to="/mypage">마이페이지</Link>
+              </li>
+              <li>
+                <button className={style.logoutBtn} onClick={logout}>
+                  로그아웃
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={style.profile1} id="notLoggedIn">
+          <Link to={"/login"} className={style.login}>
+            로그인
+          </Link>
+          <Link to={"/signup"} className={style.signup}>
+            회원가입
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
