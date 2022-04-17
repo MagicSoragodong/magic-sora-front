@@ -58,8 +58,7 @@
 }
 
 .container {
-  /* width: 80%; */
-  margin: 0 15%;
+  margin: 0 10%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   place-content: center;
@@ -70,6 +69,7 @@
   .container {
     display: flex;
     flex-direction: column;
+    margin-top: 16px;
   }
 }
 

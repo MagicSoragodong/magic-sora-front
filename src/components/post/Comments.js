@@ -79,7 +79,9 @@ function Comments({
             <img className={style.profilePic} src="img/soraLogo.png" />
           )}
           <span className={style.nickname}>{nickname}</span>
-          <span className={style.choiceNum}>{choiceNum}</span>
+          {choiceNum ? (
+            <span className={style.choiceNum}>{choiceNum}</span>
+          ) : null}
           <span className={style.date}>{date}</span>
           {status === "best" ? (
             <span className={style.bestComment}>BEST</span>

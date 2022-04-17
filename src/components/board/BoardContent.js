@@ -75,7 +75,11 @@ function BoardContent({
           <div className={style.lower}>
             <div className={style.tags}>
               {tags &&
-                tags.map((tag) => <span className={style.tag}>#{tag}</span>)}
+                tags.map((tag) => (
+                  <span key={tag.tag} className={style.tag}>
+                    #{tag}
+                  </span>
+                ))}
             </div>
             <div>
               <FontAwesomeIcon className={style.commentIcon} icon={faComment} />

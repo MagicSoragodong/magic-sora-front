@@ -1,8 +1,105 @@
-.chartContainer {
-  display: flex;
-  height: 300px;
+.results {
+}
+.result {
+  display: block;
+  padding-bottom: 16px;
+}
+.total0 {
+  width: 100%;
+  height: auto;
 }
 
-.chart {
-  width: auto;
+.chartContainer {
+  display: flex;
+}
+
+.myChart {
+  width: 50%;
+
+  padding: 0 5%;
+  height: auto;
+  border-right: 1px solid gainsboro;
+}
+
+.chart_detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  padding: 5%;
+}
+
+.each_item {
+  display: flex;
+  align-items: center;
+}
+
+.color_circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+  /* display: inline; */
+  background-color: red;
+}
+
+.chart_score {
+  color: gray;
+}
+
+li:nth-child(1) .color_circle {
+  background-color: #69b3f8;
+}
+li:nth-child(2) .color_circle {
+  background-color: #ada3ff;
+}
+li:nth-child(3) .color_circle {
+  background-color: #d5a0e9;
+}
+li:nth-child(4) .color_circle {
+  background-color: #ffa3c2;
+}
+li:nth-child(5) .color_circle {
+  background-color: #f7ae97;
+}
+li:nth-child(6) .color_circle {
+  background-color: #f0dc96;
+}
+li:nth-child(7) .color_circle {
+  background-color: #eef09a;
+}
+li:nth-child(8) .color_circle {
+  background-color: #97f0ac;
+}
+li:nth-child(9) .color_circle {
+  background-color: #83e0d7;
+}
+li:nth-child(10) .color_circle {
+  background-color: #8ebffa;
+}
+
+@media screen and (max-width: 576px) {
+  .chartContainer {
+    flex-direction: column;
+  }
+
+  .myChart {
+    width: 100%;
+    border: none;
+    /* border-bottom: 1px solid gainsboro; */
+  }
+  .chart_detail {
+    width: 100%;
+  }
+
+  .total0 {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .myChart {
+    padding: 0;
+  }
 }

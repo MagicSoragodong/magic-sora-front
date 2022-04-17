@@ -12,6 +12,9 @@
   background-color: white;
   padding: 8px 4px;
 }
+.container:last-child {
+  border: none;
+}
 
 /* .container:last-child {
   border-bottom: none;
@@ -113,4 +116,37 @@
 .comment {
   text-align: left;
   padding: 0 28px;
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    padding: 4px 2px;
+  }
+  .profilePic {
+    width: 16px;
+    height: 16px;
+  }
+  .nickname {
+    font-size: 12px;
+  }
+  .choiceNum,
+  .date,
+  .likeBtn,
+  .likedNum,
+  .justDot,
+  .deleteBtn {
+    font-size: 10px;
+  }
+  .choiceNum {
+    width: 12px;
+    height: 12px;
+  }
+  .bestComment {
+    font-size: 10px;
+    padding: 0 3px;
+  }
+  .comment {
+    padding: 0 20px;
+    font-size: 12px;
+  }
 }
