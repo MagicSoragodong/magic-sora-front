@@ -6,6 +6,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { SilentTokenRequest } from "../utils/RefreshToken";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 // props
 function BoardContent({
@@ -20,6 +21,8 @@ function BoardContent({
   deletePost,
 }) {
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const clickDeleteBtn = async () => {
     try {
       if (window.confirm("정말 이 글을 삭제하시겠습니까?")) {
@@ -36,7 +39,7 @@ function BoardContent({
         withCredentials: true,
       });
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
 
