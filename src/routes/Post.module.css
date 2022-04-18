@@ -1,7 +1,8 @@
 /* container */
 /* comments */
 
-.container {
+.result_container,
+.comments_container {
   margin: 0 10% 40px 10%;
   padding: 40px;
   border: 1px solid gainsboro;
@@ -12,8 +13,8 @@
 .comments {
   background-color: white;
   border: 1px solid gainsboro;
-  padding: 4px;
-  padding-top: 8px;
+  padding: 0 4px;
+  /* padding-top: 8px; */
 }
 
 .commentForm {
@@ -44,4 +45,20 @@
   border-radius: 4px;
   border: none;
   padding: 4px 8px;
+}
+
+@media screen and (max-width: 576px) {
+  .comments_container {
+    margin: 16px;
+    padding: 16px 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  .result_container {
+    margin: 16px;
+    padding: 16px 0;
+    border: none;
+    border-top: 1px solid gainsboro;
+  }
 }

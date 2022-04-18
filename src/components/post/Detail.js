@@ -35,8 +35,7 @@ function Detail({
   const submitHandler = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/posts/${id}/options
-        `,
+        `http://localhost:3000/api/posts/${id}/options`,
         { choice_id: choiceNum },
         { withCredentials: true }
       );
@@ -79,6 +78,7 @@ function Detail({
                     key={choice.choice_id}
                     className={style.option_selected}
                   >
+                    <span className={style.choice_id}>{choice.choice_id}</span>
                     <input
                       className={style.radioBtn}
                       type="radio"
@@ -90,12 +90,14 @@ function Detail({
                       className={style.checked_icon}
                       icon={faCheckCircle}
                     />
-                    {choice.photo_url ? (
-                      <img
-                        className={style.choice_pic}
-                        src={choice.photo_url}
-                      />
-                    ) : null}
+                    <div className={style.option_photo}>
+                      {choice.photo_url ? (
+                        <img
+                          className={style.choice_pic}
+                          src={choice.photo_url}
+                        />
+                      ) : null}
+                    </div>
                     {choice.choice_content ? (
                       <p>{choice.choice_content}</p>
                     ) : null}
@@ -105,6 +107,7 @@ function Detail({
                     key={choice.choice_id}
                     className={style.option_finished}
                   >
+                    <span className={style.choice_id}>{choice.choice_id}</span>
                     <input
                       className={style.radioBtn}
                       type="radio"
@@ -113,10 +116,12 @@ function Detail({
                       value={choice.choice_id}
                     />
                     {choice.photo_url ? (
-                      <img
-                        className={style.choice_pic}
-                        src={choice.photo_url}
-                      />
+                      <div className={style.option_photo}>
+                        <img
+                          className={style.choice_pic}
+                          src={choice.photo_url}
+                        />
+                      </div>
                     ) : null}
                     {choice.choice_content ? (
                       <p>{choice.choice_content}</p>
@@ -136,8 +141,14 @@ function Detail({
             <div className={style.options}>
               {choices.map((choice) => (
                 <label key={choice.choice_id} className={style.option_finished}>
+                  <span className={style.choice_id}>{choice.choice_id}</span>
                   {choice.photo_url ? (
-                    <img className={style.choice_pic} src={choice.photo_url} />
+                    <div className={style.option_photo}>
+                      <img
+                        className={style.choice_pic}
+                        src={choice.photo_url}
+                      />
+                    </div>
                   ) : null}
                   {choice.choice_content ? (
                     <p>{choice.choice_content}</p>
@@ -160,11 +171,12 @@ function Detail({
             <div className={style.options}>
               {choices.map((choice) => (
                 <label key={choice.choice_id} className={style.option}>
+                  <span className={style.choice_id}>{choice.choice_id}</span>
                   <input
                     className={style.radioBtn}
                     type="radio"
                     name="options"
-                    onChange={(e) => getIsChecked(e)}
+                    onClick={(e) => getIsChecked(e)}
                     value={choice.choice_id}
                   />
                   <FontAwesomeIcon
@@ -172,7 +184,12 @@ function Detail({
                     icon={faCheckCircle}
                   />
                   {choice.photo_url ? (
-                    <img className={style.choice_pic} src={choice.photo_url} />
+                    <div className={style.option_photo}>
+                      <img
+                        className={style.choice_pic}
+                        src={choice.photo_url}
+                      />
+                    </div>
                   ) : (
                     ""
                   )}

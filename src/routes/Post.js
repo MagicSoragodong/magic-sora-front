@@ -46,18 +46,14 @@ function Post() {
   const getOptions = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/posts/${id}/options`
+        `http://localhost:3000/api/posts/${id}/options`,
+        { withCredentials: true }
       );
       // const response = await axios.get(`http://localhost:3000/options`);
       setOptions(response.data);
       setLoadingOptions(false);
-
-      // 투표했으면 댓글 get
-      if (response.data.isVoted || postData.isFinished) {
-        getComments();
-      }
     } catch (error) {
-      console.log("에러choice:: ", error);
+      SilentTokenRequest(history);
     }
   };
   // 댓글
@@ -96,7 +92,7 @@ function Post() {
     getPost();
     getOptions();
     getResult();
-    // getComments();
+    getComments();
   }, []);
 
   // 내가 좋아요한 댓글인지
@@ -112,7 +108,7 @@ function Post() {
   const submitHandler = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/posts/${id}/comments`,
+        `http://localhost:3000/api/posts/${id}/comments`,
         { content: newComment },
         { withCredentials: true }
       );
@@ -146,20 +142,20 @@ function Post() {
 
       {/* 결과 */}
       {loadingResult ? null : postData.isFinished ? (
-        <div className={style.container}>
+        <div className={style.result_container}>
           <Result result={result} />
         </div>
       ) : null}
 
       {/* 댓글 */}
-      {visible === false ? (
-        <div className={style.container}>
+      {loadingPost || loadingOptions ? null : visible === false ? (
+        <div className={style.comments_container}>
           <p className={style.comment_invisible}>
             투표 후 댓글을 확인해보세요^.^
           </p>
         </div>
       ) : loadingComments ? null : (
-        <div className={style.container}>
+        <div className={style.comments_container}>
           <form onSubmit={submitHandler} className={style.commentForm}>
             <textarea
               className={style.textarea}

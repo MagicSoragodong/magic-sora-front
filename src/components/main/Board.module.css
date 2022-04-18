@@ -1,37 +1,3 @@
-/* boards */
-/* board */
-
-.boards {
-  display: flex;
-  flex-direction: column;
-  align-items: space-between;
-}
-
-.upperBoard,
-.lowerBoard {
-  margin: 0 20%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.upperBoard {
-  margin-bottom: 40px;
-}
-
-.board {
-  background-color: white;
-  width: 300px;
-  height: 245px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-}
-
-.board:hover {
-  background-color: rgb(245, 245, 245);
-}
-
 .slide {
   background-color: var(--content-bg-color);
   text-align: center;
@@ -41,10 +7,40 @@
   /* z-index: -1 !important; */
 }
 
-.slide h2 {
+.oneSlide {
+  width: 100%;
+  height: 90%;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+}
+
+.board_title {
   font-size: 32px;
+  text-align: center;
   font-style: italic;
   color: #0066ff;
+  height: 20%;
+}
+
+.onePost {
+  width: 40%;
+  margin: 0 auto;
+  border: 1px solid gainsboro;
+  /* height: 80%; */
+}
+.notLogined_favtag {
+  width: 50%;
+  margin: 0 auto;
+}
+.notLogined_favtag p {
+  color: gray;
+}
+
+.favtag_board {
+  margin-top: 16px;
+  width: 90%;
+  height: auto;
 }
 
 Link {
@@ -54,4 +50,22 @@ Link {
 
 Link p {
   min-height: 100%;
+}
+
+@media screen and (max-width: 576px) {
+  .slide {
+    width: 95%;
+  }
+  .onePost {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .slide {
+    width: 95%;
+  }
+  .onePost {
+    width: 50%;
+  }
 }
