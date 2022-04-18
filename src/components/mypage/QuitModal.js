@@ -1,60 +1,73 @@
-import axios from 'axios';
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import style from "./QuitModal.module.css";
 import { SilentTokenRequest } from "../utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
-function QuitModal({modalClose}) {
+function QuitModal({ modalClose }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const onCloseModal = (event) => {
-    if(event.target === event.currentTarget) {
+    if (event.target === event.currentTarget) {
       modalClose();
     }
-  }
+  };
   const memberQuit = async (event) => {
     event.preventDefault();
     try {
-      await axios.delete('http://localhost:3000/api/users/', {
-        withCredentials: true
+      await axios.delete("http://localhost:3000/api/users/", {
+        withCredentials: true,
       });
       alert("회원 탈퇴를 완료했습니다. 그동안 이용해 주셔서 감사합니다.");
       modalClose();
       history.push("/");
+    } catch (error) {
+      SilentTokenRequest(history, dispatch);
     }
-    catch(error) {
-      SilentTokenRequest(history);
-    }
-  }
+  };
   return (
     <div className={style.quitModal} onClick={onCloseModal}>
       <div className={style.quitModalContents}>
         <div className={style.quitModalTitle}>
           <h1>회원 탈퇴</h1>
-          <FontAwesomeIcon className={style.xBtn} onClick={modalClose} icon={faXmark}/>
+          <FontAwesomeIcon
+            className={style.xBtn}
+            onClick={modalClose}
+            icon={faXmark}
+          />
         </div>
-        <hr/>
+        <hr />
         <div className={style.quitInstruction}>
           <h3>&lt; 탈퇴 안내 사항 &gt;</h3>
           <ol>
             <li>
-              회원님의 개인정보&#40;아이디, 비밀번호, 닉네임, 생년월일 등&#41;는 회원 탈퇴 시 일괄적으로 삭제됩니다.
+              회원님의 개인정보&#40;아이디, 비밀번호, 닉네임, 생년월일 등&#41;는
+              회원 탈퇴 시 일괄적으로 삭제됩니다.
             </li>
             <li>
-              회원님이 작성하신 게시글은 자동적으로 삭제되지 않습니다. 만일 삭제를 원하신다면 탈퇴 이전에 삭제하시길 바랍니다.
+              회원님이 작성하신 게시글은 자동적으로 삭제되지 않습니다. 만일
+              삭제를 원하신다면 탈퇴 이전에 삭제하시길 바랍니다.
             </li>
             <li>
-              탈퇴 후 동일한 메일로 재가입이 가능하지만, 탈퇴한 이전 계정과 연동되지 않습니다.
+              탈퇴 후 동일한 메일로 재가입이 가능하지만, 탈퇴한 이전 계정과
+              연동되지 않습니다.
             </li>
             <li>
-              오른쪽 하단에 탈퇴하기를 누르시면 회원 탈퇴가 완료됩니다. 탈퇴하기를 누르시면 되돌릴 수 없으니 신중히 결정하시길 바랍니다.
+              오른쪽 하단에 탈퇴하기를 누르시면 회원 탈퇴가 완료됩니다.
+              탈퇴하기를 누르시면 되돌릴 수 없으니 신중히 결정하시길 바랍니다.
             </li>
           </ol>
         </div>
-        <hr/>
+        <hr />
         <div className={style.quitModalBtns}>
-          <button onClick={modalClose} className={style.stopQuit}>취소</button>
-          <button onClick={memberQuit} className={style.continueQuit}>탈퇴하기</button>
+          <button onClick={modalClose} className={style.stopQuit}>
+            취소
+          </button>
+          <button onClick={memberQuit} className={style.continueQuit}>
+            탈퇴하기
+          </button>
         </div>
       </div>
     </div>
