@@ -38,6 +38,7 @@ function BoardContent({
       await axios.delete(`http://localhost:3000/api/posts/${id}`, {
         withCredentials: true,
       });
+      history.push("/mypost");
     } catch (error) {
       SilentTokenRequest(history, dispatch);
     }

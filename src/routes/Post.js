@@ -9,6 +9,7 @@ import Result from "../components/post/Result";
 import Comments from "../components/post/Comments";
 import style from "./Post.module.css";
 import { SilentTokenRequest } from "../components/utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 // data: id, title, content, registerDate, finishDate,
 //       author, tags, choice, isFinished, isVoted
@@ -16,6 +17,7 @@ function Post() {
   // useParams: url에 있는 값 반환
   const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingOptions, setLoadingOptions] = useState(true);
@@ -53,7 +55,7 @@ function Post() {
       setOptions(response.data);
       setLoadingOptions(false);
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
   // 댓글
@@ -70,7 +72,7 @@ function Post() {
       setLikedComments(response.data.myLikes);
       setLoadingComments(false);
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
   // 결과
@@ -113,7 +115,7 @@ function Post() {
         { withCredentials: true }
       );
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
 
