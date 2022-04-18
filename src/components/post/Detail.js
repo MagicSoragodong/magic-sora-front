@@ -142,14 +142,14 @@ function Detail({
               {choices.map((choice) => (
                 <label key={choice.choice_id} className={style.option_finished}>
                   <span className={style.choice_id}>{choice.choice_id}</span>
-                  {choice.photo_url ? (
-                    <div className={style.option_photo}>
+                  <div className={style.option_photo}>
+                    {choice.photo_url ? (
                       <img
                         className={style.choice_pic}
                         src={choice.photo_url}
                       />
-                    </div>
-                  ) : null}
+                    ) : null}
+                  </div>
                   {choice.choice_content ? (
                     <p>{choice.choice_content}</p>
                   ) : null}
@@ -183,16 +183,14 @@ function Detail({
                     className={style.checked_icon}
                     icon={faCheckCircle}
                   />
-                  {choice.photo_url ? (
-                    <div className={style.option_photo}>
+                  <div className={style.option_photo}>
+                    {choice.photo_url ? (
                       <img
                         className={style.choice_pic}
                         src={choice.photo_url}
                       />
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                    ) : null}
+                  </div>
                   {choice.choice_content ? <p>{choice.choice_content}</p> : ""}
                 </label>
               ))}
