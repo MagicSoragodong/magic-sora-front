@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { SilentTokenRequest } from "../components/utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 function Favtag() {
   const [loadingTags, setLoadingTags] = useState(true);
@@ -17,6 +18,7 @@ function Favtag() {
   const [tempArr, setTempArr] = useState([]);
   let tempCheckedArr = new Array();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   // 처음: 모든 태그, 모든 게시글 불러옴
   const getDatas = async () => {
@@ -41,13 +43,7 @@ function Favtag() {
       console.log("temparr1", tempCheckedArr);
 
       setLoadingTags(false);
-    } catch (error) {
-      SilentTokenRequest(history);
-    }
-  };
 
-  const getPost = async () => {
-    try {
       // 게시글 불러오기
       const response = await axios.get(
         `http://localhost:3000/api/posts?type=favtag`,
@@ -57,12 +53,12 @@ function Favtag() {
       setPosts(response.data);
       setLoadingPosts(false);
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
+
   useEffect(() => {
     getDatas();
-    getPost();
   }, []);
 
   // 비교
@@ -109,7 +105,7 @@ function Favtag() {
         { withCredentials: true }
       );
     } catch (e) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
 

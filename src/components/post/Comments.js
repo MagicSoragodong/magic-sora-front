@@ -4,6 +4,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { SilentTokenRequest } from "../../components/utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 function Comments({
   postId,
@@ -18,6 +19,7 @@ function Comments({
   mylike, // bool
 }) {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   // 댓글 삭제
   const clickDeleteBtn = () => {
@@ -65,7 +67,7 @@ function Comments({
       );
       window.location.reload();
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
 

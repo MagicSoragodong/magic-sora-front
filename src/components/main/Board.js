@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import style from "./Board.module.css";
 import BoardContent from "../board/BoardContent";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +13,7 @@ import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/pagination/pagination.min.css";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import { useHistory } from "react-router-dom";
+import { SilentTokenRequest } from "../utils/RefreshToken";
 
 function Board() {
   const [swiper, setSwiper] = useState(null);
@@ -25,6 +26,8 @@ function Board() {
   const [loading, setLoading] = useState(true);
   const [loadingFavtag, setLoadingFavtag] = useState(true);
   const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   SwiperCore.use([Navigation, Pagination]);
 
@@ -42,11 +45,6 @@ function Board() {
         `http://localhost:3000/api/posts?type=deadline`
       );
       setDeadlinePost(response3.data);
-
-      // const response = await axios.get(`http://localhost:3000/posts`);
-      // setHotPost(response1.data);
-      // setNewPost(response2.data);
-      // setDeadlinePost(response3.data);
       console.log(response1.data[0]);
       setLoading(false);
     } catch (error) {
@@ -67,22 +65,7 @@ function Board() {
       setFavtagPost(response.data);
       setLoadingFavtag(false);
     } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {}
+      SilentTokenRequest(history, dispatch);
     }
   };
   useEffect(() => {
