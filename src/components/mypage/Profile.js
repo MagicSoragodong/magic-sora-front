@@ -1,15 +1,27 @@
 import { useState, useRef, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import QuitModal from "./QuitModal";
 import style from "./Profile.module.css";
 import { SilentTokenRequest } from "../utils/RefreshToken";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-function Profile({userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti}) {
+function Profile({
+  userProfileImg,
+  userNickname,
+  userGender,
+  userYear,
+  userMonth,
+  userDay,
+  userMbti,
+}) {
   const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
   const history = useHistory();
+  const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
-  const [profileImg, setProfileImg] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+  const [profileImg, setProfileImg] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  );
   const profileImgInput = useRef(null);
   const [nickname, setNickname] = useState();
   const [nicknameFormError, setNicknameFormError] = useState(false);
@@ -32,7 +44,15 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
     setMonth(userMonth);
     setDay(userDay);
     setMbti(userMbti);
-  }, [userProfileImg, userNickname, userGender, userYear, userMonth, userDay, userMbti]);
+  }, [
+    userProfileImg,
+    userNickname,
+    userGender,
+    userYear,
+    userMonth,
+    userDay,
+    userMbti,
+  ]);
   const modalClose = () => {
     setModalOpen(!modalOpen);
   };
@@ -48,12 +68,14 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       if (reader.readyState === 2) {
         setProfileImg(reader.result);
       }
-    }
+    };
     reader.readAsDataURL(event.target.files[0]);
   };
   const noProfileImage = () => {
-    setProfileImg("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
-  }
+    setProfileImg(
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    );
+  };
   const onNicknameChange = (event) => {
     setNickname(event.target.value);
     setNicknameCheckDone(false);
@@ -92,16 +114,13 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
       setNicknameFormError(false);
     }
     try {
-      await axios.get( `http://localhost:3000/api/users/nickname-exists`,
-        {
-          params: {nickname: nickname}
-        }
-      );
+      await axios.get(`http://localhost:3000/api/users/nickname-exists`, {
+        params: { nickname: nickname },
+      });
       setNicknameDuplicated(false);
       setNicknameCheckDone(true);
       alert("사용 가능한 아이디입니다.");
-    }
-    catch(error) {
+    } catch (error) {
       setNicknameDuplicated(true);
       setNicknameCheckDone(false);
     }
@@ -109,57 +128,57 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
   const onProfileSubmit = async (event) => {
     event.preventDefault();
     try {
-      if(!nicknameCheckDone) {
+      if (!nicknameCheckDone) {
         alert("닉네임 중복 확인을 완료해주세요.");
       } else {
-        await axios.patch( "http://localhost:3000/api/users/",
+        await axios.patch(
+          "http://localhost:3000/api/users/",
           {
             newUser: {
               profile_pic_url: profileImg,
               nickname: nickname,
               gender: gender,
               birth_date: `${year}${month}${day}`,
-              mbti: mbti
-            }
+              mbti: mbti,
+            },
           },
           {
-            withCredentials: true
+            withCredentials: true,
           }
-        )
+        );
         alert("프로필이 성공적으로 변경되었습니다.");
         window.location.reload();
       }
-    }
-    catch(error) {
-      SilentTokenRequest(history);
+    } catch (error) {
+      SilentTokenRequest(history, dispatch);
     }
   };
   const onPasswordSubmit = async (event) => {
     event.preventDefault();
-    if(newPassword !== newPasswordCheck) {
+    if (newPassword !== newPasswordCheck) {
       alert("비밀번호 일치 여부를 확인해주세요.");
       return setNewPasswordError(true);
     }
     try {
-      await axios.patch( "http://localhost:3000/api/users/",
+      await axios.patch(
+        "http://localhost:3000/api/users/",
         {
           currentPass: currentPassword,
           newUser: {
-            password: newPassword
-          }
+            password: newPassword,
+          },
         },
         {
-          withCredentials: true
+          withCredentials: true,
         }
-      )
+      );
       alert("비밀번호가 성공적으로 변경되었습니다.");
       window.location.reload();
-    }
-    catch(error) {
-      SilentTokenRequest(history);
+    } catch (error) {
+      SilentTokenRequest(history, dispatch);
     }
   };
-  
+
   return (
     <div className={style.profile}>
       {/* 프로필 변경 코드 */}
@@ -174,7 +193,9 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
             <img
               src={profileImg}
               alt="profile-img"
-              onClick={()=>{profileImgInput.current.click()}}
+              onClick={() => {
+                profileImgInput.current.click();
+              }}
             />
             <input
               type="file"
@@ -182,7 +203,9 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
               onChange={uploadProfileImg}
               ref={profileImgInput}
             />
-            <button type="button" onClick={noProfileImage}>기본 이미지로 변경</button>
+            <button type="button" onClick={noProfileImage}>
+              기본 이미지로 변경
+            </button>
           </div>
           <div className={style.personalInfo}>
             {/* 닉네임 입력 */}
@@ -196,15 +219,36 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
                 placeholder="닉네임"
                 minLength="2"
               />
-              <button type="button" disabled={!nickname} onClick={nicknameCheck}>중복 확인</button>
+              <button
+                type="button"
+                disabled={!nickname}
+                onClick={nicknameCheck}
+              >
+                중복 확인
+              </button>
             </div>
-            {nicknameFormError ? <div className={style.errorMessage}>닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)</div> : null}
-            {nicknameDuplicated ? <div className={style.errorMessage}>이미 사용 중인 닉네임입니다.</div> : null}
+            {nicknameFormError ? (
+              <div className={style.errorMessage}>
+                닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)
+              </div>
+            ) : null}
+            {nicknameDuplicated ? (
+              <div className={style.errorMessage}>
+                이미 사용 중인 닉네임입니다.
+              </div>
+            ) : null}
             {/* 성별 select */}
             <div className={style.changeInfo}>
               <label htmlFor="user-gender">성별</label>
-              <select id="user-gender" value={gender} name="gender" onChange={onGenderChange}>
-                <option value="" disabled>------------성별을 고르세요------------</option>
+              <select
+                id="user-gender"
+                value={gender}
+                name="gender"
+                onChange={onGenderChange}
+              >
+                <option value="" disabled>
+                  ------------성별을 고르세요------------
+                </option>
                 <option value="M">남자</option>
                 <option value="F">여자</option>
               </select>
@@ -212,8 +256,16 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
             {/* 생년월일 select */}
             <div className={style.changeBirth}>
               <h4>생년월일</h4>
-              <select className={style.changeYear} id="user-year" value={year} name="year" onChange={onYearChange}>
-                <option value="" disabled>년도</option>
+              <select
+                className={style.changeYear}
+                id="user-year"
+                value={year}
+                name="year"
+                onChange={onYearChange}
+              >
+                <option value="" disabled>
+                  년도
+                </option>
                 <option value="2022">2022</option>
                 <option value="2021">2021</option>
                 <option value="2020">2020</option>
@@ -269,8 +321,16 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
                 <option value="1970">1970</option>
               </select>
               <label htmlFor="user-year">년</label>
-              <select className={style.changeMonth} id="user-month" value={month} name="month" onChange={onMonthChange}>
-                <option value="" disabled>월</option>
+              <select
+                className={style.changeMonth}
+                id="user-month"
+                value={month}
+                name="month"
+                onChange={onMonthChange}
+              >
+                <option value="" disabled>
+                  월
+                </option>
                 <option value="01">1</option>
                 <option value="02">2</option>
                 <option value="03">3</option>
@@ -285,8 +345,16 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
                 <option value="12">12</option>
               </select>
               <label htmlFor="user-month">월</label>
-              <select className={style.changeDay} id="user-day" value={day} name="day" onChange={onDayChange}>
-                <option value="" disabled>일</option>
+              <select
+                className={style.changeDay}
+                id="user-day"
+                value={day}
+                name="day"
+                onChange={onDayChange}
+              >
+                <option value="" disabled>
+                  일
+                </option>
                 <option value="01">1</option>
                 <option value="02">2</option>
                 <option value="03">3</option>
@@ -324,8 +392,15 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
             {/* MBTI select */}
             <div className={style.changeInfo}>
               <label htmlFor="user-mbti">MBTI</label>
-              <select id="user-mbti" value={mbti} name="mbti" onChange={onMbtiChange}>
-                <option value="" disabled>-----------MBTI를 고르세요-----------</option>
+              <select
+                id="user-mbti"
+                value={mbti}
+                name="mbti"
+                onChange={onMbtiChange}
+              >
+                <option value="" disabled>
+                  -----------MBTI를 고르세요-----------
+                </option>
                 <option value="ESTP">ESTP</option>
                 <option value="ESFP">ESFP</option>
                 <option value="ENFP">ENFP</option>
@@ -347,7 +422,7 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
           </div>
         </div>
       </form>
-      <hr className={style.profileHr}/>
+      <hr className={style.profileHr} />
       {/* 비밀번호 변경 코드 */}
       <form className={style.passwordChange} onSubmit={onPasswordSubmit}>
         <div className={style.sectionTitle}>
@@ -389,15 +464,21 @@ function Profile({userProfileImg, userNickname, userGender, userYear, userMonth,
               placeholder="새 비밀번호 확인"
             />
           </div>
-          {newPasswordError ? <div className={style.errorMessage}>비밀번호가 일치하지 않습니다.</div> : null}
+          {newPasswordError ? (
+            <div className={style.errorMessage}>
+              비밀번호가 일치하지 않습니다.
+            </div>
+          ) : null}
         </div>
       </form>
-      <hr className={style.profileHr}/>
+      <hr className={style.profileHr} />
       {/* 회원 탈퇴 코드 */}
       <div className={style.memberQuit}>
         <h2>회원 탈퇴</h2>
-        <button onClick={modalClose} className={style.quitBtn}>회원 탈퇴</button>
-        {modalOpen ? <QuitModal modalClose={modalClose}/> : null}
+        <button onClick={modalClose} className={style.quitBtn}>
+          회원 탈퇴
+        </button>
+        {modalOpen ? <QuitModal modalClose={modalClose} /> : null}
       </div>
     </div>
   );

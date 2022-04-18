@@ -1,9 +1,7 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import { loginState } from "../../actions/login_action";
 
-export const SilentTokenRequest = async (history) => {
-  const dispatch = useDispatch();
+export const SilentTokenRequest = async (history, dispatch) => {
   try {
     const response = await axios.get("http://localhost:3000/api/auth/refresh", {
       withCredentials: true,

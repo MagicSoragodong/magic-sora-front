@@ -6,9 +6,11 @@ import SideNav from "../components/mypage/SideNav";
 import Profile from "../components/mypage/Profile";
 import style from "./Mypage.module.css";
 import { SilentTokenRequest } from "../components/utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 function Mypage() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [userProfileImg, setUserProfileImg] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -34,7 +36,7 @@ function Mypage() {
       setUserDay(birthdate.substring(8, 10));
       setLoading(false);
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
   useEffect(() => {

@@ -8,8 +8,10 @@ import axios from "axios";
 import style from "./WritingForm.module.css";
 import ChoiceList from "./ChoiceList";
 import { SilentTokenRequest } from "../utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 function WritingForm() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -136,22 +138,22 @@ function WritingForm() {
     }
     tempCheckedArr = Array.from(checkedItems);
     try {
-      // await axios.post(
-      //   "http://localhost:3000/api/posts",
-      //   {
-      //     post_title: title,
-      //     finish_date: endDate,
-      //     tag: tempCheckedArr,
-      //     post_content: detail,
-      //     choice: choices,
-      //   },
-      //   { withCredentials: true }
-      // );
-      // alert("글 올리기 성공!");
-      // history.push("/");
+      await axios.post(
+        "http://localhost:3000/api/posts",
+        {
+          post_title: title,
+          finish_date: endDate,
+          tag: tempCheckedArr,
+          post_content: detail,
+          choice: choices,
+        },
+        { withCredentials: true }
+      );
+      alert("글 올리기 성공!");
+      history.push("/");
     } catch (error) {
       console.log(error);
-      // SilentTokenRequest();
+      SilentTokenRequest(history, dispatch);
     }
   };
   return (
