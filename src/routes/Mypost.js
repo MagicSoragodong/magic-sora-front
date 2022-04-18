@@ -6,10 +6,13 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import style from "../components/board/BoardContainer.module.css";
 import axios from "axios";
+import { SilentTokenRequest } from "../components/utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 function Mypost() {
   const [posts, setPosts] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const getPosts = async () => {
     try {
@@ -20,25 +23,7 @@ function Mypost() {
       console.log(response.data);
       setPosts(response.data);
     } catch (error) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/refresh",
-          {
-            withCredentials: true,
-          }
-        );
-        localStorage.setItem(
-          "access_token",
-          response.data.data["access_token"]
-        );
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.data["access_token"]}`;
-        window.location.reload();
-      } catch (error) {
-        alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
-        history.push("/login");
-      }
+      SilentTokenRequest(history, dispatch);
     }
   };
   useEffect(() => {

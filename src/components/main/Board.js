@@ -37,16 +37,16 @@ function Board() {
       const response2 = await axios.get(
         `http://localhost:3000/api/posts?type=new`
       );
-      setHotPost(response2.data);
+      setNewPost(response2.data);
       const response3 = await axios.get(
         `http://localhost:3000/api/posts?type=deadline`
       );
-      setHotPost(response3.data);
+      setDeadlinePost(response3.data);
 
       // const response = await axios.get(`http://localhost:3000/posts`);
-      setHotPost(response1.data);
-      setNewPost(response2.data);
-      setDeadlinePost(response3.data);
+      // setHotPost(response1.data);
+      // setNewPost(response2.data);
+      // setDeadlinePost(response3.data);
       console.log(response1.data[0]);
       setLoading(false);
     } catch (error) {

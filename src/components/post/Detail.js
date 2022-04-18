@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { SilentTokenRequest } from "../utils/RefreshToken";
+import { useDispatch } from "react-redux";
 
 function Detail({
   id,
@@ -21,6 +22,7 @@ function Detail({
   myVote, // 숫자
 }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [choiceNum, setChoiceNum] = useState(null);
 
   const compare = (id) => {
@@ -40,7 +42,7 @@ function Detail({
         { withCredentials: true }
       );
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
 
