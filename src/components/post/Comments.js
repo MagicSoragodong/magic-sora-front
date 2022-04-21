@@ -35,7 +35,7 @@ function Comments({
       );
       window.location.reload();
     } catch (error) {
-      SilentTokenRequest(history);
+      SilentTokenRequest(history, dispatch);
     }
   };
 
@@ -53,7 +53,7 @@ function Comments({
       if (error.response.status === 403) {
         alert("본인의 댓글은 '좋아요'를 누를 수 없습니다.");
       } else if (error.response.status === 401) {
-        SilentTokenRequest(history);
+        SilentTokenRequest(history, dispatch);
       }
     }
   };
