@@ -132,6 +132,9 @@ function Post() {
         { withCredentials: true }
       );
     } catch (error) {
+      if (error.response.status === 403) {
+        alert("로그인 후 댓글을 작성해주세요");
+      }
       SilentTokenRequest(history, dispatch);
     }
   };
@@ -187,39 +190,41 @@ function Post() {
             </button>
           </form>
 
-          <ul className={style.comments}>
-            {comments.map((comment) =>
-              compare(comment.id) ? (
-                <Comments
-                  postId={id}
-                  key={comment.id}
-                  id={comment.id}
-                  choiceNum={comment.choiceId}
-                  status={comment.status}
-                  nickname={comment.author}
-                  profilePic={comment.profile}
-                  date={comment.registerDate}
-                  likedNum={comment.likes}
-                  comment={comment.content}
-                  mylike={true}
-                />
-              ) : (
-                <Comments
-                  postId={id}
-                  key={comment.id}
-                  id={comment.id}
-                  choiceNum={comment.choiceId}
-                  status={comment.status}
-                  nickname={comment.author}
-                  profilePic={comment.profile}
-                  date={comment.registerDate}
-                  likedNum={comment.likes}
-                  comment={comment.content}
-                  mylike={false}
-                />
-              )
-            )}
-          </ul>
+          {comments.length === 0 ? null : (
+            <ul className={style.comments}>
+              {comments.map((comment) =>
+                compare(comment.id) ? (
+                  <Comments
+                    postId={id}
+                    key={comment.id}
+                    id={comment.id}
+                    choiceNum={comment.choiceId}
+                    status={comment.status}
+                    nickname={comment.author}
+                    profilePic={comment.profile}
+                    date={comment.registerDate}
+                    likedNum={comment.likes}
+                    comment={comment.content}
+                    mylike={true}
+                  />
+                ) : (
+                  <Comments
+                    postId={id}
+                    key={comment.id}
+                    id={comment.id}
+                    choiceNum={comment.choiceId}
+                    status={comment.status}
+                    nickname={comment.author}
+                    profilePic={comment.profile}
+                    date={comment.registerDate}
+                    likedNum={comment.likes}
+                    comment={comment.content}
+                    mylike={false}
+                  />
+                )
+              )}
+            </ul>
+          )}
         </div>
       )}
     </div>
