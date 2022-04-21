@@ -23,7 +23,7 @@ function Profile({
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   );
   const profileImgInput = useRef(null);
-  const [nickname, setNickname] = useState();
+  const [nickname, setNickname] = useState("");
   const [nicknameFormError, setNicknameFormError] = useState(false);
   const [nicknameDuplicated, setNicknameDuplicated] = useState(false);
   const [nicknameCheckDone, setNicknameCheckDone] = useState(true);

@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginState } from "../../actions/login_action";
 
-function Banner({ width, height, hideProfile }) {
+function Banner({ width, height }) {
   const dispatch = useDispatch();
   const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
   const [xPosition, setX] = useState(-width);
@@ -145,10 +145,7 @@ function Banner({ width, height, hideProfile }) {
       </div>
 
       {isLogin ? (
-        <div
-          className={hideProfile ? style.hideProfileBtn : style.profile2}
-          id="loggedIn"
-        >
+        <div className={style.profile2} id="loggedIn">
           <button onClick={toggleProfile}>
             <img
               className={style.profilePic}
