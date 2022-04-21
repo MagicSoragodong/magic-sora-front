@@ -37,6 +37,11 @@
   color: gray;
 }
 
+.no_post {
+  width: 100%;
+  height: auto;
+}
+
 .favtag_board {
   margin-top: 16px;
   width: 90%;

@@ -133,7 +133,12 @@ function Board() {
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>마감임박⏱</h2>
               <div className={style.onePost}>
-                {loading ? null : (
+                {loading ? null : deadlinePost.length === 0 ? (
+                  <img
+                    className={style.no_post}
+                    src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                  />
+                ) : (
                   <BoardContent
                     key={deadlinePost[0].id}
                     author={deadlinePost[0].author}

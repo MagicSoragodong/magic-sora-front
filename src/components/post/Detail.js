@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { SilentTokenRequest } from "../utils/RefreshToken";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Detail({
   id,
@@ -24,6 +24,7 @@ function Detail({
   const history = useHistory();
   const dispatch = useDispatch();
   const [choiceNum, setChoiceNum] = useState(null);
+  const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
 
   const compare = (id) => {
     if (myVote === id) return true;
@@ -35,14 +36,18 @@ function Detail({
 
   // 투표하기
   const submitHandler = async () => {
-    try {
-      await axios.post(
-        `http://localhost:3000/api/posts/${id}/options`,
-        { choice_id: choiceNum },
-        { withCredentials: true }
-      );
-    } catch (error) {
-      SilentTokenRequest(history, dispatch);
+    if (isLogin) {
+      try {
+        await axios.post(
+          `http://localhost:3000/api/posts/${id}/options`,
+          { choice_id: choiceNum },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
+    } else {
+      alert("로그인 후 투표할 수 있습니다");
     }
   };
 
