@@ -86,7 +86,7 @@ function Banner2({ width, height, hideProfile }) {
             <img src="img/soraLogo.png" alt="soragodong_logo" />
             <FontAwesomeIcon
               icon={faBars}
-              className={style.barIcon_inner}
+              className={style.barIcon_sidebar}
               onClick={toggleMenu}
             />
           </div>

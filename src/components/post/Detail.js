@@ -92,17 +92,24 @@ function Detail({
                       className={style.checked_icon}
                       icon={faCheckCircle}
                     />
-                    <div className={style.option_photo}>
-                      {choice.photo_url ? (
-                        <img
-                          className={style.choice_pic}
-                          src={choice.photo_url}
-                        />
-                      ) : null}
-                    </div>
-                    {choice.choice_content ? (
-                      <p>{choice.choice_content}</p>
-                    ) : null}
+
+                    {choice.photo_url ? (
+                      <>
+                        <div className={style.option_photo}>
+                          <img
+                            className={style.choice_pic}
+                            src={choice.photo_url}
+                          />
+                        </div>
+                        <p>{choice.choice_content}</p>
+                      </>
+                    ) : (
+                      <div className={style.option_photo}>
+                        <p className={style.choice_content_only}>
+                          {choice.choice_content}
+                        </p>
+                      </div>
+                    )}
                   </label>
                 ) : (
                   <label
@@ -118,16 +125,22 @@ function Detail({
                       value={choice.choice_id}
                     />
                     {choice.photo_url ? (
+                      <>
+                        <div className={style.option_photo}>
+                          <img
+                            className={style.choice_pic}
+                            src={choice.photo_url}
+                          />
+                        </div>
+                        <p>{choice.choice_content}</p>
+                      </>
+                    ) : (
                       <div className={style.option_photo}>
-                        <img
-                          className={style.choice_pic}
-                          src={choice.photo_url}
-                        />
+                        <p className={style.choice_content_only}>
+                          {choice.choice_content}
+                        </p>
                       </div>
-                    ) : null}
-                    {choice.choice_content ? (
-                      <p>{choice.choice_content}</p>
-                    ) : null}
+                    )}
                   </label>
                 )
               )}
@@ -144,17 +157,23 @@ function Detail({
               {choices.map((choice) => (
                 <label key={choice.choice_id} className={style.option_finished}>
                   <span className={style.choice_id}>{choice.choice_id}</span>
-                  <div className={style.option_photo}>
-                    {choice.photo_url ? (
-                      <img
-                        className={style.choice_pic}
-                        src={choice.photo_url}
-                      />
-                    ) : null}
-                  </div>
-                  {choice.choice_content ? (
-                    <p>{choice.choice_content}</p>
-                  ) : null}
+                  {choice.photo_url ? (
+                    <>
+                      <div className={style.option_photo}>
+                        <img
+                          className={style.choice_pic}
+                          src={choice.photo_url}
+                        />
+                      </div>
+                      <p>{choice.choice_content}</p>
+                    </>
+                  ) : (
+                    <div className={style.option_photo}>
+                      <p className={style.choice_content_only}>
+                        {choice.choice_content}
+                      </p>
+                    </div>
+                  )}
                 </label>
               ))}
             </div>
@@ -185,15 +204,24 @@ function Detail({
                     className={style.checked_icon}
                     icon={faCheckCircle}
                   />
-                  <div className={style.option_photo}>
-                    {choice.photo_url ? (
-                      <img
-                        className={style.choice_pic}
-                        src={choice.photo_url}
-                      />
-                    ) : null}
-                  </div>
-                  {choice.choice_content ? <p>{choice.choice_content}</p> : ""}
+
+                  {choice.photo_url ? (
+                    <>
+                      <div className={style.option_photo}>
+                        <img
+                          className={style.choice_pic}
+                          src={choice.photo_url}
+                        />
+                      </div>
+                      <p>{choice.choice_content}</p>
+                    </>
+                  ) : (
+                    <div className={style.option_photo}>
+                      <p className={style.choice_content_only}>
+                        {choice.choice_content}
+                      </p>
+                    </div>
+                  )}
                 </label>
               ))}
             </div>

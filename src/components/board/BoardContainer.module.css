@@ -5,6 +5,11 @@
   place-content: center;
 }
 
+.no_posts {
+  color: gray;
+  font-style: italic;
+}
+
 /* media query */
 @media screen and (max-width: 576px) {
   .container {

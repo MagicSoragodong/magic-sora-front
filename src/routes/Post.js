@@ -9,15 +9,13 @@ import Result from "../components/post/Result";
 import Comments from "../components/post/Comments";
 import style from "./Post.module.css";
 import { SilentTokenRequest } from "../components/utils/RefreshToken";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-// data: id, title, content, registerDate, finishDate,
-//       author, tags, choice, isFinished, isVoted
 function Post() {
-  // useParams: url에 있는 값 반환
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+  const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
 
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingOptions, setLoadingOptions] = useState(true);
@@ -37,7 +35,6 @@ function Post() {
   const getPost = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/posts/${id}`);
-      // const response = await axios.get(`http://localhost:3000/post`);
       setPostData(response.data);
       setLoadingPost(false);
     } catch (error) {
@@ -46,43 +43,64 @@ function Post() {
   };
   // 선택지
   const getOptions = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/posts/${id}/options`,
-        { withCredentials: true }
-      );
-      // const response = await axios.get(`http://localhost:3000/options`);
-      setOptions(response.data);
-      setLoadingOptions(false);
-    } catch (error) {
-      SilentTokenRequest(history, dispatch);
+    if (isLogin) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/options`,
+          { withCredentials: true }
+        );
+        setOptions(response.data);
+        setLoadingOptions(false);
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
+    } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/options`
+        );
+        setOptions(response.data);
+        setLoadingOptions(false);
+      } catch (E) {
+        console.log("비회원 error", E);
+      }
     }
   };
   // 댓글
   const getComments = async () => {
-    try {
-      // 찐
-      const response = await axios.get(
-        `http://localhost:3000/api/posts/${id}/comments`,
-        { withCredentials: true }
-      );
-      // const response = await axios.get(`http://localhost:3000/ccomments`);
-      setComments(response.data.comments);
-      setVisible(response.data.isVisible);
-      setLikedComments(response.data.myLikes);
-      setLoadingComments(false);
-    } catch (error) {
-      SilentTokenRequest(history, dispatch);
+    if (isLogin) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/comments`,
+          { withCredentials: true }
+        );
+        setComments(response.data.comments);
+        setVisible(response.data.isVisible);
+        setLikedComments(response.data.myLikes);
+        setLoadingComments(false);
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
+    } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/comments`
+        );
+        setComments(response.data.comments);
+        setVisible(response.data.isVisible);
+        setLikedComments(response.data.myLikes);
+        setLoadingComments(false);
+      } catch (e) {
+        console.log("비회원 e", e);
+      }
     }
   };
   // 결과
   const getResult = async () => {
     try {
-      // 찐
       const response = await axios.get(
         `http://localhost:3000/api/posts/${id}/options/results`
       );
-      // const response = await axios.get(`http://localhost:3000/result`);
       setResult(response.data);
       setLoadingResult(false);
     } catch (error) {
@@ -99,7 +117,6 @@ function Post() {
 
   // 내가 좋아요한 댓글인지
   const compare = (id) => {
-    // return likedComments.includes(id);
     return likedComments.some((comment) => comment.comment_id === id);
   };
 
