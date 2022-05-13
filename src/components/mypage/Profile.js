@@ -56,7 +56,7 @@ function Profile({
   const modalClose = () => {
     setModalOpen(!modalOpen);
   };
-  const uploadProfileImg = (event) => {
+  const uploadProfileImg = async (event) => {
     if (event.target.files[0]) {
       setProfileImg(event.target.files[0]);
     } else {
@@ -131,6 +131,21 @@ function Profile({
       if (!nicknameCheckDone) {
         alert("닉네임 중복 확인을 완료해주세요.");
       } else {
+        const formData = new FormData();
+        formData.append("api_key", "728191539382363");
+        formData.append("file", profileImg);
+        formData.append("upload_preset", "l8pnyren");
+
+        delete axios.defaults.headers.common["Authorization"];
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/duqzktgtq/image/upload",
+          formData
+        );
+        setProfileImg(response.data.url);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${localStorage.getItem("access_token")}`;
+
         await axios.patch(
           "http://localhost:3000/api/users/",
           {
@@ -146,6 +161,7 @@ function Profile({
             withCredentials: true,
           }
         );
+
         alert("프로필이 성공적으로 변경되었습니다.");
         window.location.reload();
       }
