@@ -15,7 +15,7 @@ function Post() {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const isLogin = true;
+  const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
 
   const [loadingPost, setLoadingPost] = useState(true);
   const [loadingOptions, setLoadingOptions] = useState(true);
@@ -34,7 +34,7 @@ function Post() {
   // 글
   const getPost = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/post?id=${id}`);
+      const response = await axios.get(`http://localhost:3000/api/posts/${id}`);
       setPostData(response.data);
       setLoadingPost(false);
     } catch (error) {
@@ -45,18 +45,74 @@ function Post() {
   const getOptions = async () => {
     if (isLogin) {
       try {
-        const response = await axios.get(`http://localhost:3000/options`, {
-          withCredentials: true,
-        });
-        setOptions(response.data.choices);
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/options`,
+          { withCredentials: true }
+        );
+        setOptions(response.data);
         setLoadingOptions(false);
-      } catch (error) {}
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
     } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/options`
+        );
+        setOptions(response.data);
+        setLoadingOptions(false);
+      } catch (E) {
+        console.log("비회원 error", E);
+      }
     }
   };
+  // 댓글
+  const getComments = async () => {
+    if (isLogin) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/comments`,
+          { withCredentials: true }
+        );
+        setComments(response.data.comments);
+        setVisible(response.data.isVisible);
+        setLikedComments(response.data.myLikes);
+        setLoadingComments(false);
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
+    } else {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/posts/${id}/comments`
+        );
+        setComments(response.data.comments);
+        setVisible(response.data.isVisible);
+        setLikedComments(response.data.myLikes);
+        setLoadingComments(false);
+      } catch (e) {
+        console.log("비회원 e", e);
+      }
+    }
+  };
+  // 결과
+  const getResult = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/posts/${id}/options/results`
+      );
+      setResult(response.data);
+      setLoadingResult(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // 처음. 글, 선택지, 결과 불러옴
   useEffect(() => {
     getPost();
     getOptions();
+    getResult();
+    getComments();
   }, []);
 
   // 내가 좋아요한 댓글인지
@@ -85,7 +141,7 @@ function Post() {
 
   return (
     <div>
-      <Banner2 width={270} height={"100vh"} hideProfile={false} />
+      <Banner2 width={270} height={"100vh"} />
       <BoardBanner board_name={false} newPost={false} />
 
       {/* 게시글 상세 조회 */}
