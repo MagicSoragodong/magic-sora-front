@@ -6,13 +6,17 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { SilentTokenRequest } from "../../components/utils/RefreshToken";
 import { loginState } from "../../actions/login_action";
+import { Image } from "cloudinary-react";
 
 function Banner({ width, height, hideProfile }) {
   const dispatch = useDispatch();
   const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
   const [xPosition, setX] = useState(-width);
   const [dropdown, setDropdown] = useState(false);
+  const [loadingProfilePic, setLoadingProfilePic] = useState(true);
+  const [profile, setProfile] = useState({});
   const history = useHistory();
 
   const toggleMenu = () => {
@@ -44,9 +48,24 @@ function Banner({ width, height, hideProfile }) {
     setDropdown((dropdown) => !dropdown);
   };
 
+  const getProfilePic = async () => {
+    if (isLogin) {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users`, {
+          withCredentials: true,
+        });
+        setProfile(response.data);
+        setLoadingProfilePic(false);
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
+    }
+  };
+
   useEffect(() => {
     setX(-width);
     console.log(isLogin);
+    getProfilePic();
   }, []);
 
   return (
@@ -150,11 +169,15 @@ function Banner({ width, height, hideProfile }) {
           id="loggedIn"
         >
           <button onClick={toggleProfile}>
-            <img
-              className={style.profilePic}
-              src="img/soraLogo.png"
-              alt="user profile"
-            />
+            {profile.profile_pic_url && loadingProfilePic === false ? (
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId={profile.profile_pic_url}
+              />
+            ) : (
+              <img src="img/soralogo.png" alt="default profile pic" />
+            )}
           </button>
 
           <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">
