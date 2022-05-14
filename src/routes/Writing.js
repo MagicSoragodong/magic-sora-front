@@ -23,7 +23,7 @@ function Writing() {
     <div>
       {isLogin ? (
         <div>
-          <Banner2 width={270} height={"100vh"} hideProfile={false} />
+          <Banner2 width={270} height={"100vh"} />
           <WritingForm />
         </div>
       ) : (

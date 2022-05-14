@@ -46,6 +46,7 @@ function WritingForm() {
   const [imgPreview, setImgPreview] = useState("");
   const nextId = useRef(1);
   const [choices, setChoices] = useState([]);
+  const [imgURLArr, setImgURLArr] = useState([]);
   const choiceImgAddBtn = useRef(null);
   const onTitleChange = (event) => {
     setTitle(event.target.value);
@@ -138,6 +139,23 @@ function WritingForm() {
     }
     tempCheckedArr = Array.from(checkedItems);
     try {
+      for (let i = 0; i < choices.length; i++) {
+        // if 사진이 없으면 그냥 ""를 배열에 넣음
+        const formData = new FormData();
+        formData.append("api_key", "728191539382363");
+        formData.append("file", choices[i]["imgPreview"]);
+        formData.append("upload_preset", "l8pnyren");
+
+        delete axios.defaults.headers.common["Authorization"];
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/duqzktgtq/image/upload",
+          formData
+        );
+        setImgURLArr([...imgURLArr, response.data.url]);
+      }
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("access_token")}`;
       await axios.post(
         "http://localhost:3000/api/posts",
         {
@@ -149,6 +167,7 @@ function WritingForm() {
         },
         { withCredentials: true }
       );
+      console.log(imgURLArr);
       alert("글 올리기 성공!");
       history.push("/");
     } catch (error) {

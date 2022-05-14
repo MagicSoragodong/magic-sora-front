@@ -49,7 +49,7 @@ function Mypage() {
         <div></div>
       ) : (
         <div>
-          <Banner2 width={270} height={"100vh"} hideProfile={true} />
+          <Banner2 width={270} height={"100vh"} />
           <div className={style.mypage}>
             <SideNav
               userProfileImg={userProfileImg}

@@ -63,7 +63,6 @@ function Detail({
               cloudName="duqzktgtq"
               publicId={profilePic}
             />
-
             <span className={style.nickname}>{author}</span>
           </div>
         </div>

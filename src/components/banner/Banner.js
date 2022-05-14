@@ -10,7 +10,7 @@ import { SilentTokenRequest } from "../../components/utils/RefreshToken";
 import { loginState } from "../../actions/login_action";
 import { Image } from "cloudinary-react";
 
-function Banner({ width, height, hideProfile }) {
+function Banner({ width, height }) {
   const dispatch = useDispatch();
   const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
   const [xPosition, setX] = useState(-width);
@@ -164,10 +164,7 @@ function Banner({ width, height, hideProfile }) {
       </div>
 
       {isLogin ? (
-        <div
-          className={hideProfile ? style.hideProfileBtn : style.profile2}
-          id="loggedIn"
-        >
+        <div className={style.profile2} id="loggedIn">
           <button onClick={toggleProfile}>
             {profile.profile_pic_url && loadingProfilePic === false ? (
               <Image
