@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { SilentTokenRequest } from "../../components/utils/RefreshToken";
 import { useDispatch } from "react-redux";
+import { Image } from "cloudinary-react";
 
 function Comments({
   postId,
@@ -76,7 +77,11 @@ function Comments({
       <div className={style.upper}>
         <div className={style.left}>
           {profilePic ? (
-            <img className={style.profilePic} src={profilePic} />
+            <Image
+              className={style.profilePic}
+              cloudName="duqzktgtq"
+              publicId={profilePic}
+            />
           ) : (
             <img className={style.profilePic} src="img/soraLogo.png" />
           )}

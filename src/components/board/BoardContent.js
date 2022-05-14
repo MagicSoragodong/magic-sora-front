@@ -7,6 +7,7 @@ import axios from "axios";
 import { SilentTokenRequest } from "../utils/RefreshToken";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Image } from "cloudinary-react";
 
 // props
 function BoardContent({
@@ -50,7 +51,11 @@ function BoardContent({
         <div className={style.dummy}>
           <div className={style.upper}>
             {profilePic ? (
-              <img className={style.profilePic} src={profilePic} />
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId={profilePic}
+              />
             ) : (
               <img className={style.profilePic} src="img/soraLogo.png" />
             )}
@@ -69,7 +74,11 @@ function BoardContent({
             </h2>
             <div className={style.thumbnailBox}>
               {thumbnail ? (
-                <img className={style.thumbnail} src={thumbnail} />
+                <Image
+                  className={style.thumbnail}
+                  cloudName="duqzktgtq"
+                  publicId={thumbnail}
+                />
               ) : (
                 <img className={style.thumbnail} src="img/soraLogo.png" />
               )}

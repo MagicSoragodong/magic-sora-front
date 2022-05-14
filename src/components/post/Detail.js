@@ -6,6 +6,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { SilentTokenRequest } from "../utils/RefreshToken";
 import { useDispatch, useSelector } from "react-redux";
+import { Image } from "cloudinary-react";
 
 function Detail({
   id,
@@ -57,7 +58,11 @@ function Detail({
         <div className={style.upperContent}>
           <h1 className={style.title}>{title}</h1>
           <div className={style.profile}>
-            <img className={style.profilePic} src={profilePic} />
+            <Image
+              className={style.profilePic}
+              cloudName="duqzktgtq"
+              publicId={profilePic}
+            />
             <span className={style.nickname}>{author}</span>
           </div>
         </div>
@@ -101,9 +106,10 @@ function Detail({
                     {choice.photo_url ? (
                       <>
                         <div className={style.option_photo}>
-                          <img
+                          <Image
                             className={style.choice_pic}
-                            src={choice.photo_url}
+                            cloudName="duqzktgtq"
+                            publicId={choice.photo_url}
                           />
                         </div>
                         <p>{choice.choice_content}</p>
@@ -132,9 +138,10 @@ function Detail({
                     {choice.photo_url ? (
                       <>
                         <div className={style.option_photo}>
-                          <img
+                          <Image
                             className={style.choice_pic}
-                            src={choice.photo_url}
+                            cloudName="duqzktgtq"
+                            publicId={choice.photo_url}
                           />
                         </div>
                         <p>{choice.choice_content}</p>
@@ -165,9 +172,10 @@ function Detail({
                   {choice.photo_url ? (
                     <>
                       <div className={style.option_photo}>
-                        <img
+                        <Image
                           className={style.choice_pic}
-                          src={choice.photo_url}
+                          cloudName="duqzktgtq"
+                          publicId={choice.photo_url}
                         />
                       </div>
                       <p>{choice.choice_content}</p>
@@ -213,9 +221,10 @@ function Detail({
                   {choice.photo_url ? (
                     <>
                       <div className={style.option_photo}>
-                        <img
+                        <Image
                           className={style.choice_pic}
-                          src={choice.photo_url}
+                          cloudName="duqzktgtq"
+                          publicId={choice.photo_url}
                         />
                       </div>
                       <p>{choice.choice_content}</p>

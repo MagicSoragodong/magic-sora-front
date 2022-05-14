@@ -65,10 +65,7 @@ function Result({ result }) {
     <div className={style.results}>
       <strong className={style.result}>결과</strong>
       {total === 0 ? (
-        <img
-          className={style.total0}
-          src="https://pbs.twimg.com/media/DfK2m9TU0AMj_S1.jpg"
-        />
+        <img className={style.total0} src="img/no_attention.jpg" />
       ) : (
         <div className={style.chartContainer}>
           <div className={style.myChart}>
