@@ -5,6 +5,13 @@
   place-content: center;
 }
 
+.search_container {
+  margin: 180px 10% 0 10%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-content: center;
+}
+
 .no_posts {
   color: gray;
   font-style: italic;
@@ -16,6 +23,9 @@
     display: flex;
     flex-direction: column;
     margin-top: 16px;
+  }
+  .search_container {
+    margin-top: 120px;
   }
 }
 

@@ -31,7 +31,7 @@ function SearchForm2({ selectedOption, searchKeyword }) {
 
   return (
     <div className={style.searchBanner}>
-      <div className={style.searchForm}>
+      <div className={style.searchLeft}>
         <FontAwesomeIcon
           className={style.goback_icon}
           icon={faArrowLeft}
@@ -60,8 +60,10 @@ function SearchForm2({ selectedOption, searchKeyword }) {
           </button>
         </form>
       </div>
+
       <Link to="/writing">
-        <button>내 고민 작성하기</button>
+        <button className={style.newPost_lg}>내 고민 작성하기</button>
+        <button className={style.newPost_sm}>글쓰기</button>
       </Link>
     </div>
   );
