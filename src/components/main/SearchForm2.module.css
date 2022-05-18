@@ -2,18 +2,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 10%;
+  margin-top: 92px;
   height: 84px;
+  flex-wrap: wrap;
+  padding: 16px 10%;
+  border-bottom: 1px solid gainsboro;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #e3effd;
 }
 
 .goback_icon {
   width: 30px;
   height: 30px;
-  margin-right: 16px;
+  margin-right: 8px;
+  color: lightslategray;
 }
 
-.goback_icon path {
-  color: lightslategray;
+.searchLeft {
+  display: flex;
+  align-items: center;
 }
 
 .searchForm {
@@ -36,6 +47,7 @@
   padding-left: 10px;
   font-size: 14px;
   border: 1px solid gainsboro;
+  margin: 0;
 }
 
 .searchButton {
@@ -43,13 +55,74 @@
   border: 0;
   outline: 0;
   cursor: pointer;
-}
-
-.searchButton path {
   color: #005de9;
 }
 
 .searchIcon {
   width: 30px;
   height: 30px;
+}
+
+.newPost_lg,
+.newPost_sm {
+  background-color: #0066ff;
+  color: white;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.newPost_sm {
+  display: none;
+}
+
+@media screen and (max-width: 576px) {
+  .searchBanner {
+    height: 50px;
+    margin: 66px 0 0 0;
+    padding: 4px 16px;
+    flex-direction: column;
+  }
+
+  .goback_icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
+  .searchIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .searchLeft {
+    width: 100%;
+  }
+
+  .searchForm input {
+    width: auto;
+  }
+
+  .newPost_lg {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .searchBanner {
+    margin: 92px 0;
+    padding: 0 16px;
+  }
+
+  .goback_icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
+  .newPost_lg {
+    display: none;
+  }
+  .newPost_sm {
+    display: block;
+  }
 }

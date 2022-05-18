@@ -1,8 +1,8 @@
 .searchForm {
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  margin: 40px 0;
+  align-items: center;
+  margin: 16px 10%;
 }
 
 .searchSelect {
@@ -20,6 +20,7 @@
   padding-left: 10px;
   font-size: 14px;
   border: 1px solid gainsboro;
+  margin: 0;
 }
 
 .searchButton {
@@ -28,13 +29,39 @@
   outline: 0;
   padding-left: 20px;
   cursor: pointer;
-}
-
-.searchButton path {
   color: #005de9;
 }
 
 .searchIcon {
   width: 50px;
   height: 50px;
+}
+
+@media screen and (max-width: 576px) {
+  .searchForm {
+    margin: 16px 0;
+  }
+
+  .searchSelect,
+  .searchForm input {
+    height: 30px;
+  }
+
+  .searchButton {
+    padding-left: 8px;
+  }
+  .searchIcon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  .searchButton {
+    padding-left: 8px;
+  }
+  .searchIcon {
+    width: 30px;
+    height: 30px;
+  }
 }

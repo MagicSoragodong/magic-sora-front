@@ -1,6 +1,5 @@
 import React from "react";
 import Banner2 from "../components/banner/Banner2";
-import BoardBanner from "../components/board/BoardBanner";
 import style from "../components/board/BoardContainer.module.css";
 import BoardContent from "../components/board/BoardContent";
 import { useState, useEffect } from "react";
@@ -21,7 +20,6 @@ function Search() {
     searchKeyword
   );
 
-  // 게시글 불러오기?
   const getPosts = async () => {
     try {
       const response = await axios.get(
@@ -44,7 +42,7 @@ function Search() {
         selectedOption={selectedOption}
         searchKeyword={searchKeyword}
       />
-      <div className={style.container}>
+      <div className={style.search_container}>
         {posts.map((post) => (
           <BoardContent
             key={post.id}
