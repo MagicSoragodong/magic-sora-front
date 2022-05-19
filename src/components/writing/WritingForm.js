@@ -257,6 +257,9 @@ function WritingForm() {
                   className={style.addChoiceImage}
                 />
               </div>
+              {imgPreview ? (
+                <div className={style.successMessage}>사진 첨부 완료!</div>
+              ) : null}
               <button type="button" onClick={onCreateChoices}>
                 선택지 등록
               </button>
