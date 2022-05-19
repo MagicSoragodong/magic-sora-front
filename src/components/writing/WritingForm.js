@@ -36,17 +36,14 @@ function WritingForm() {
     { id: 17, name: "기타" },
   ];
   let tempCheckedArr = new Array();
+  let imgURLArr = new Array();
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
-  const [choiceInputs, setChoiceInputs] = useState({
-    choiceText: "",
-    choiceImgURL: "",
-  });
-  const { choiceText, choiceImgURL } = choiceInputs;
+  const [choiceText, setChoiceText] = useState("");
   const [imgPreview, setImgPreview] = useState("");
   const nextId = useRef(1);
   const [choices, setChoices] = useState([]);
-  const [imgURLArr, setImgURLArr] = useState([]);
+  // const [imgURLArr, setImgURLArr] = useState([]);
   const choiceImgAddBtn = useRef(null);
   const onTitleChange = (event) => {
     setTitle(event.target.value);
@@ -99,25 +96,17 @@ function WritingForm() {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
-  const onChoiceInputsChange = (event) => {
-    const { name, value } = event.target;
-    setChoiceInputs({
-      ...choiceInputs,
-      [name]: value,
-    });
+  const onChoiceTextChange = (event) => {
+    setChoiceText(event.target.value);
   };
   const onCreateChoices = () => {
     const choice = {
       id: nextId.current,
       imgPreview: imgPreview,
-      choiceText,
-      choiceImgURL,
+      choiceText: choiceText,
     };
     setChoices([...choices, choice]);
-    setChoiceInputs({
-      choiceText: "",
-      choiceImgURL: "",
-    });
+    setChoiceText("");
     setImgPreview("");
     nextId.current += 1;
   };
@@ -140,22 +129,25 @@ function WritingForm() {
     tempCheckedArr = Array.from(checkedItems);
     try {
       for (let i = 0; i < choices.length; i++) {
-        // if 사진이 없으면 그냥 ""를 배열에 넣음
-        const formData = new FormData();
-        formData.append("api_key", "728191539382363");
-        formData.append("file", choices[i]["imgPreview"]);
-        formData.append("upload_preset", "l8pnyren");
+        if (choices[i]["imgPreview"] === "") {
+          imgURLArr.push("");
+        } else {
+          const formData = new FormData();
+          formData.append("file", choices[i]["imgPreview"]);
+          formData.append("upload_preset", "l8pnyren");
 
-        delete axios.defaults.headers.common["Authorization"];
-        const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/duqzktgtq/image/upload",
-          formData
-        );
-        setImgURLArr([...imgURLArr, response.data.url]);
+          delete axios.defaults.headers.common["Authorization"];
+          const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/duqzktgtq/image/upload",
+            formData
+          );
+          imgURLArr.push(response.data.url);
+        }
       }
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${localStorage.getItem("access_token")}`;
+      console.log(imgURLArr);
       await axios.post(
         "http://localhost:3000/api/posts",
         {
@@ -167,12 +159,11 @@ function WritingForm() {
         },
         { withCredentials: true }
       );
-      console.log(imgURLArr);
       alert("글 올리기 성공!");
       history.push("/");
     } catch (error) {
       console.log(error);
-      SilentTokenRequest(history, dispatch);
+      // SilentTokenRequest(history, dispatch);
     }
   };
   return (
@@ -245,19 +236,15 @@ function WritingForm() {
                   type="text"
                   name="choiceText"
                   value={choiceText}
-                  onChange={onChoiceInputsChange}
+                  onChange={onChoiceTextChange}
                   placeholder="선택지 설명을 입력하세요."
                   className={style.choiceInputText}
                 />
                 <input
                   type="file"
                   accept="image/*"
-                  name="choiceImgURL"
-                  value={choiceImgURL}
-                  onChange={(e) => {
-                    onChoiceInputsChange(e);
-                    showImgPreview(e);
-                  }}
+                  name="imgPreview"
+                  onChange={showImgPreview}
                   className={style.fileBtn}
                   ref={choiceImgAddBtn}
                 />
@@ -267,6 +254,7 @@ function WritingForm() {
                   }}
                   title="사진 추가하기"
                   icon={faImage}
+                  value={imgPreview}
                   className={style.addChoiceImage}
                 />
               </div>
