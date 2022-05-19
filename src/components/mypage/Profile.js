@@ -141,7 +141,7 @@ function Profile({
           "https://api.cloudinary.com/v1_1/duqzktgtq/image/upload",
           formData
         );
-        setProfileImg(response.data.url);
+        let tempURL = response.data.url;
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${localStorage.getItem("access_token")}`;
@@ -150,7 +150,7 @@ function Profile({
           "http://localhost:3000/api/users/",
           {
             newUser: {
-              profile_pic_url: profileImg,
+              profile_pic_url: tempURL,
               nickname: nickname,
               gender: gender,
               birth_date: `${year}${month}${day}`,

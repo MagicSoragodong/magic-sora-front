@@ -29,14 +29,6 @@ function Writing() {
       ) : (
         <div></div>
       )}
-      {/* {isLogin ? (
-        <div></div>
-      ) : (
-        <div>
-          <Banner2 width={270} height={"100vh"} />
-          <WritingForm />
-        </div>
-      )} */}
     </div>
   );
 }
