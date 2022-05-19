@@ -44,6 +44,7 @@ function WritingForm() {
   const nextId = useRef(1);
   const [choices, setChoices] = useState([]);
   const choiceImgAddBtn = useRef(null);
+  const [loading, setLoading] = useState(false);
   const onTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -126,6 +127,7 @@ function WritingForm() {
       return alert("선택지 최대 개수를 맞춰주세요.");
     }
     tempCheckedArr = Array.from(checkedItems);
+    setLoading(true);
     try {
       for (let i = 0; i < choices.length; i++) {
         if (choices[i]["imgPreview"] === "") {
@@ -146,7 +148,6 @@ function WritingForm() {
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${localStorage.getItem("access_token")}`;
-      console.log(imgURLArr);
       await axios.post(
         "http://localhost:3000/api/posts",
         {
@@ -162,124 +163,131 @@ function WritingForm() {
       alert("글 올리기 성공!");
       history.push("/");
     } catch (error) {
+      alert("글 작성 실패 ㅠㅠ");
       SilentTokenRequest(history, dispatch);
     }
   };
   return (
     <div>
-      <div className={style.writingForm}>
-        <FontAwesomeIcon
-          icon={faArrowLeft}
-          className={style.gobackIcon}
-          onClick={() => {
-            history.goBack();
-          }}
-        />
-        <form className={style.writingFormContents}>
-          <div className={style.writingInput}>
-            <h4>고민 제목 :</h4>
-            <input
-              type="text"
-              value={title}
-              onChange={onTitleChange}
-              className={style.writingTitle}
-              placeholder="제목을 입력하세요."
-            />
-          </div>
-          <div className={style.writingInput}>
-            <h4>글 마감 날짜 :</h4>
-            <input
-              type="date"
-              value={endDate}
-              min={getToday()}
-              onChange={onEndDateChange}
-              className={style.writingTitle}
-              placeholder="제목을 입력하세요."
-            />
-          </div>
-          <div className={style.favtags}>
-            <h4>이 글의 태그 :</h4>
-            {formData.map((item) => (
-              <label key={item.id} className={style.favtag}>
-                <input
-                  type="checkbox"
-                  value={item.name}
-                  id={item.id}
-                  onChange={(e) => checkHandler(e)}
-                />
-                <div className="tagName">{item.name}</div>
-              </label>
-            ))}
-          </div>
-          <div className={style.writingInput}>
-            <h4>고민 내용 (최대 400자) :</h4>
-            <textarea
-              value={detail}
-              onChange={onDetailChange}
-              className={style.writingDetail}
-              placeholder="고민을 입력하세요."
-              maxLength="400"
-            />
-          </div>
-          <div className={style.writingChoices}>
-            <h4>
-              선택지 입력 (최소 2개, 최대 10개):{" "}
-              <span className={style.refMessage}>
-                ※ 선택지 설명을 입력하고 사진을 첨부한 후, 선택지 등록 버튼을
-                눌러주세요.(첨부사진 필수 X){" "}
-              </span>
-            </h4>
-            <div className={style.createChoices}>
-              <div className={style.createChoicesInput}>
-                <input
-                  type="text"
-                  name="choiceText"
-                  value={choiceText}
-                  onChange={onChoiceTextChange}
-                  placeholder="선택지 설명을 입력하세요."
-                  className={style.choiceInputText}
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="imgPreview"
-                  onChange={showImgPreview}
-                  className={style.fileBtn}
-                  ref={choiceImgAddBtn}
-                />
-                <FontAwesomeIcon
-                  onClick={() => {
-                    choiceImgAddBtn.current.click();
-                  }}
-                  title="사진 추가하기"
-                  icon={faImage}
-                  value={imgPreview}
-                  className={style.addChoiceImage}
-                />
-              </div>
-              {imgPreview ? (
-                <div className={style.successMessage}>사진 첨부 완료!</div>
-              ) : null}
-              <button type="button" onClick={onCreateChoices}>
-                선택지 등록
-              </button>
+      {loading ? (
+        <div className={style.loadingPage}>
+          <div className={style.loadingContent}>Loading...</div>
+        </div>
+      ) : (
+        <div className={style.writingForm}>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className={style.gobackIcon}
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+          <form className={style.writingFormContents}>
+            <div className={style.writingInput}>
+              <h4>고민 제목 :</h4>
+              <input
+                type="text"
+                value={title}
+                onChange={onTitleChange}
+                className={style.writingTitle}
+                placeholder="제목을 입력하세요."
+              />
             </div>
-            <ChoiceList
-              choices={choices}
-              onRemoveChoices={onRemoveChoices}
-              imgPreview={imgPreview}
-            />
-          </div>
-          <button type="submit" className={style.transparentBtn}>
-            <FontAwesomeIcon
-              onClick={onSubmit}
-              title="글 올리기"
-              className={style.SubmitBtn}
-              icon={faPaperPlane}
-            />
-          </button>
-        </form>
-      </div>
+            <div className={style.writingInput}>
+              <h4>글 마감 날짜 :</h4>
+              <input
+                type="date"
+                value={endDate}
+                min={getToday()}
+                onChange={onEndDateChange}
+                className={style.writingTitle}
+                placeholder="제목을 입력하세요."
+              />
+            </div>
+            <div className={style.favtags}>
+              <h4>이 글의 태그 :</h4>
+              {formData.map((item) => (
+                <label key={item.id} className={style.favtag}>
+                  <input
+                    type="checkbox"
+                    value={item.name}
+                    id={item.id}
+                    onChange={(e) => checkHandler(e)}
+                  />
+                  <div className="tagName">{item.name}</div>
+                </label>
+              ))}
+            </div>
+            <div className={style.writingInput}>
+              <h4>고민 내용 (최대 400자) :</h4>
+              <textarea
+                value={detail}
+                onChange={onDetailChange}
+                className={style.writingDetail}
+                placeholder="고민을 입력하세요."
+                maxLength="400"
+              />
+            </div>
+            <div className={style.writingChoices}>
+              <h4>
+                선택지 입력 (최소 2개, 최대 10개):{" "}
+                <span className={style.refMessage}>
+                  ※ 선택지 설명을 입력하고 사진을 첨부한 후, 선택지 등록 버튼을
+                  눌러주세요.(첨부사진 필수 X){" "}
+                </span>
+              </h4>
+              <div className={style.createChoices}>
+                <div className={style.createChoicesInput}>
+                  <input
+                    type="text"
+                    name="choiceText"
+                    value={choiceText}
+                    onChange={onChoiceTextChange}
+                    placeholder="선택지 설명을 입력하세요."
+                    className={style.choiceInputText}
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="imgPreview"
+                    onChange={showImgPreview}
+                    className={style.fileBtn}
+                    ref={choiceImgAddBtn}
+                  />
+                  <FontAwesomeIcon
+                    onClick={() => {
+                      choiceImgAddBtn.current.click();
+                    }}
+                    title="사진 추가하기"
+                    icon={faImage}
+                    value={imgPreview}
+                    className={style.addChoiceImage}
+                  />
+                </div>
+                {imgPreview ? (
+                  <div className={style.successMessage}>사진 첨부 완료!</div>
+                ) : null}
+                <button type="button" onClick={onCreateChoices}>
+                  선택지 등록
+                </button>
+              </div>
+              <ChoiceList
+                choices={choices}
+                onRemoveChoices={onRemoveChoices}
+                imgPreview={imgPreview}
+              />
+            </div>
+            <button type="submit" className={style.transparentBtn}>
+              <FontAwesomeIcon
+                onClick={onSubmit}
+                title="글 올리기"
+                className={style.SubmitBtn}
+                icon={faPaperPlane}
+              />
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
