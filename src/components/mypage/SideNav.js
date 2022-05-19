@@ -5,6 +5,7 @@ import style from "./SideNav.module.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginState } from "../../actions/login_action";
+import { Image } from "cloudinary-react";
 
 function SideNav({ userProfileImg, userNickname }) {
   const history = useHistory();
@@ -34,7 +35,7 @@ function SideNav({ userProfileImg, userNickname }) {
   };
   return (
     <div className={style.sideNav}>
-      <img src={userProfileImg} alt="user-profile-img" />
+      <Image cloudName="duqzktgtq" publicId={userProfileImg} />
       <h1>{userNickname}</h1>
       <ul className={style.mypageBtns}>
         <li>

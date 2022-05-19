@@ -43,7 +43,6 @@ function WritingForm() {
   const [imgPreview, setImgPreview] = useState("");
   const nextId = useRef(1);
   const [choices, setChoices] = useState([]);
-  // const [imgURLArr, setImgURLArr] = useState([]);
   const choiceImgAddBtn = useRef(null);
   const onTitleChange = (event) => {
     setTitle(event.target.value);
@@ -156,14 +155,14 @@ function WritingForm() {
           tag: tempCheckedArr,
           post_content: detail,
           choice: choices,
+          imgURLArr: imgURLArr,
         },
         { withCredentials: true }
       );
       alert("글 올리기 성공!");
       history.push("/");
     } catch (error) {
-      console.log(error);
-      // SilentTokenRequest(history, dispatch);
+      SilentTokenRequest(history, dispatch);
     }
   };
   return (
