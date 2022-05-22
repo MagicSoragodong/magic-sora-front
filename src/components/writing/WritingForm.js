@@ -37,6 +37,7 @@ function WritingForm() {
   ];
   let tempCheckedArr = new Array();
   let imgURLArr = new Array();
+  let choiceTextArr = new Array();
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [choiceText, setChoiceText] = useState("");
@@ -132,6 +133,7 @@ function WritingForm() {
       for (let i = 0; i < choices.length; i++) {
         if (choices[i]["imgPreview"] === "") {
           imgURLArr.push("");
+          choiceTextArr.push(choices[i]["choiceText"]);
         } else {
           const formData = new FormData();
           formData.append("file", choices[i]["imgPreview"]);
@@ -143,6 +145,7 @@ function WritingForm() {
             formData
           );
           imgURLArr.push(response.data.url);
+          choiceTextArr.push(choices[i]["choiceText"]);
         }
       }
       axios.defaults.headers.common[
@@ -155,7 +158,7 @@ function WritingForm() {
           finish_date: endDate,
           tag: tempCheckedArr,
           post_content: detail,
-          choice: choices,
+          choice_text: choiceTextArr,
           imgURLArr: imgURLArr,
         },
         { withCredentials: true }
