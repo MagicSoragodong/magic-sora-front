@@ -18,7 +18,7 @@ import { SilentTokenRequest } from "../utils/RefreshToken";
 function Board() {
   const [swiper, setSwiper] = useState(null);
   const [mainImageIndex, setMainImageIndex] = useState(0);
-  const [post, setHotPost] = useState([]);
+  const [hotPost, setHotPost] = useState([]);
   const [newPost, setNewPost] = useState([]);
   const [deadlinePost, setDeadlinePost] = useState([]);
   const [favtagPost, setFavtagPost] = useState([]);
@@ -87,17 +87,22 @@ function Board() {
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>HOT 게시판🔥</h2>
               <div className={style.onePost}>
-                {loading ? null : (
+                {loading ? null : hotPost.length === 0 ? (
+                  <img
+                    className={style.no_post}
+                    src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                  />
+                ) : (
                   <BoardContent
-                    key={post[0].id}
-                    author={post[0].author}
-                    commentNum={post[0].commentNum}
-                    id={post[0].id}
-                    registerDate={post[0].registerDate}
-                    tags={post[0].tags}
-                    thumbnail={post[0].thumbnail}
-                    title={post[0].title}
-                    profilePic={post[0].profile}
+                    key={hotPost[0].id}
+                    author={hotPost[0].author}
+                    commentNum={hotPost[0].commentNum}
+                    id={hotPost[0].id}
+                    registerDate={hotPost[0].registerDate}
+                    tags={hotPost[0].tags}
+                    thumbnail={hotPost[0].thumbnail}
+                    title={hotPost[0].title}
+                    profilePic={hotPost[0].profile}
                     deletePost={false}
                   />
                 )}
@@ -110,7 +115,12 @@ function Board() {
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>새로운 글✨</h2>
               <div className={style.onePost}>
-                {loading ? null : (
+                {loading ? null : newPost.length === 0 ? (
+                  <img
+                    className={style.no_post}
+                    src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                  />
+                ) : (
                   <BoardContent
                     key={newPost[0].id}
                     author={newPost[0].author}
@@ -165,6 +175,11 @@ function Board() {
                   <p>로그인 후 이용 가능한 게시판입니다</p>
                   <img className={style.favtag_board} src="img/soraLogo.png" />
                 </div>
+              ) : favtagPost.length === 0 ? (
+                <img
+                  className={style.no_post}
+                  src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                />
               ) : (
                 <div className={style.onePost}>
                   <BoardContent
