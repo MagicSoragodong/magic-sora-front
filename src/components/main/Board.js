@@ -5,6 +5,7 @@ import style from "./Board.module.css";
 import BoardContent from "../board/BoardContent";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { Image } from "cloudinary-react";
 
 // swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -85,12 +86,13 @@ function Board() {
         <SwiperSlide>
           <Link to="/hot">
             <div className={style.oneSlide}>
-              <h2 className={style.board_title}>HOT 게시판🔥</h2>
+              <h2 className={style.board_title}>뜨 게</h2>
               <div className={style.onePost}>
                 {loading ? null : hotPost.length === 0 ? (
-                  <img
+                  <Image
                     className={style.no_post}
-                    src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                    cloudName="duqzktgtq"
+                    publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                   />
                 ) : (
                   <BoardContent
@@ -113,12 +115,13 @@ function Board() {
         <SwiperSlide>
           <Link to="/new">
             <div className={style.oneSlide}>
-              <h2 className={style.board_title}>새로운 글✨</h2>
+              <h2 className={style.board_title}>새 게</h2>
               <div className={style.onePost}>
                 {loading ? null : newPost.length === 0 ? (
-                  <img
+                  <Image
                     className={style.no_post}
-                    src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                    cloudName="duqzktgtq"
+                    publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                   />
                 ) : (
                   <BoardContent
@@ -141,12 +144,13 @@ function Board() {
         <SwiperSlide>
           <Link to="/deadline">
             <div className={style.oneSlide}>
-              <h2 className={style.board_title}>마감임박⏱</h2>
+              <h2 className={style.board_title}>곧 게</h2>
               <div className={style.onePost}>
                 {loading ? null : deadlinePost.length === 0 ? (
-                  <img
+                  <Image
                     className={style.no_post}
-                    src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                    cloudName="duqzktgtq"
+                    publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                   />
                 ) : (
                   <BoardContent
@@ -169,16 +173,21 @@ function Board() {
         <SwiperSlide>
           <Link to="/favtag">
             <div className={style.oneSlide}>
-              <h2 className={style.board_title}>관심태그📌</h2>
+              <h2 className={style.board_title}>흥 게</h2>
               {loadingFavtag ? (
                 <div className={style.notLogined_favtag}>
                   <p>로그인 후 이용 가능한 게시판입니다</p>
-                  <img className={style.favtag_board} src="img/soraLogo.png" />
+                  <Image
+                    className={style.favtag_board}
+                    cloudName="duqzktgtq"
+                    publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/login_please_ywwszm.png"
+                  />
                 </div>
               ) : favtagPost.length === 0 ? (
-                <img
+                <Image
                   className={style.no_post}
-                  src={`https://images-ext-2.discordapp.net/external/12U8QmPxveaAoFe9I8GULJbljTsMlrHBPVj7oB9UDhc/http/img.tf.co.kr/article/sa2da/2018/12/27/20184105154621894310.jpg?width=445&height=670`}
+                  cloudName="duqzktgtq"
+                  publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                 />
               ) : (
                 <div className={style.onePost}>

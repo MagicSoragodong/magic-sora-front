@@ -91,7 +91,10 @@ function Banner({ width, height }) {
         {/* sidebar content */}
         <div className={style.content}>
           <div className={style.upperContent}>
-            <img src="img/soraLogo.png" alt="soragodong logo" />
+            <Image
+              cloudName="duqzktgtq"
+              publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+            />
             <FontAwesomeIcon
               icon={faBars}
               className={style.barIcon_inner}
@@ -117,27 +120,27 @@ function Banner({ width, height }) {
             </li>
             <li>
               <Link to="/hot">
-                <button>핫한 고민</button>
+                <button>뜨 게</button>
               </Link>
             </li>
             <li>
               <Link to="/new">
-                <button>신규 고민</button>
+                <button>새 게</button>
               </Link>
             </li>
             <li>
               <Link to="/deadline">
-                <button>종료 임박</button>
+                <button>곧 게</button>
               </Link>
             </li>
             <li>
               <Link to="/end">
-                <button>종료된 고민</button>
+                <button>헌 게</button>
               </Link>
             </li>
             <li>
               <Link to="/favtag">
-                <button>관심태그</button>
+                <button>흥 게</button>
               </Link>
               <hr size="1" color="#0066ff" />
             </li>
@@ -158,7 +161,10 @@ function Banner({ width, height }) {
       {/* logo */}
       <div className={style.logoContainer}>
         <Link className={style.logo} to={"/"}>
-          <img src="img/soraLogo.png" alt="soragodong_logo" />
+          <Image
+            cloudName="duqzktgtq"
+            publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+          />
           <h1 className="">마법의 소라고동</h1>
         </Link>
       </div>
@@ -173,7 +179,10 @@ function Banner({ width, height }) {
                 publicId={profile.profile_pic_url}
               />
             ) : (
-              <img src="img/soralogo.png" alt="default profile pic" />
+              <Image
+                cloudName="duqzktgtq"
+                publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+              />
             )}
           </button>
 

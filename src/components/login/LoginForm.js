@@ -5,6 +5,7 @@ import FindPwModal from "./FindPwModal";
 import style from "./LoginForm.module.css";
 import { useDispatch } from "react-redux";
 import { loginState } from "../../actions/login_action";
+import { Image } from "cloudinary-react";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -75,7 +76,11 @@ function LoginForm() {
           비밀번호 찾기
         </button>
         {findPwOpen ? <FindPwModal findPwClose={findPwClose} /> : null}
-        <img src="img/soraLogo.png" alt="cute-img" />
+        <Image
+          className={style.thumbnail}
+          cloudName="duqzktgtq"
+          publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+        />
       </div>
     </div>
   );

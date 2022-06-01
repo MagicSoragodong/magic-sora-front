@@ -3,27 +3,11 @@ import style from "./Result.module.css";
 import { VictoryPie } from "victory-pie";
 import { useState, useEffect } from "react";
 import { VictoryLabel } from "victory";
+import { Image } from "cloudinary-react";
 
 function Result({ result }) {
-  // const myData_o = [
-  //   { x: 1, y: 900 },
-  //   { x: 2, y: 500 },
-  //   { x: 3, y: 300 },
-  // ];
   const [score, setScore] = useState([]);
   const [total, setTotal] = useState(0);
-  const colorScale1 = [
-    "#8DB0E0",
-    "#8FF7AC",
-    "#F0E68B",
-    "#F0AD8B",
-    "#ED96FA",
-    "#51C1E0",
-    "#73F74D",
-    "#F0C14A",
-    "#F07354",
-    "#B157FA",
-  ];
   const colorScale2 = [
     "#69b3f8",
     "#ADA3FF",
@@ -65,17 +49,16 @@ function Result({ result }) {
     <div className={style.results}>
       <strong className={style.result}>결과</strong>
       {total === 0 ? (
-        <img className={style.total0} src="img/no_attention.jpg" />
+        <Image
+          className={style.total0}
+          cloudName="duqzktgtq"
+          publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_attention_wcm7tl.jpg"
+        />
       ) : (
         <div className={style.chartContainer}>
           <div className={style.myChart}>
             <VictoryPie
               data={score}
-              // labels={({ datum }) =>
-              //   `${datum.x}: ${Math.round((datum.y / total) * 100)}% / ${
-              //     datum.y
-              //   }표`
-              // }
               labels={({ datum }) => `${Math.round((datum.y / total) * 100)}% `}
               labelRadius={110}
               radius={150}

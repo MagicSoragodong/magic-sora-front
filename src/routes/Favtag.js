@@ -112,7 +112,7 @@ function Favtag() {
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
-      <BoardBanner board_name={"관심 태그"} newPost={true} />
+      <BoardBanner board_name={"흥(미로운) 게시판"} newPost={true} />
 
       {loadingTags ? null : (
         <div>

@@ -7,7 +7,7 @@ function End() {
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
-      <BoardBanner board_name={"종료된 고민"} newPost={true} />
+      <BoardBanner board_name={"헌(헐다의 과거형) 게시판"} newPost={true} />
       <BoardContainer type="end" />
     </div>
   );
