@@ -30,10 +30,9 @@ function Comments({
   };
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3000/api/posts/${postId}/comments/${id}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`/api/posts/${postId}/comments/${id}`, {
+        withCredentials: true,
+      });
       window.location.reload();
     } catch (error) {
       SilentTokenRequest(history, dispatch);
@@ -44,7 +43,7 @@ function Comments({
   const addLike = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/posts/${postId}/comments/likes
+        `/api/posts/${postId}/comments/likes
       `,
         { comment_id: id },
         { withCredentials: true }
@@ -62,10 +61,9 @@ function Comments({
   // 댓글 좋아요 삭제
   const deleteLike = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3000/api/posts/${postId}/comments/likes/${id}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`/api/posts/${postId}/comments/likes/${id}`, {
+        withCredentials: true,
+      });
       window.location.reload();
     } catch (error) {
       SilentTokenRequest(history, dispatch);

@@ -17,10 +17,9 @@ function Myvote() {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/users/myvotes`,
-        { withCredentials: true }
-      );
+      const response = await axios.get(`/api/users/myvotes`, {
+        withCredentials: true,
+      });
       console.log(response.data);
       setPosts(response.data);
     } catch (error) {

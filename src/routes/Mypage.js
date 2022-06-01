@@ -23,7 +23,7 @@ function Mypage() {
   const [userMbti, setUserMbti] = useState("");
   const getUsersData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/users/", {
+      const response = await axios.get("/api/users/", {
         withCredentials: true,
       });
       setUserProfileImg(response.data.profile_pic_url);

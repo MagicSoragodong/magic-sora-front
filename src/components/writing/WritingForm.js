@@ -152,7 +152,7 @@ function WritingForm() {
         "Authorization"
       ] = `Bearer ${localStorage.getItem("access_token")}`;
       await axios.post(
-        "http://localhost:3000/api/posts",
+        "/api/posts",
         {
           post_title: title,
           finish_date: endDate,

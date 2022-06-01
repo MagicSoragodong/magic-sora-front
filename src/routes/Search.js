@@ -23,7 +23,7 @@ function Search() {
   const getPosts = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/posts/search?option=${selectedOption}&search=${searchKeyword}`
+        `/api/posts/search?option=${selectedOption}&search=${searchKeyword}`
       );
       console.log(response.data);
       setPosts(response.data);

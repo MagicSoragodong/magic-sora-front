@@ -3,7 +3,7 @@ import { loginState } from "../../actions/login_action";
 
 export const SilentTokenRequest = async (history, dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3000/api/auth/refresh", {
+    const response = await axios.get("/api/auth/refresh", {
       withCredentials: true,
     });
     localStorage.setItem("access_token", response.data.data["access_token"]);

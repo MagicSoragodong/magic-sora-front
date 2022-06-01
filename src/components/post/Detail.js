@@ -40,7 +40,7 @@ function Detail({
     if (isLogin) {
       try {
         await axios.post(
-          `http://localhost:3000/api/posts/${id}/options`,
+          `/api/posts/${id}/options`,
           { choice_id: choiceNum },
           { withCredentials: true }
         );

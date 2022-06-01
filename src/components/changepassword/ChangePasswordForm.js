@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import queryString from "query-string";
 import style from "./ChangePasswordForm.module.css";
 
@@ -20,26 +20,23 @@ function ChangePasswordForm() {
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    if(newPassword !== newPasswordCheck) {
+    if (newPassword !== newPasswordCheck) {
       alert("비밀번호 일치 여부를 확인해주세요.");
       return setNewPasswordError(true);
     }
     try {
-      await axios.patch( "http://localhost:3000/api/users/reset-password",
-        {
-          code: query.code,
-          id: query.id,
-          newPassword: newPassword
-        }
-      )
+      await axios.patch("/api/users/reset-password", {
+        code: query.code,
+        id: query.id,
+        newPassword: newPassword,
+      });
       alert("비밀번호가 성공적으로 변경되었습니다.");
       history.push("/login");
-    }
-    catch(error) {
+    } catch (error) {
       alert("비밀번호 변경에 실패했습니다.");
-      console.log('Error! >>', error);
+      console.log("Error! >>", error);
     }
-  }
+  };
   return (
     <div className={style.formContents}>
       <h1>비밀번호 변경</h1>
@@ -68,8 +65,14 @@ function ChangePasswordForm() {
             placeholder="새 비밀번호 확인"
           />
         </div>
-        {newPasswordError ? <div className={style.errorMessage}>비밀번호가 일치하지 않습니다.</div> : null}
-        <button className={style.changePasswordBtn} type="submit">비밀번호 변경</button>
+        {newPasswordError ? (
+          <div className={style.errorMessage}>
+            비밀번호가 일치하지 않습니다.
+          </div>
+        ) : null}
+        <button className={style.changePasswordBtn} type="submit">
+          비밀번호 변경
+        </button>
       </form>
     </div>
   );

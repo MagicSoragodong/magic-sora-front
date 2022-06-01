@@ -114,7 +114,7 @@ function Profile({
       setNicknameFormError(false);
     }
     try {
-      await axios.get(`http://localhost:3000/api/users/nickname-exists`, {
+      await axios.get(`/api/users/nickname-exists`, {
         params: { nickname: nickname },
       });
       setNicknameDuplicated(false);
@@ -147,7 +147,7 @@ function Profile({
         ] = `Bearer ${localStorage.getItem("access_token")}`;
 
         await axios.patch(
-          "http://localhost:3000/api/users/",
+          "/api/users/",
           {
             newUser: {
               profile_pic_url: tempURL,
@@ -177,7 +177,7 @@ function Profile({
     }
     try {
       await axios.patch(
-        "http://localhost:3000/api/users/",
+        "/api/users/",
         {
           currentPass: currentPassword,
           newUser: {
