@@ -36,7 +36,7 @@ function BoardContent({
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/posts/${id}`, {
+      await axios.delete(`/api/posts/${id}`, {
         withCredentials: true,
       });
       history.push("/mypost");

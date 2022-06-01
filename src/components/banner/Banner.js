@@ -29,7 +29,7 @@ function Banner({ width, height }) {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout", null, {
+      await axios.post("/api/auth/logout", null, {
         withCredentials: true,
       });
       localStorage.removeItem("access_token");
@@ -51,7 +51,7 @@ function Banner({ width, height }) {
   const getProfilePic = async () => {
     if (isLogin) {
       try {
-        const response = await axios.get(`http://localhost:3000/api/users`, {
+        const response = await axios.get(`/api/users`, {
           withCredentials: true,
         });
         setProfile(response.data);

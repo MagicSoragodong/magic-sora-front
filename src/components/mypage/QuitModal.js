@@ -17,7 +17,7 @@ function QuitModal({ modalClose }) {
   const memberQuit = async (event) => {
     event.preventDefault();
     try {
-      await axios.delete("http://localhost:3000/api/users/", {
+      await axios.delete("/api/users/", {
         withCredentials: true,
       });
       alert("회원 탈퇴를 완료했습니다. 그동안 이용해 주셔서 감사합니다.");

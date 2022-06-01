@@ -25,7 +25,7 @@ function LoginForm() {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login/local",
+        "/api/auth/login/local",
         {
           user_email: id,
           password: password,

@@ -16,10 +16,9 @@ function Mypost() {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/users/myposts`,
-        { withCredentials: true }
-      );
+      const response = await axios.get(`/api/users/myposts`, {
+        withCredentials: true,
+      });
       console.log(response.data);
       setPosts(response.data);
     } catch (error) {

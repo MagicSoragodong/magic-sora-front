@@ -25,7 +25,7 @@ function Banner2({ width, height }) {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout", null, {
+      await axios.post("/api/auth/logout", null, {
         withCredentials: true,
       });
       localStorage.removeItem("access_token");

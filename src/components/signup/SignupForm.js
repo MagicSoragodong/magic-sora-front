@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import style from "./SignupForm.module.css";
 
-function SignupForm () {
+function SignupForm() {
   const history = useHistory();
   const nicknameReg = /[^\wㄱ-힣]|[\_]/g;
-  const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  const emailReg =
+    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   const [email, setEmail] = useState("");
   const [idFormError, setIdFormError] = useState(false);
   const [idDuplicated, setIdDuplicated] = useState(false);
@@ -58,19 +59,16 @@ function SignupForm () {
       return setIdFormError(true);
     }
     try {
-      await axios.get( `http://localhost:3000/api/users/email-exists`, 
-        {
-          params: {email: email}
-        }
-      );
+      await axios.get(`/api/users/email-exists`, {
+        params: { email: email },
+      });
       setIdDuplicated(false);
       setIdCheckDone(true);
       alert("사용 가능한 아이디입니다.");
-    }
-    catch(error) {
+    } catch (error) {
       setIdDuplicated(true);
     }
-  }
+  };
   const nicknameCheck = async () => {
     if (nicknameReg.test(nickname)) {
       return setNicknameFormError(true);
@@ -78,46 +76,40 @@ function SignupForm () {
       setNicknameFormError(false);
     }
     try {
-      await axios.get( `http://localhost:3000/api/users/nickname-exists`,
-        {
-          params: {nickname: nickname}
-        }
-      );
+      await axios.get(`/api/users/nickname-exists`, {
+        params: { nickname: nickname },
+      });
       setNicknameDuplicated(false);
       setNicknameCheckDone(true);
       alert("사용 가능한 닉네임입니다.");
-    }
-    catch(error) {
+    } catch (error) {
       setNicknameDuplicated(true);
     }
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    if(password !== passwordCheck) {
+    if (password !== passwordCheck) {
       alert("비밀번호 일치 여부를 확인해주세요.");
       return setPasswordError(true);
     }
     try {
-      if(!idCheckDone) {
+      if (!idCheckDone) {
         alert("아이디 중복 확인을 완료해주세요.");
       } else if (!nicknameCheckDone) {
         alert("닉네임 중복 확인을 완료해주세요.");
       } else {
-        await axios.post( "http://localhost:3000/api/auth/register/local",
-          {
-            user_email: email, 
-            password: password,
-            nickname: nickname,
-            gender: gender,
-            birth_date: `${year}${month}${day}`,
-            mbti: mbti
-          }
-        )
+        await axios.post("/api/auth/register/local", {
+          user_email: email,
+          password: password,
+          nickname: nickname,
+          gender: gender,
+          birth_date: `${year}${month}${day}`,
+          mbti: mbti,
+        });
         alert("회원가입 성공!");
         history.push("/login");
       }
-    }
-    catch(error) {
+    } catch (error) {
       alert("회원가입을 실패했습니다.");
     }
   };
@@ -138,10 +130,20 @@ function SignupForm () {
               onChange={onIdChange}
               placeholder="아이디"
             />
-            <button type="button" disabled={!email} onClick={idCheck}>중복 확인</button>
+            <button type="button" disabled={!email} onClick={idCheck}>
+              중복 확인
+            </button>
           </div>
-          {idFormError ? <div className={style.errorDetect}>이메일 형식이 맞지 않습니다.</div> : null}
-          {idDuplicated ? <div className={style.errorDetect}>이미 사용 중인 아이디입니다.</div> : null}
+          {idFormError ? (
+            <div className={style.errorDetect}>
+              이메일 형식이 맞지 않습니다.
+            </div>
+          ) : null}
+          {idDuplicated ? (
+            <div className={style.errorDetect}>
+              이미 사용 중인 아이디입니다.
+            </div>
+          ) : null}
           {/* 비밀번호 입력 */}
           <div className={style.signupInput}>
             <label htmlFor="user-pw">비밀번호</label>
@@ -167,7 +169,11 @@ function SignupForm () {
               placeholder="비밀번호 확인"
             />
           </div>
-          {passwordError ? <div className={style.errorDetect}>비밀번호가 일치하지 않습니다.</div> : null}
+          {passwordError ? (
+            <div className={style.errorDetect}>
+              비밀번호가 일치하지 않습니다.
+            </div>
+          ) : null}
           {/* 닉네임 입력 */}
           <div className={style.signupInputWithChecking}>
             <label htmlFor="user-nickname">닉네임</label>
@@ -180,15 +186,33 @@ function SignupForm () {
               placeholder="닉네임"
               minLength="2"
             />
-            <button type="button" disabled={!nickname} onClick={nicknameCheck}>중복 확인</button>
+            <button type="button" disabled={!nickname} onClick={nicknameCheck}>
+              중복 확인
+            </button>
           </div>
-          {nicknameFormError ? <div className={style.errorDetect}>닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)</div> : null}
-          {nicknameDuplicated ? <div className={style.errorDetect}>이미 사용 중인 닉네임입니다.</div> : null}
+          {nicknameFormError ? (
+            <div className={style.errorDetect}>
+              닉네임을 다시 입력해주세요. (특수문자, 띄어쓰기 불가)
+            </div>
+          ) : null}
+          {nicknameDuplicated ? (
+            <div className={style.errorDetect}>
+              이미 사용 중인 닉네임입니다.
+            </div>
+          ) : null}
           {/* 성별 select */}
           <div className={style.signupInput}>
             <label htmlFor="user-gender">성별</label>
-            <select id="user-gender" value={gender} name="gender" required onChange={onGenderChange}>
-              <option value="" disabled>------------성별을 고르세요------------</option>
+            <select
+              id="user-gender"
+              value={gender}
+              name="gender"
+              required
+              onChange={onGenderChange}
+            >
+              <option value="" disabled>
+                ------------성별을 고르세요------------
+              </option>
               <option value="M">남자</option>
               <option value="F">여자</option>
             </select>
@@ -196,8 +220,17 @@ function SignupForm () {
           {/* 생년월일 select */}
           <div className={style.birthSelect}>
             <h4>생년월일</h4>
-            <select className={style.yearSelect} id="user-year" value={year} name="year" required onChange={onYearChange}>
-              <option value="" disabled>년도</option>
+            <select
+              className={style.yearSelect}
+              id="user-year"
+              value={year}
+              name="year"
+              required
+              onChange={onYearChange}
+            >
+              <option value="" disabled>
+                년도
+              </option>
               <option value="2022">2022</option>
               <option value="2021">2021</option>
               <option value="2020">2020</option>
@@ -253,8 +286,17 @@ function SignupForm () {
               <option value="1970">1970</option>
             </select>
             <label htmlFor="user-year">년</label>
-            <select className={style.monthSelect} id="user-month" value={month} name="month" required onChange={onMonthChange}>
-              <option value="" disabled>월</option>
+            <select
+              className={style.monthSelect}
+              id="user-month"
+              value={month}
+              name="month"
+              required
+              onChange={onMonthChange}
+            >
+              <option value="" disabled>
+                월
+              </option>
               <option value="01">1</option>
               <option value="02">2</option>
               <option value="03">3</option>
@@ -269,8 +311,17 @@ function SignupForm () {
               <option value="12">12</option>
             </select>
             <label htmlFor="user-month">월</label>
-            <select className={style.daySelect} id="user-day" value={day} name="day" required onChange={onDayChange}>
-              <option value="" disabled>일</option>
+            <select
+              className={style.daySelect}
+              id="user-day"
+              value={day}
+              name="day"
+              required
+              onChange={onDayChange}
+            >
+              <option value="" disabled>
+                일
+              </option>
               <option value="01">1</option>
               <option value="02">2</option>
               <option value="03">3</option>
@@ -308,8 +359,16 @@ function SignupForm () {
           {/* MBTI select */}
           <div className={style.signupInput}>
             <label htmlFor="user-mbti">MBTI</label>
-            <select id="user-mbti" value={mbti} name="mbti" required onChange={onMbtiChange}>
-              <option value="" disabled>-----------MBTI를 고르세요-----------</option>
+            <select
+              id="user-mbti"
+              value={mbti}
+              name="mbti"
+              required
+              onChange={onMbtiChange}
+            >
+              <option value="" disabled>
+                -----------MBTI를 고르세요-----------
+              </option>
               <option value="estp">ESTP</option>
               <option value="esfp">ESFP</option>
               <option value="enfp">ENFP</option>

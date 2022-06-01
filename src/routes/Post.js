@@ -34,7 +34,7 @@ function Post() {
   // 글
   const getPost = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/posts/${id}`);
+      const response = await axios.get(`/api/posts/${id}`);
       setPostData(response.data);
       setLoadingPost(false);
     } catch (error) {
@@ -45,10 +45,9 @@ function Post() {
   const getOptions = async () => {
     if (isLogin) {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/posts/${id}/options`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`/api/posts/${id}/options`, {
+          withCredentials: true,
+        });
         setOptions(response.data);
         setLoadingOptions(false);
       } catch (error) {
@@ -56,9 +55,7 @@ function Post() {
       }
     } else {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/posts/${id}/options`
-        );
+        const response = await axios.get(`/api/posts/${id}/options`);
         setOptions(response.data);
         setLoadingOptions(false);
       } catch (E) {
@@ -70,10 +67,9 @@ function Post() {
   const getComments = async () => {
     if (isLogin) {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/posts/${id}/comments`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`/api/posts/${id}/comments`, {
+          withCredentials: true,
+        });
         setComments(response.data.comments);
         setVisible(response.data.isVisible);
         setLikedComments(response.data.myLikes);
@@ -83,9 +79,7 @@ function Post() {
       }
     } else {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/posts/${id}/comments`
-        );
+        const response = await axios.get(`/api/posts/${id}/comments`);
         setComments(response.data.comments);
         setVisible(response.data.isVisible);
         setLikedComments(response.data.myLikes);
@@ -98,9 +92,7 @@ function Post() {
   // 결과
   const getResult = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/posts/${id}/options/results`
-      );
+      const response = await axios.get(`/api/posts/${id}/options/results`);
       setResult(response.data);
       setLoadingResult(false);
     } catch (error) {
@@ -127,7 +119,7 @@ function Post() {
   const submitHandler = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/posts/${id}/comments`,
+        `/api/posts/${id}/comments`,
         { content: newComment },
         { withCredentials: true }
       );

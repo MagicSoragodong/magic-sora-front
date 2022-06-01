@@ -24,16 +24,16 @@ function Favtag() {
   const getDatas = async () => {
     try {
       // 모든 태그 목록
-      const everyTags = await axios.get(`http://localhost:3000/api/tags`);
-      // const everyTags = await axios.get(`http://localhost:3000/fformData`);
+      const everyTags = await axios.get(`/api/tags`);
+
       setTags(everyTags.data);
       console.log("every.data:", everyTags.data);
 
       // 내 관심태그
-      const mytags = await axios.get(`http://localhost:3000/api/users/mytags`, {
+      const mytags = await axios.get(`/api/users/mytags`, {
         withCredentials: true,
       });
-      // const mytags = await axios.get(`http://localhost:3000/mytags`);
+
       for (let i in mytags.data) {
         checkedItems.add(String(mytags.data[i].tag_id));
         setCheckedItems(checkedItems);
@@ -45,11 +45,10 @@ function Favtag() {
       setLoadingTags(false);
 
       // 게시글 불러오기
-      const response = await axios.get(
-        `http://localhost:3000/api/posts?type=favtag`,
-        { withCredentials: true }
-      );
-      // const response = await axios.get(`http://localhost:3000/posts`);
+      const response = await axios.get(`/api/posts?type=favtag`, {
+        withCredentials: true,
+      });
+
       setPosts(response.data);
       setLoadingPosts(false);
     } catch (error) {
@@ -99,7 +98,7 @@ function Favtag() {
       }
       // mytags 수정(patch)
       await axios.patch(
-        `http://localhost:3000/api/users/mytags
+        `/api/users/mytags
       `,
         { newTags: tempCheckedArr },
         { withCredentials: true }

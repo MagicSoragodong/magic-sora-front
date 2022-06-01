@@ -33,17 +33,11 @@ function Board() {
 
   const getPost = async () => {
     try {
-      const response1 = await axios.get(
-        `http://localhost:3000/api/posts?type=hot`
-      );
+      const response1 = await axios.get(`/api/posts?type=hot`);
       setHotPost(response1.data);
-      const response2 = await axios.get(
-        `http://localhost:3000/api/posts?type=new`
-      );
+      const response2 = await axios.get(`/api/posts?type=new`);
       setNewPost(response2.data);
-      const response3 = await axios.get(
-        `http://localhost:3000/api/posts?type=deadline`
-      );
+      const response3 = await axios.get(`/api/posts?type=deadline`);
       setDeadlinePost(response3.data);
       console.log(response1.data[0]);
       setLoading(false);
@@ -58,10 +52,9 @@ function Board() {
   };
   const getFavtagPost = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/posts?type=favtag`,
-        { withCredentials: true }
-      );
+      const response = await axios.get(`/api/posts?type=favtag`, {
+        withCredentials: true,
+      });
       setFavtagPost(response.data);
       setLoadingFavtag(false);
     } catch (error) {

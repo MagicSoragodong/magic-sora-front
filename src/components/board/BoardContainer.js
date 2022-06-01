@@ -9,7 +9,7 @@ function BoardContainer({ type }) {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/posts`, {
+      const response = await axios.get(`/api/posts`, {
         params: { type: type },
       });
       console.log(response.data);
