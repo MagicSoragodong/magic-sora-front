@@ -57,7 +57,11 @@ function BoardContent({
                 publicId={profilePic}
               />
             ) : (
-              <img className={style.profilePic} src="img/soraLogo.png" />
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+              />
             )}
             <span className={style.author}>{author}</span>
             <strong className={style.date}>{registerDate}</strong>
@@ -80,7 +84,11 @@ function BoardContent({
                   publicId={thumbnail}
                 />
               ) : (
-                <img className={style.thumbnail} src="img/soraLogo.png" />
+                <Image
+                  className={style.thumbnail}
+                  cloudName="duqzktgtq"
+                  publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+                />
               )}
             </div>
           </div>

@@ -3,6 +3,7 @@ import BoardContent from "./BoardContent";
 import style from "./BoardContainer.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Image } from "cloudinary-react";
 
 function BoardContainer({ type }) {
   const [posts, setPosts] = useState([]);
@@ -28,7 +29,10 @@ function BoardContainer({ type }) {
       {posts.length === 0 ? (
         <div className={style.container}>
           <p className={style.no_posts}></p>
-          <img src="img/soraLogo.png" />
+          <Image
+            cloudName="duqzktgtq"
+            publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+          />
         </div>
       ) : (
         <div className={style.container}>

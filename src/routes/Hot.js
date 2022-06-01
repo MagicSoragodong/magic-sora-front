@@ -7,7 +7,7 @@ function Hot() {
   return (
     <div>
       <Banner2 width={270} height={"100vh"} />
-      <BoardBanner board_name={"핫한 고민"} newPost={true} />
+      <BoardBanner board_name={"뜨(거운 글) 게시판"} newPost={true} />
       <BoardContainer type="hot" />
     </div>
   );

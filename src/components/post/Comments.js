@@ -81,7 +81,11 @@ function Comments({
               publicId={profilePic}
             />
           ) : (
-            <img className={style.profilePic} src="img/soraLogo.png" />
+            <Image
+              className={style.profilePic}
+              cloudName="duqzktgtq"
+              publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+            />
           )}
           <span className={style.nickname}>{nickname}</span>
           {choiceNum ? (
