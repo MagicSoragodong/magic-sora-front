@@ -38,8 +38,9 @@
 }
 
 .no_post {
-  width: auto;
-  height: 100%;
+  width: 60%;
+  height: auto;
+  vertical-align: middle;
 }
 
 .favtag_board {
