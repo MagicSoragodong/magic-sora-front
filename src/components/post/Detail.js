@@ -58,11 +58,19 @@ function Detail({
         <div className={style.upperContent}>
           <h1 className={style.title}>{title}</h1>
           <div className={style.profile}>
-            <Image
-              className={style.profilePic}
-              cloudName="duqzktgtq"
-              publicId={profilePic}
-            />
+            {profilePic ? (
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId={profilePic}
+              />
+            ) : (
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+              />
+            )}
             <span className={style.nickname}>{author}</span>
           </div>
         </div>
