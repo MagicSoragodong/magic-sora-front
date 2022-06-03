@@ -84,10 +84,6 @@
   padding: 32px;
   padding-bottom: 60px;
   background-color: var(--content-bg-color);
-  /* margin: 0; */
-  /* position: relative; */
-  /* top: -16px; */
-  /* left: -16px; */
 }
 
 /* upperContent */
@@ -255,6 +251,7 @@ hr {
   .logo img {
     width: 30px;
     height: 30px;
+    margin-left: 8px;
     margin-right: 4px;
   }
 

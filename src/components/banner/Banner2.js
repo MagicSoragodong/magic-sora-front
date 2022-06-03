@@ -6,6 +6,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { SilentTokenRequest } from "../../components/utils/RefreshToken";
 import { loginState } from "../../actions/login_action";
 import { Image } from "cloudinary-react";
 
@@ -14,6 +15,8 @@ function Banner2({ width, height }) {
   const isLogin = useSelector((store) => store.loginStateReducer.isLogin);
   const [xPosition, setX] = useState(-width);
   const [dropdown, setDropdown] = useState(false);
+  const [loadingProfilePic, setLoadingProfilePic] = useState(true);
+  const [profile, setProfile] = useState({});
   const history = useHistory();
 
   const toggleMenu = () => {
@@ -45,8 +48,23 @@ function Banner2({ width, height }) {
     setDropdown((dropdown) => !dropdown);
   };
 
+  const getProfilePic = async () => {
+    if (isLogin) {
+      try {
+        const response = await axios.get(`/api/users`, {
+          withCredentials: true,
+        });
+        setProfile(response.data);
+        setLoadingProfilePic(false);
+      } catch (error) {
+        SilentTokenRequest(history, dispatch);
+      }
+    }
+  };
+
   useEffect(() => {
     setX(-width);
+    getProfilePic();
   }, []);
 
   // return 시작부분^^
@@ -157,11 +175,19 @@ function Banner2({ width, height }) {
       {isLogin ? (
         <div className={style.profile2} id="loggedIn">
           <button onClick={toggleProfile}>
-            <Image
-              className={style.profilePic}
-              cloudName="duqzktgtq"
-              publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
-            />
+            {profile.profile_pic_url && loadingProfilePic === false ? (
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId={profile.profile_pic_url}
+              />
+            ) : (
+              <Image
+                className={style.profilePic}
+                cloudName="duqzktgtq"
+                publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
+              />
+            )}
           </button>
 
           <div className={dropdown ? style.dropdown : "hidden"} id="dropdown">

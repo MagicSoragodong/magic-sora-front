@@ -7,6 +7,7 @@ import { Image } from "cloudinary-react";
 
 function BoardContainer({ type }) {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getPosts = async () => {
     try {
@@ -15,6 +16,7 @@ function BoardContainer({ type }) {
       });
       console.log(response.data);
       setPosts(response.data);
+      setLoading(false);
     } catch (error) {
       console.log("error: ", error);
     }
@@ -26,13 +28,23 @@ function BoardContainer({ type }) {
 
   return (
     <>
-      {posts.length === 0 ? (
-        <div className={style.container}>
-          <p className={style.no_posts}></p>
+      {loading ? (
+        <div className={style.container_empty}>
           <Image
+            className={style.img_empty}
             cloudName="duqzktgtq"
             publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/soraLogo_m054ey.png"
           />
+          <strong>로딩중...</strong>
+        </div>
+      ) : posts.length === 0 ? (
+        <div className={style.container_empty}>
+          <Image
+            className={style.img_empty}
+            cloudName="duqzktgtq"
+            publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
+          />
+          <strong>아직 게시글이 없습니다</strong>
         </div>
       ) : (
         <div className={style.container}>
