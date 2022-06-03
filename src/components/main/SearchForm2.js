@@ -27,6 +27,7 @@ function SearchForm2({ selectedOption, searchKeyword }) {
       pathname: "/search",
       search: `?option=${index}&search=${keyword}`,
     });
+    window.location.reload();
   };
 
   return (
