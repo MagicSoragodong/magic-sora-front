@@ -167,7 +167,7 @@ function Board() {
           <Link to="/favtag">
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>흥 게</h2>
-              {loadingFavtag ? null : !isLogin ? (
+              {!isLogin ? (
                 <div className={style.notLogined_favtag}>
                   <p>로그인 후 이용 가능한 게시판입니다</p>
                   <Image
@@ -176,7 +176,7 @@ function Board() {
                     publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/login_please_ywwszm.png"
                   />
                 </div>
-              ) : favtagPost.length === 0 ? (
+              ) : loadingFavtag ? null : favtagPost.length === 0 ? (
                 <div className={style.onePost}>
                   <Image
                     className={style.no_post}
