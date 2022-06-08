@@ -80,14 +80,17 @@ function Board() {
           <Link to="/hot">
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>뜨 게</h2>
-              <div className={style.onePost}>
-                {loading ? null : hotPost.length === 0 ? (
+
+              {loading ? null : hotPost.length === 0 ? (
+                <div className={style.onePostEmpty}>
                   <Image
                     className={style.no_post}
                     cloudName="duqzktgtq"
                     publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                   />
-                ) : (
+                </div>
+              ) : (
+                <div className={style.onePost}>
                   <BoardContent
                     key={hotPost[0].id}
                     author={hotPost[0].author}
@@ -100,8 +103,8 @@ function Board() {
                     profilePic={hotPost[0].profile}
                     deletePost={false}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </Link>
         </SwiperSlide>
@@ -109,14 +112,17 @@ function Board() {
           <Link to="/new">
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>새 게</h2>
-              <div className={style.onePost}>
-                {loading ? null : newPost.length === 0 ? (
+
+              {loading ? null : newPost.length === 0 ? (
+                <div className={style.onePostEmpty}>
                   <Image
                     className={style.no_post}
                     cloudName="duqzktgtq"
                     publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                   />
-                ) : (
+                </div>
+              ) : (
+                <div className={style.onePost}>
                   <BoardContent
                     key={newPost[0].id}
                     author={newPost[0].author}
@@ -129,8 +135,8 @@ function Board() {
                     profilePic={newPost[0].profile}
                     deletePost={false}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </Link>
         </SwiperSlide>
@@ -138,14 +144,17 @@ function Board() {
           <Link to="/deadline">
             <div className={style.oneSlide}>
               <h2 className={style.board_title}>곧 게</h2>
-              <div className={style.onePost}>
-                {loading ? null : deadlinePost.length === 0 ? (
+
+              {loading ? null : deadlinePost.length === 0 ? (
+                <div className={style.onePostEmpty}>
                   <Image
                     className={style.no_post}
                     cloudName="duqzktgtq"
                     publicId="https://res.cloudinary.com/duqzktgtq/image/upload/v1654082047/no_posts_ipdxcl.png"
                   />
-                ) : (
+                </div>
+              ) : (
+                <div className={style.onePost}>
                   <BoardContent
                     key={deadlinePost[0].id}
                     author={deadlinePost[0].author}
@@ -158,8 +167,8 @@ function Board() {
                     profilePic={deadlinePost[0].profile}
                     deletePost={false}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </Link>
         </SwiperSlide>
@@ -177,7 +186,7 @@ function Board() {
                   />
                 </div>
               ) : loadingFavtag ? null : favtagPost.length === 0 ? (
-                <div className={style.onePost}>
+                <div className={style.onePostEmpty}>
                   <Image
                     className={style.no_post}
                     cloudName="duqzktgtq"
